@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>DOXX4E</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --metal-bar: linear-gradient(90deg, #f0a0bc 0%, #f5b0c8 20%, #f8c0d4 40%, #f5b0c8 60%, #ffffff 75%, #f5b0c8 85%, #f0a0bc 100%);
+  --hover-metal: linear-gradient(90deg, #fad4e4 0%, #fde0ec 40%, #fde8f2 60%, #ffffff 75%, #fde0ec 85%, #fad4e4 100%);
+  --rg: #d4607a;
+  --rg2: #b5405e;
+  --rg3: #e8829a;
+  --text: #3d1a24;
+  --text2: #8a4a5a;
+  --border: rgba(212,96,122,0.18);
+  --white: #fff8fb;
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{
+  min-height:100%; font-family:'Noto Sans KR',sans-serif;
+  background:#fce8ef;
+  background-image:
+    radial-gradient(ellipse at 15% 10%, rgba(255,182,210,0.4) 0%, transparent 50%),
+    radial-gradient(ellipse at 85% 80%, rgba(232,130,154,0.2) 0%, transparent 45%);
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ─── LAYOUT ─── */
+.site-wrap{display:flex; min-height:100vh;}
+
+/* ─── SIDEBAR (Desktop) ─── */
+.sidebar{
+  width:180px; flex-shrink:0;
+  background:var(--white);
+  border-right:1px solid var(--border);
+  display:flex; flex-direction:column;
+  position:sticky; top:0; height:100vh; overflow-y:auto;
+  z-index: 10;
+}
+.sidebar-logo{padding:22px 16px 16px; border-bottom:1px solid var(--border);}
+.logo-text{font-family:'Cormorant Garamond',serif; font-size:1.6rem; font-weight:700; color:var(--rg2); letter-spacing:0.08em; line-height:1;}
+.logo-sub{font-size:0.58rem; letter-spacing:0.28em; color:var(--text2); margin-top:3px; text-transform:uppercase;}
+
+.nav-group-label{font-size:0.57rem; letter-spacing:0.26em; color:var(--rg3); text-transform:uppercase; padding:10px 16px 3px; font-weight:700;}
+.nav-item{
+  display:block; padding:10px 16px 10px 22px;
+  font-size:0.8rem; color:var(--text2); text-decoration:none;
+  letter-spacing:0.04em; transition:all .2s;
+  border-left:2px solid transparent;
+}
+.nav-item:hover, .nav-item.active{color:var(--rg2); background:var(--hover-metal); border-left-color:var(--rg);}
+
+/* ─── BGM WIDGET ─── */
+.bgm-widget{
+  margin:auto 10px 14px;
+  border-radius:16px; overflow:hidden;
+  border:1px solid var(--border);
+  background:var(--white);
+  box-shadow:0 2px 12px rgba(212,96,122,0.10);
+}
+.bgm-header{background:var(--metal-bar); padding:7px 11px; display:flex; align-items:center; justify-content:space-between;}
+.bgm-header-title{font-family:'Cormorant Garamond',serif; font-size:0.66rem; font-weight:700; letter-spacing:0.22em; color:#6a2038; text-transform:uppercase;}
+.bgm-dots{display:flex; gap:4px;}
+.bgm-dot{width:7px; height:7px; border-radius:50%; background:rgba(255,255,255,0.65); box-shadow:inset 0 1px 1px rgba(255,255,255,0.9);}
+.bgm-body{padding:12px 11px 14px;}
+
+.record-scene{position:relative; width:100%; height:100px; margin:0 auto 10px;}
+.record-disc{
+  position:absolute; bottom:0; left:44%; transform:translateX(-50%);
+  width:96px; height:96px; border-radius:50%;
+  background: radial-gradient(circle,#2a0c18 0% 11%,transparent 11%), radial-gradient(circle,#1e0810 0% 13%,transparent 13%), radial-gradient(circle,#2a0c18 0% 22%,transparent 22%), radial-gradient(circle,#1e0810 0% 24%,transparent 24%), radial-gradient(circle,#2a0c18 0% 38%,transparent 38%), radial-gradient(circle,#1e0810 0% 40%,transparent 40%), conic-gradient(from 0deg, #180810 0deg,#22101a 9deg,#180810 18deg,#22101a 27deg, #180810 36deg,#22101a 45deg,#180810 54deg,#22101a 63deg, #180810 72deg,#22101a 81deg,#180810 90deg,#22101a 99deg, #180810 108deg,#22101a 117deg,#180810 126deg,#22101a 135deg, #180810 144deg,#22101a 153deg,#180810 162deg,#22101a 171deg, #180810 180deg,#22101a 189deg,#180810 198deg,#22101a 207deg, #180810 216deg,#22101a 225deg,#180810 234deg,#22101a 243deg, #180810 252deg,#22101a 261deg,#180810 270deg,#22101a 279deg, #180810 288deg,#22101a 297deg,#180810 306deg,#22101a 315deg, #180810 324deg,#22101a 333deg,#180810 342deg,#22101a 351deg, #180810 360deg);
+  box-shadow:0 0 0 2px #3a1020,0 5px 18px rgba(0,0,0,0.45); z-index:1;
+}
+.record-disc.spinning{animation:vinylSpin 2.8s linear infinite;}
+@keyframes vinylSpin{ from{transform:translateX(-50%) rotate(0deg);} to{transform:translateX(-50%) rotate(360deg);} }
+
+.record-label{ position:absolute; bottom:32px; left:44%; transform:translateX(-50%); width:32px; height:32px; border-radius:50%; background:var(--metal-bar); box-shadow:0 0 0 1.5px rgba(200,80,120,0.5); z-index:2; overflow:hidden;}
+.record-label-thumb{width:100%; height:100%; border-radius:50%; object-fit:cover; display:none; opacity:0.88;}
+.record-hole{ position:absolute; bottom:47px; left:calc(44% - 3px); width:6px; height:6px; border-radius:50%; background:#180810; z-index:5;}
+.tonearm-pivot{ position:absolute; top:2px; right:5px; width:11px; height:11px; border-radius:50%; background:radial-gradient(circle at 35% 30%,#fce8f0,#d06888); box-shadow:0 1px 5px rgba(0,0,0,0.4),inset 0 1px 1px rgba(255,255,255,0.5); z-index:12;}
+.tonearm-wrap{ position:absolute; top:0; right:2px; width:22px; height:98px; z-index:11; transform-origin:50% 4%; transform:rotate(0deg); transition:transform 0.85s cubic-bezier(0.4,0,0.2,1);}
+.tonearm-wrap.on-record{transform:rotate(25deg);}
+.tonearm-wrap svg{width:100%; height:100%; overflow:visible;}
+
+.bgm-info{text-align:center; margin-bottom:9px;}
+.bgm-track-title{font-size:0.75rem; font-weight:700; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+.bgm-track-channel{font-size:0.6rem; color:var(--text2);}
+
+.bgm-controls{display:flex; justify-content:center; gap:12px; align-items:center; margin-bottom:9px;}
+.bgm-btn{
+  width:32px; height:32px; border-radius:50%;
+  border:1px solid var(--border); background:var(--white);
+  color:var(--rg2); font-size:0.8rem; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+}
+.bgm-btn.play-btn{ width:40px; height:40px; font-size:1.1rem; background:var(--metal-bar); color:#6a2038; border:none; box-shadow:0 2px 8px rgba(212,96,122,0.25);}
+
+.bgm-playlist{display:flex; flex-direction:column; gap:4px; max-height:120px; overflow-y:auto;}
+.pl-item{display:flex; align-items:center; gap:8px; padding:6px; border-radius:8px; cursor:pointer; border:1px solid transparent;}
+.pl-item.active{background:rgba(212,96,122,0.1); border-color:rgba(212,96,122,0.22);}
+.pl-thumb{width:28px; height:28px; border-radius:50%; object-fit:cover; flex-shrink:0;}
+.pl-title{font-size:0.7rem; font-weight:500; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+
+/* ─── MAIN ─── */
+.main{flex:1; padding:30px 20px; overflow-y:auto;}
+.main-header{margin-bottom:26px; padding-bottom:14px; border-bottom:1px solid var(--border);}
+.main-title{font-family:'Cormorant Garamond',serif; font-size:2.2rem; font-weight:700; color:var(--rg2); letter-spacing:0.06em; margin-bottom:4px;}
+.main-date{font-size:0.75rem; color:var(--text2); letter-spacing:0.12em;}
+
+.widget-grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:20px;}
+.widget{ background:var(--white); border-radius:14px; border:1px solid var(--border); box-shadow:0 2px 10px rgba(212,96,122,0.08); overflow:hidden; animation:fadeUp .6s ease both;}
+.widget-header{background:var(--metal-bar); padding:10px 16px; display:flex; align-items:center; justify-content:space-between;}
+.widget-header-title{font-family:'Cormorant Garamond',serif; font-size:0.75rem; font-weight:700; letter-spacing:0.22em; color:#6a2038; text-transform:uppercase;}
+.widget-body{padding:20px;}
+
+.brand-name{font-family:'Cormorant Garamond',serif; font-size:2.8rem; font-weight:700; color:var(--rg2); line-height:1; margin-bottom:15px;}
+.tag-item{padding:10px 14px; border-radius:8px; background:rgba(252,232,239,0.8); border-left:4px solid var(--rg3); font-size:0.75rem; font-weight:600; color:var(--rg2); margin-bottom:8px;}
+
+.cal-month{font-family:'Cormorant Garamond',serif; font-size:1.5rem; font-weight:700; color:var(--rg2); text-align:center; margin-bottom:12px;}
+.cal-table{width:100%; text-align:center;}
+.cal-table th{font-size:0.65rem; color:var(--rg3); padding-bottom:8px;}
+.cal-table td{padding:8px 2px; font-size:0.85rem; color:var(--text); border-radius:50%;}
+.cal-today{background:var(--rg)!important; color:white!important; font-weight:700;}
+
+.dday-num{font-family:'Cormorant Garamond',serif; font-size:3.8rem; font-weight:700; color:var(--rg2); text-align:center;}
+.dday-label, .dday-since{text-align:center; font-size:0.65rem; letter-spacing:0.2em; color:var(--text2);}
+
+/* Now bar */
+.now-bar{
+  position:fixed; bottom:20px; right:20px; left:20px;
+  background:var(--metal-bar); color:#6a2038;
+  padding:12px 20px; border-radius:50px;
+  display:flex; align-items:center; gap:10px;
+  box-shadow:0 6px 20px rgba(212,96,122,0.3);
+  font-size:0.8rem; font-weight:700; z-index:100;
+  transform:translateY(150%); transition:transform .4s cubic-bezier(0.175,.885,.32,1.275);
+}
+.now-bar.visible{transform:translateY(0);}
+
+/* 📱 MOBILE OPTIMIZATION (768px 이하) */
+@media (max-width: 768px) {
+  .site-wrap { flex-direction: column; }
+  .sidebar {
+    width: 100%; height: auto; position: relative;
+    border-right: none; border-bottom: 1px solid var(--border);
+  }
+  .sidebar-logo { text-align: center; }
+  nav { display: flex; overflow-x: auto; padding: 5px 0; scrollbar-width: none; }
+  nav::-webkit-scrollbar { display: none; }
+  .nav-group-label { display: none; }
+  .nav-item { 
+    flex-shrink: 0; padding: 12px 18px; border-left: none; 
+    border-bottom: 2px solid transparent; font-size: 0.9rem;
+  }
+  .nav-item.active { border-left-color: transparent; border-bottom-color: var(--rg); }
+  
+  .bgm-widget { margin: 15px; }
+  .main { padding: 20px 15px 100px; } /* NowBar 공간 확보 */
+  .widget-grid { grid-template-columns: 1fr; }
+  .brand-name { font-size: 2.4rem; }
+  .now-bar { left: 15px; right: 15px; bottom: 15px; }
+}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+<div class="site-wrap">
+
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-text">DOXX4E</div>
+      <div class="logo-sub">Personal Space</div>
+    </div>
+    <nav>
+      <a class="nav-item active" href="#">프로필</a>
+      <a class="nav-item" href="#">관계란</a>
+      <a class="nav-item" href="#">마이룸</a>
+      <a class="nav-item" href="#">로그</a>
+      <a class="nav-item" href="#">선물</a>
+      <a class="nav-item" href="#">일기</a>
+    </nav>
+
+    <div class="bgm-widget">
+      <div class="bgm-header">
+        <span class="bgm-header-title">♪ BGM Player</span>
+        <div class="bgm-dots"><div class="bgm-dot"></div><div class="bgm-dot"></div></div>
+      </div>
+      <div class="bgm-body">
+        <div class="record-scene">
+          <div class="record-disc" id="record-disc"></div>
+          <div class="record-label">
+            <img class="record-label-thumb" id="record-thumb" src="" alt="">
+          </div>
+          <div class="record-hole"></div>
+          <div class="tonearm-pivot"></div>
+          <div class="tonearm-wrap" id="tonearm">
+            <svg viewBox="0 0 22 98" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M11 4 C11 4 10 30 10 55 C10 70 8 82 5 92" stroke="url(#armG)" stroke-width="2.2" stroke-linecap="round"/>
+              <circle cx="5" cy="93" r="2.5" fill="url(#needleG)"/>
+              <line x1="5" y1="95" x2="4" y2="98" stroke="#8a3050" stroke-width="1.2" stroke-linecap="round"/>
+              <circle cx="11" cy="4" r="5" fill="url(#pivG)" stroke="#c06888" stroke-width="1"/>
+              <circle cx="11" cy="4" r="1.8" fill="#3a1020"/>
+              <defs>
+                <linearGradient id="armG" x1="11" y1="4" x2="5" y2="92" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stop-color="#f8d0e0"/><stop offset="45%" stop-color="#d07898"/><stop offset="100%" stop-color="#b05878"/>
+                </linearGradient>
+                <radialGradient id="pivG" cx="35%" cy="30%">
+                  <stop offset="0%" stop-color="#fce8f2"/><stop offset="100%" stop-color="#d07898"/>
+                </radialGradient>
+                <radialGradient id="needleG" cx="40%" cy="35%">
+                  <stop offset="0%" stop-color="#f8d0e0"/><stop offset="100%" stop-color="#c06080"/>
+                </radialGradient>
+              </defs>
+            </svg>
+          </div>
+        </div>
+
+        <div class="bgm-info">
+          <div class="bgm-track-title" id="bgm-title">BGM Ready</div>
+          <div class="bgm-track-channel" id="bgm-ch">Playlist</div>
+        </div>
+
+        <div class="bgm-controls">
+          <button class="bgm-btn" id="btn-prev">◁</button>
+          <button class="bgm-btn play-btn" id="btn-play">▷</button>
+          <button class="bgm-btn" id="btn-next">▷|</button>
+        </div>
+
+        <div class="bgm-playlist" id="bgm-playlist"></div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="main-header">
+      <div class="main-title">DOXX4E</div>
+      <div class="main-date" id="main-date"></div>
+    </div>
+    
+    <div class="widget-grid">
+      <div class="widget">
+        <div class="widget-header">
+          <span class="widget-header-title">Studio</span>
+          <div class="w-dots"><div class="w-dot"></div><div class="w-dot"></div></div>
+        </div>
+        <div class="widget-body">
+          <div class="brand-name">DOXX4E</div>
+          <div class="tag-item">✦ NEW PROJECT START</div>
+          <div class="tag-item">◈ PINK VIBE ONLY</div>
+          <div class="tag-item">◇ SWEET CLOUD</div>
+        </div>
+      </div>
+
+      <div class="widget">
+        <div class="widget-header">
+          <span class="widget-header-title">Calendar</span>
+          <div class="w-dots"><div class="w-dot"></div><div class="w-dot"></div></div>
+        </div>
+        <div class="widget-body">
+          <div class="cal-month" id="cal-month"></div>
+          <table class="cal-table">
+            <thead><tr><th>SU</th><th>MO</th><th>TU</th><th>WE</th><th>TH</th><th>FR</th><th>SA</th></tr></thead>
+            <tbody id="cal-body"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="widget">
+        <div class="widget-header">
+          <span class="widget-header-title">Days</span>
+          <div class="w-dots"><div class="w-dot"></div></div>
+        </div>
+        <div class="widget-body">
+          <div class="dday-wrap">
+            <div class="dday-label">Since Start</div>
+            <div class="dday-num" id="dday-num">D+0</div>
+            <div class="dday-since">2024 · 07 · 27</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div class="now-bar" id="now-bar">
+  <div class="now-dot"></div>
+  <span class="now-title" id="now-bar-title">Music Off</span>
+</div>
+
+<div id="yt-player" style="position:fixed;bottom:-2px;left:-2px;width:1px;height:1px;opacity:0;pointer-events:none;"></div>
+<script src="https://www.youtube.com/iframe_api"></script>
+<script>
+// --- Date & Calendar & D-Day (Same Logic) ---
+function updateDates(){
+  const n=new Date(), days=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  document.getElementById('main-date').textContent=`${n.getFullYear()} · ${String(n.getMonth()+1).padStart(2,'0')} · ${String(n.getDate()).padStart(2,'0')} ${days[n.getDay()]}`;
+  
+  const y=n.getFullYear(), m=n.getMonth(), today=n.getDate();
+  document.getElementById('cal-month').textContent=`${y}. ${String(m+1).padStart(2,'0')}`;
+  const first=new Date(y,m,1).getDay(), last=new Date(y,m+1,0).getDate();
+  const body=document.getElementById('cal-body'); body.innerHTML='';
+  let d=1;
+  for(let r=0;r<6;r++){
+    const tr=document.createElement('tr');
+    for(let c=0;c<7;c++){
+      const td=document.createElement('td');
+      if(r===0&&c<first||d>last){ td.textContent=''; }
+      else{ td.textContent=d; if(d===today) td.classList.add('cal-today'); d++; }
+      tr.appendChild(td);
+    }
+    body.appendChild(tr); if(d>last) break;
+  }
+  const diff=Math.floor((new Date()-new Date('2024-07-27'))/864e5);
+  document.getElementById('dday-num').textContent=`D+${diff}`;
+}
+updateDates();
+
+// --- BGM Player Logic ---
+let player = null, playerReady = false, tracks = [], cur = -1, playing = false;
+
+function setPlaying(on) {
+  playing = on;
+  document.getElementById('btn-play').textContent = on ? '⏸' : '▷';
+  const disc = document.getElementById('record-disc'), arm = document.getElementById('tonearm');
+  on ? (disc.classList.add('spinning'), arm.classList.add('on-record')) : (disc.classList.remove('spinning'), arm.classList.remove('on-record'));
+}
+
+function onYouTubeIframeAPIReady(){
+  player = new YT.Player('yt-player', {
+    events:{
+      onReady: () => { playerReady = true; loadFixedTracks(); },
+      onStateChange: (e) => { if(e.data === YT.PlayerState.ENDED) playNext(); }
+    }
+  });
+}
+
+async function loadFixedTracks(){
+  const ids = ['EOEOe_2C6ZQ']; // 여기에 유튜브 ID 추가
+  for(const id of ids){
+    const r = await fetch(`https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${id}&format=json`);
+    const d = await r.json().catch(()=>({title:'Unknown',author_name:'YouTube'}));
+    tracks.push({ id, title: d.title, ch: d.author_name });
+  }
+  renderPl();
+}
+
+function renderPl(){
+  const wrap = document.getElementById('bgm-playlist'); wrap.innerHTML = '';
+  tracks.forEach((t,i) => {
+    const el = document.createElement('div');
+    el.className = 'pl-item' + (i===cur ? ' active' : '');
+    el.innerHTML = `<img class="pl-thumb" src="https://img.youtube.com/vi/${t.id}/mqdefault.jpg"><div class="pl-info"><div class="pl-title">${t.title}</div></div>`;
+    el.onclick = () => playTrack(i);
+    wrap.appendChild(el);
+  });
+}
+
+function playTrack(i){
+  if(!playerReady || i<0 || i>=tracks.length) return;
+  cur = i; const t = tracks[i];
+  player.loadVideoById(t.id);
+  setPlaying(true);
+  document.getElementById('bgm-title').textContent = t.title;
+  document.getElementById('bgm-ch').textContent = t.ch;
+  const thumb = document.getElementById('record-thumb');
+  thumb.src = `https://img.youtube.com/vi/${t.id}/mqdefault.jpg`; thumb.style.display = 'block';
+  document.getElementById('now-bar').classList.add('visible');
+  document.getElementById('now-bar-title').textContent = t.title;
+  renderPl();
+}
+
+function playNext(){ if(tracks.length) playTrack((cur+1)%tracks.length); }
+function playPrev(){ if(tracks.length) playTrack((cur-1+tracks.length)%tracks.length); }
+
+document.getElementById('btn-play').onclick = () => {
+  if(!playerReady || !tracks.length) return;
+  if(playing) { player.pauseVideo(); setPlaying(false); }
+  else { cur < 0 ? playTrack(0) : (player.playVideo(), setPlaying(true)); }
+};
+document.getElementById('btn-next').onclick = playNext;
+document.getElementById('btn-prev').onclick = playPrev;
+</script>
+</body>
+</html>
