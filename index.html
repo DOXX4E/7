@@ -40,7 +40,7 @@ html,body{
 .logo-sub{font-size:0.58rem;letter-spacing:0.28em;color:var(--text2);margin-top:3px;text-transform:uppercase;}
 .nav-group-label{font-size:0.57rem;letter-spacing:0.26em;color:var(--rg3);text-transform:uppercase;padding:12px 16px 3px;font-weight:700;}
 
-/* 네비게이션 아이템 스타일 (호버 및 활성화 상태 강화) */
+/* 네비게이션 아이템 스타일 수정 (호버 효과 강화) */
 .nav-item {
   display: block;
   padding: 10px 16px 10px 22px;
@@ -52,23 +52,14 @@ html,body{
   border-left: 3px solid transparent;
   cursor: pointer;
   margin: 1px 0;
-  background: transparent;
 }
 
-/* 마우스 커서를 올렸을 때 효과 */
-.nav-item:hover {
+/* 마우스 커서를 올렸을 때와 활성화(active) 되었을 때 효과 */
+.nav-item:hover, .nav-item.active {
   color: var(--rg2);
   background: var(--hover-metal);
-  border-left-color: var(--rg3);
-  padding-left: 26px;
-}
-
-/* 클릭하여 활성화(active) 되었을 때 고정 효과 */
-.nav-item.active {
-  color: var(--rg2) !important;
-  background: var(--hover-metal) !important;
-  border-left-color: var(--rg) !important;
-  font-weight: 700 !important;
+  border-left-color: var(--rg);
+  font-weight: 500;
 }
 
 /* ─── BGM WIDGET ─── */
@@ -195,7 +186,7 @@ html,body{
 
   <main class="main">
     <div class="main-header">
-      <div class="main-title" id="main-title-display">DOXX4E</div>
+      <div class="main-title">DOXX4E</div>
       <div class="main-date" id="main-date"></div>
     </div>
     <div class="widget-grid" id="main-content"></div>
@@ -222,7 +213,7 @@ let userMenus = JSON.parse(localStorage.getItem('userMenus')) || [
 ];
 let memoContent = localStorage.getItem('memoContent') || '';
 
-// ─── Sidebar 렌더링 ───
+// ─── Sidebar 렌더링 (data-id 속성 추가) ───
 function renderSidebar() {
   const nav = document.getElementById('sidebar-nav');
   nav.innerHTML = '';
@@ -239,7 +230,7 @@ function renderSidebar() {
     const a = document.createElement('a');
     a.className = 'nav-item';
     a.textContent = menu.name;
-    a.setAttribute('data-id', menu.id); 
+    a.setAttribute('data-id', menu.id); // ID 식별용 속성 추가
     a.onclick = () => loadPage(menu.id);
     nav.appendChild(a);
   });
@@ -254,20 +245,14 @@ function renderSidebar() {
   nav.appendChild(settingsBtn);
 }
 
-// ─── 페이지 로드 (Active 유지 로직 보강) ───
+// ─── 페이지 로드 (Active 클래스 관리 로직 수정) ───
 function loadPage(pageId) {
   const content = document.getElementById('main-content');
-  const titleDisplay = document.getElementById('main-title-display');
   content.innerHTML = '';
   
   // 모든 nav-item에서 active 제거 후 클릭한 페이지만 추가
   document.querySelectorAll('.nav-item').forEach(item => {
-    if (item.getAttribute('data-id') === pageId) {
-      item.classList.add('active');
-      titleDisplay.textContent = item.textContent.replace('⚙ ', '');
-    } else {
-      item.classList.remove('active');
-    }
+    item.classList.toggle('active', item.getAttribute('data-id') === pageId);
   });
 
   if(pageId === 'profile') renderHomeWidgets(content);
@@ -391,7 +376,7 @@ function playTrack(i){
 }
 function setPlaying(on) {
   playing = on;
-  docuAment.getElementById('btn-play').textContent = on ? '⏸' : '▷';
+  document.getElementById('btn-play').textContent = on ? '⏸' : '▷';
   const disc = document.getElementById('record-disc'), arm = document.getElementById('tonearm');
   if(on){ disc.classList.add('spinning'); arm.classList.add('on-record'); }
   else { disc.classList.remove('spinning'); arm.classList.remove('on-record'); }
