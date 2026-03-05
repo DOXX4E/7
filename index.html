@@ -598,8 +598,7 @@ function renderNotePage(container) {
         <!-- 작성 폼 (기본 숨김) -->
         <div id="note-write-collapse" style="display:none; border-top:1px solid var(--border);">
           <div class="note-write-body">
-            <input type="text" class="note-title-input" id="note-title-input" placeholder="제목을 입력하세요" maxlength="60">
-            <textarea class="note-content-input" id="note-content-input" placeholder="내용을 입력하세요..."></textarea>
+            <textarea class="note-content-input" id="note-content-input" placeholder="첫 줄이 제목이 됩니다..."></textarea>
             <div class="note-write-footer">
               <button class="note-edit-cancel" onclick="toggleWriteBox()">취소</button>
               <button class="note-post-btn" onclick="submitNote()">등록 ✦</button>
@@ -694,17 +693,17 @@ function toggleWriteBox() {
 }
 
 function submitNote() {
-  const title = document.getElementById('note-title-input').value.trim();
-  const content = document.getElementById('note-content-input').value.trim();
-  if (!title && !content) return;
+  const raw = document.getElementById('note-content-input').value.trim();
+  if (!raw) return;
+  const lines = raw.split('\n');
+  const title = lines[0].trim() || '(제목 없음)';
+  const content = lines.slice(1).join('\n').trim();
   const notes = getNotes();
   const now = new Date();
   const dateStr = `${now.getFullYear()}.${String(now.getMonth()+1).padStart(2,'0')}.${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
-  notes.push({ title: title || '(제목 없음)', content, date: dateStr, comments: [] });
+  notes.push({ title, content, date: dateStr, comments: [] });
   saveNotes(notes);
-  document.getElementById('note-title-input').value = '';
   document.getElementById('note-content-input').value = '';
-  // 폼 닫기
   const box = document.getElementById('note-write-collapse');
   if (box) box.style.display = 'none';
   selectedNoteIdx = notes.length - 1;
@@ -718,10 +717,10 @@ function startEditNote(idx) {
   const viewArea = document.getElementById(`note-detail-view-${idx}`);
   if (!editArea || editArea.innerHTML !== '') { cancelEditNote(idx); return; }
   viewArea.style.display = 'none';
+  const combined = note.content ? `${note.title}\n${note.content}` : note.title;
   editArea.innerHTML = `
     <div class="note-edit-box">
-      <input type="text" class="note-edit-title" id="edit-title-${idx}" value="${escHtml(note.title)}" maxlength="60">
-      <textarea class="note-edit-content" id="edit-content-${idx}">${escHtml(note.content)}</textarea>
+      <textarea class="note-edit-content" id="edit-content-${idx}" style="min-height:200px;">${escHtml(combined)}</textarea>
       <div class="note-edit-footer">
         <button class="note-edit-cancel" onclick="cancelEditNote(${idx})">취소</button>
         <button class="note-edit-save" onclick="saveEditNote(${idx})">저장하기 ✦</button>
@@ -738,10 +737,12 @@ function cancelEditNote(idx) {
 }
 
 function saveEditNote(idx) {
-  const newTitle = document.getElementById(`edit-title-${idx}`).value.trim();
-  const newContent = document.getElementById(`edit-content-${idx}`).value.trim();
+  const raw = document.getElementById(`edit-content-${idx}`).value.trim();
+  const lines = raw.split('\n');
+  const newTitle = lines[0].trim() || '(제목 없음)';
+  const newContent = lines.slice(1).join('\n').trim();
   const notes = getNotes();
-  notes[idx].title = newTitle || '(제목 없음)';
+  notes[idx].title = newTitle;
   notes[idx].content = newContent;
   saveNotes(notes);
   renderNoteList();
