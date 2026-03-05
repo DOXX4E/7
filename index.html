@@ -391,7 +391,7 @@ function playTrack(i){
 }
 function setPlaying(on) {
   playing = on;
-  document.getElementById('btn-play').textContent = on ? '⏸' : '▷';
+  docuAment.getElementById('btn-play').textContent = on ? '⏸' : '▷';
   const disc = document.getElementById('record-disc'), arm = document.getElementById('tonearm');
   if(on){ disc.classList.add('spinning'); arm.classList.add('on-record'); }
   else { disc.classList.remove('spinning'); arm.classList.remove('on-record'); }
