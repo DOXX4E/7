@@ -17,6 +17,19 @@
   --text2: #8a4a5a;
   --border: rgba(212,96,122,0.18);
   --white: #fff8fb;
+
+  /* 업무 전용 색상 — 백금(Platinum) */
+  --biz: #b8bec8;
+  --biz2: #8a90a0;
+  --biz3: #e0e4ea;
+  --biz-light: #f0f2f5;
+  --biz-bright: #f8f9fb;
+  --biz-border: rgba(180,188,200,0.25);
+  --biz-hover: rgba(210,215,222,0.15);
+  /* 백금 그라디언트 — 핑크 metal-bar와 동일한 90deg 수평 방향 */
+  --silver-bar: linear-gradient(90deg, #a0aab8 0%, #c8d0dc 18%, #e8ecf2 36%, #f8f9fb 50%, #ffffff 58%, #eef1f5 68%, #cfd8e4 82%, #a0aab8 100%);
+  --silver-bar2: linear-gradient(90deg, #a8b2c0 0%, #cdd5e0 20%, #eceff3 38%, #f8f9fb 50%, #ffffff 58%, #eff2f6 68%, #d2dae6 80%, #a8b2c0 100%);
+  --silver-hover: linear-gradient(90deg, #b8c2ce 0%, #dae0ea 22%, #f0f3f7 44%, #fafbfc 55%, #ffffff 62%, #f2f5f8 72%, #dae1eb 84%, #b8c2ce 100%);
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 html,body{
@@ -36,10 +49,71 @@ html,body{
   display:flex;flex-direction:column;
   position:sticky;top:0;height:100vh;overflow-y:auto;
 }
-.sidebar-logo{padding:22px 16px 18px;border-bottom:1px solid var(--border);min-height:72px;display:flex;flex-direction:column;justify-content:center;}
+.sidebar-logo { padding:22px 16px 18px; border-bottom:none; min-height:72px; display:flex; flex-direction:column; justify-content:center; transition: background 0.2s; }
+.sidebar-logo:hover { background: var(--hover-metal); }
+.sidebar-logo.logo-active { background: var(--hover-metal); }
+.sidebar-logo.logo-active .logo-text { color: var(--rg); }
 .logo-text{font-family:'Cormorant Garamond', serif;font-size:1.8rem;font-weight:700;color:var(--rg2);letter-spacing:0.08em;line-height:1;}
 .logo-sub{font-size:0.58rem;letter-spacing:0.28em;color:var(--text2);margin-top:3px;text-transform:uppercase;font-family:'Pretendard',sans-serif;font-weight:700;}
 .nav-group-label{font-size:0.57rem;letter-spacing:0.26em;color:var(--rg3);text-transform:uppercase;padding:12px 16px 3px;font-weight:800;font-family:'Pretendard',sans-serif;}
+
+/* ── 업무 버튼 (사이드바 상단 고정, 완전히 다른 스타일) ── */
+.nav-biz-section {
+  padding: 14px 12px 10px;
+  border-bottom: 1px solid rgba(180,185,192,0.3);
+  border-top: none;
+  background: #f2f3f5;
+  flex-shrink: 0;
+}
+.nav-biz-btn {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  padding: 11px 14px;
+  border: none;
+  border-radius: 12px;
+  background: var(--silver-bar);
+  color: #4a5468;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 0.73rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  text-align: left;
+  text-transform: uppercase;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.85), inset 0 -1px 0 rgba(120,130,148,0.08);
+  transition: all 0.22s ease;
+  position: relative;
+  overflow: hidden;
+}
+.nav-biz-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.5) 50%, transparent 100%);
+  transform: translateX(-100%);
+  transition: transform 0.5s ease;
+}
+.nav-biz-btn:hover::before { transform: translateX(100%); }
+.nav-biz-btn:hover {
+  background: var(--silver-hover);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.95), inset 0 -1px 0 rgba(120,130,148,0.06);
+  transform: translateY(-1px);
+}
+.nav-biz-btn:active { transform: translateY(0); }
+.nav-biz-btn.active {
+  background: var(--silver-bar2);
+  box-shadow: inset 0 2px 6px rgba(120,130,150,0.15), inset 0 1px 0 rgba(255,255,255,0.6);
+  color: #2e3848;
+}
+.nav-biz-icon {
+  font-size: 0.95rem;
+  flex-shrink: 0;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.2));
+}
+.nav-biz-label { flex: 1; line-height: 1; }
+.nav-biz-dot { display: none; }
 
 .nav-item {
   display: block;
@@ -59,6 +133,12 @@ html,body{
   background: var(--hover-metal);
   border-left-color: var(--rg);
   font-weight: 500;
+}
+.nav-item.active {
+  color: var(--rg2);
+  background: var(--hover-metal);
+  border-left-color: var(--rg);
+  font-weight: 700;
 }
 
 /* ─── BGM WIDGET ─── */
@@ -126,7 +206,7 @@ html,body{
 .bgm-track-channel{font-size:0.6rem;color:var(--text2);}
 .bgm-controls{display:flex;justify-content:center;gap:8px;align-items:center;}
 .bgm-btn{ width:28px;height:28px;border-radius:50%; border:1px solid var(--border);background:var(--white); color:var(--rg2);font-size:0.65rem;cursor:pointer; display:flex;align-items:center;justify-content:center; transition:background .18s;line-height:1;padding:0;flex-shrink:0; }
-.bgm-btn.play-btn{ width:34px;height:34px;font-size:0.95rem; background:var(--metal-bar);color:#6a2038; border:none;box-shadow:0 2px 8px rgba(212,96,122,0.25); }
+.bgm-btn.play-btn{ width:34px;height:34px;font-size:0.95rem; background:var(--rg);color:white; border:none;box-shadow:0 2px 8px rgba(212,96,122,0.3); }
 
 /* ─── MAIN ─── */
 .main{flex:1;padding:0;overflow-y:auto;display:flex;flex-direction:column;}
@@ -140,10 +220,20 @@ html,body{
   position: sticky; top: 0; z-index: 100;
   box-shadow: 0 2px 12px rgba(212,96,122,0.07);
   min-height: 72px;
+  transition: all 0.3s ease;
 }
+/* 업무 페이지일 때 헤더 스타일 변경 */
+.main-header.biz-mode {
+  background: var(--silver-bar2);
+  border-bottom-color: rgba(140,148,158,0.3);
+  box-shadow: 0 2px 16px rgba(80,88,100,0.2), inset 0 -1px 0 rgba(255,255,255,0.5);
+}
+.main-header.biz-mode .main-title { color: #2a2e34; }
+.main-header.biz-mode .main-date { color: rgba(60,68,80,0.6); }
+
 .main-header-left { display: flex; flex-direction: column; justify-content: center; }
-.main-title{font-family:'Cormorant Garamond', serif;font-size:1.8rem;font-weight:700;color:var(--rg2);letter-spacing:0.06em;line-height:1;margin-bottom:3px;}
-.main-date{font-size:0.58rem;color:var(--text2);letter-spacing:0.22em;text-transform:uppercase;font-weight:700;}
+.main-title{font-family:'Cormorant Garamond', serif;font-size:1.8rem;font-weight:700;color:var(--rg2);letter-spacing:0.06em;line-height:1;margin-bottom:3px; transition: color 0.3s;}
+.main-date{font-size:0.58rem;color:var(--text2);letter-spacing:0.22em;text-transform:uppercase;font-weight:700; transition: color 0.3s;}
 
 .header-write-btn {
   display: flex; align-items: center; gap: 7px;
@@ -210,13 +300,8 @@ html,body{
   overflow-y: auto;
   min-height: 0;
 }
+#w-image .widget-body { overflow: hidden; }
 
-/* ★ 이미지 위젯 스크롤바 제거 */
-#w-image .widget-body {
-  overflow: hidden;
-}
-
-/* 홈 위젯 리사이즈 핸들 */
 .hw-resize-s  { position:absolute; bottom:0; left:0; right:16px; height:6px; cursor:s-resize; z-index:4; }
 .hw-resize-e  { position:absolute; top:0; right:0; bottom:16px; width:6px; cursor:e-resize; z-index:4; }
 .hw-resize-se { position:absolute; bottom:0; right:0; width:16px; height:16px; cursor:se-resize; z-index:5; }
@@ -245,7 +330,7 @@ html,body{
 
 /* UI Elements */
 .memo-area { width: 100%; height: 120px; padding: 12px; border: 1px solid var(--border); border-radius: 10px; background: #fff8fb; resize: none; outline: none; font-size: 0.8rem; font-family: inherit; color: var(--text); }
-.save-btn { padding: 8px 18px; border: none; border-radius: 20px; background: var(--metal-bar); color: #6a2038; font-weight: 700; font-size: 0.7rem; cursor: pointer; margin-top: 10px; float: right; box-shadow: 0 2px 6px rgba(212,96,122,0.15); }
+.save-btn { padding: 8px 18px; border: none; border-radius: 20px; background: var(--rg); color: white; font-weight: 700; font-size: 0.7rem; cursor: pointer; margin-top: 10px; float: right; box-shadow: 0 2px 6px rgba(212,96,122,0.25); }
 .brand-name{font-family:'Cormorant Garamond', serif;font-size:3rem;font-weight:700;color:var(--rg2);line-height:1;margin-bottom:14px;letter-spacing:0.08em;}
 .tag-item{padding:9px 12px;border-radius:8px;background:rgba(252,232,239,0.8);border-left:3px solid var(--rg3);font-size:0.8rem;font-weight:800;color:var(--rg2);margin-bottom:7px;font-family:'Pretendard',sans-serif; display:flex; align-items:center; justify-content:space-between;}
 .tag-item-text { flex:1; }
@@ -332,13 +417,11 @@ html,body{
 .dday-since{font-size:0.62rem;color:var(--text2);margin-top:4px;letter-spacing:0.08em;}
 .dday-del-btn{position:absolute;top:6px;right:0;font-size:0.6rem;padding:1px 5px;border-radius:8px;border:1px solid var(--border);background:var(--white);color:var(--rg3);cursor:pointer;opacity:0;transition:opacity 0.15s;}
 .dday-item:hover .dday-del-btn{opacity:1;}
-/* 달력 네비 */
 .cal-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
 .cal-nav-btn{background:none;border:none;cursor:pointer;color:var(--rg3);font-size:0.75rem;padding:2px 6px;border-radius:6px;transition:color 0.15s,background 0.15s;}
 .cal-nav-prev{transform:scaleX(-1);}
 .cal-nav-btn:hover{color:var(--rg);background:rgba(212,96,122,0.08);}
 .cal-dday-mark{background:rgba(212,96,122,0.13)!important;border-radius:50%;font-weight:700;color:var(--rg2)!important;}
-/* 모달 섹션 */
 .cal-modal-section-label{font-size:0.62rem;letter-spacing:0.15em;color:var(--rg3);text-transform:uppercase;margin-bottom:6px;font-weight:700;}
 .cal-modal-divider{border:none;border-top:1px solid var(--border);margin:10px 0;}
 .cal-dday-exists{display:flex;align-items:center;justify-content:space-between;font-size:0.78rem;color:var(--rg2);padding:4px 8px;background:rgba(212,96,122,0.07);border-radius:8px;}
@@ -374,7 +457,6 @@ html,body{
   opacity: 0.95;
 }
 
-/* 드래그 핸들 (창 상단바) */
 .post-window-header {
   background: var(--metal-bar);
   padding: 8px 14px;
@@ -406,7 +488,6 @@ html,body{
 }
 .post-window-close:hover { background: rgba(212,96,122,0.18); color: var(--rg2); }
 
-/* 창 내부 스크롤 */
 .post-window-body {
   overflow-y: auto;
   flex: 1;
@@ -418,7 +499,6 @@ html,body{
   max-height: 480px;
 }
 
-/* ─── 게시물 목록 ─── */
 .note-list-box-body { padding: 12px 14px; }
 .note-list {
   display: flex; flex-direction: column; gap: 6px;
@@ -451,7 +531,6 @@ html,body{
   color: var(--rg3); font-size: 0.75rem; letter-spacing: 0.08em;
 }
 
-/* ─── 상세 카드 (독립 창) ─── */
 .note-detail-card-body { padding: 20px; }
 .note-detail-title {
   font-size: 1.05rem; font-weight: 800; color: var(--text);
@@ -481,7 +560,6 @@ html,body{
 }
 .note-card-del:hover { background: rgba(212,96,122,0.1); }
 
-/* 수정 모드 */
 .note-edit-box {
   padding: 14px 16px 16px; background: rgba(252,232,239,0.25);
   border-top: 1px solid var(--border);
@@ -495,9 +573,9 @@ html,body{
 .note-edit-footer { display: flex; justify-content: flex-end; gap: 7px; margin-top: 10px; }
 .note-edit-save {
   padding: 6px 18px; border: none; border-radius: 20px;
-  background: var(--metal-bar); color: #6a2038;
+  background: var(--rg); color: white;
   font-weight: 700; font-size: 0.68rem; cursor: pointer;
-  box-shadow: 0 2px 6px rgba(212,96,122,0.15);
+  box-shadow: 0 2px 6px rgba(212,96,122,0.25);
 }
 .note-edit-cancel {
   padding: 6px 14px; border: 1px solid var(--border); border-radius: 20px;
@@ -506,7 +584,6 @@ html,body{
 }
 .note-edit-cancel:hover { background: var(--hover-metal); }
 
-/* 댓글 */
 .note-detail-comment-section { margin-top: 18px; border-top: 1px solid var(--border); padding-top: 14px; }
 .note-detail-comment-title {
   font-size: 0.68rem; font-weight: 800; color: var(--rg2);
@@ -530,12 +607,11 @@ html,body{
 }
 .note-detail-comment-submit {
   padding: 6px 14px; border: none; border-radius: 20px;
-  background: var(--metal-bar); color: #6a2038;
+  background: var(--rg); color: white;
   font-weight: 700; font-size: 0.68rem; cursor: pointer;
-  flex-shrink: 0; box-shadow: 0 1px 5px rgba(212,96,122,0.15);
+  flex-shrink: 0; box-shadow: 0 1px 5px rgba(212,96,122,0.2);
 }
 
-/* ─── 작성 창 ─── */
 .write-window-body {
   padding: 16px;
   display: flex; flex-direction: column;
@@ -554,9 +630,9 @@ html,body{
 }
 .note-post-btn {
   padding: 8px 22px; border: none; border-radius: 20px;
-  background: var(--metal-bar); color: #6a2038;
+  background: var(--rg); color: white;
   font-weight: 700; font-size: 0.72rem; cursor: pointer;
-  box-shadow: 0 2px 8px rgba(212,96,122,0.18);
+  box-shadow: 0 2px 8px rgba(212,96,122,0.25);
   transition: opacity 0.2s;
 }
 .note-post-btn:hover { opacity: 0.85; }
@@ -567,7 +643,6 @@ html,body{
 }
 .note-cancel-btn:hover { background: var(--hover-metal); }
 
-/* ─── 빈 노트 안내 ─── */
 .note-hint {
   position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
   text-align: center; color: var(--rg3); pointer-events: none;
@@ -679,103 +754,636 @@ html,body{
   width: 6px; cursor: e-resize; z-index: 4;
 }
 
-/* ─── 재판일정 캘린더 페이지 ─── */
-.trial-cal-page { padding: 28px 30px 80px; overflow-y: auto; flex: 1; }
-.trial-cal-wrap { max-width: 860px; margin: 0 auto; }
-.trial-cal-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
-.trial-cal-month-label { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 700; color: var(--rg2); letter-spacing: 0.06em; }
-.trial-cal-nav { display: flex; gap: 6px; align-items: center; }
-.trial-cal-nav-btn { background: none; border: 1px solid var(--border); border-radius: 8px; padding: 5px 13px; font-size: 0.72rem; color: var(--rg2); cursor: pointer; font-weight: 700; transition: background 0.15s; }
-.trial-cal-nav-btn:hover { background: var(--hover-metal); }
-.trial-cal-today-btn { background: var(--metal-bar); border: none; border-radius: 8px; padding: 5px 14px; font-size: 0.72rem; color: #6a2038; cursor: pointer; font-weight: 800; }
-.trial-cal-add-btn { display: flex; align-items: center; gap: 6px; background: var(--metal-bar); border: none; border-radius: 20px; padding: 8px 18px; font-size: 0.73rem; color: #6a2038; font-weight: 800; cursor: pointer; box-shadow: 0 2px 8px rgba(212,96,122,0.18); transition: opacity 0.2s; letter-spacing: 0.06em; }
-.trial-cal-add-btn:hover { opacity: 0.85; }
+/* ════════════════════════════════════════
+   재판일정 캘린더 (업무 페이지)
+════════════════════════════════════════ */
+.trial-cal-page {
+  padding: 24px 28px 80px;
+  overflow-y: auto; flex: 1;
+  background: transparent;
+}
+.trial-cal-wrap { max-width: 980px; margin: 0 auto; }
 
-/* 월간 그리드 */
-.trial-cal-grid { width: 100%; border-collapse: collapse; table-layout: fixed; }
-.trial-cal-grid th { padding: 8px 4px; font-size: 0.62rem; font-weight: 800; color: var(--rg3); text-align: center; letter-spacing: 0.1em; border-bottom: 2px solid var(--border); }
-.trial-cal-grid th:first-child { color: #e05070; }
-.trial-cal-grid th:last-child { color: #7090d0; }
-.trial-cal-cell { vertical-align: top; border: 1px solid var(--border); min-height: 100px; padding: 6px; cursor: pointer; transition: background 0.13s; }
-.trial-cal-cell:hover { background: rgba(212,96,122,0.04); }
-.trial-cal-cell.other-month { background: rgba(252,232,239,0.3); }
-.trial-cal-cell.today-cell { background: rgba(212,96,122,0.06); }
-.trial-cal-day-num { font-size: 0.82rem; font-weight: 700; color: var(--text2); margin-bottom: 4px; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
-.trial-cal-day-num.is-today { background: var(--rg); color: white; font-weight: 800; }
-.trial-cal-day-num.is-sun { color: #e05070; }
-.trial-cal-day-num.is-sat { color: #7090d0; }
-.trial-event-chip { display: block; font-size: 0.64rem; font-weight: 700; padding: 2px 7px; border-radius: 20px; margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; cursor: pointer; transition: opacity 0.15s; line-height: 1.5; }
-.trial-event-chip:hover { opacity: 0.75; }
-.chip-red    { background: rgba(212,80,100,0.15); color: #b5405e; border-left: 3px solid #d4607a; }
-.chip-blue   { background: rgba(80,120,200,0.13); color: #3050a0; border-left: 3px solid #6090d0; }
-.chip-green  { background: rgba(60,160,100,0.13); color: #1e7050; border-left: 3px solid #50b070; }
-.chip-yellow { background: rgba(200,160,30,0.13); color: #806010; border-left: 3px solid #c0a040; }
-.chip-pink   { background: rgba(212,96,122,0.13); color: #b5405e; border-left: 3px solid #e8829a; }
-.trial-more-chip { font-size: 0.58rem; color: var(--rg3); font-weight: 700; padding: 1px 5px; }
+.trial-cal-top {
+  display: flex; align-items: center;
+  justify-content: space-between;
+  margin-bottom: 22px; flex-wrap: wrap; gap: 12px;
+}
+.trial-cal-month-label {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.4rem; font-weight: 700;
+  color: #2a2e34; letter-spacing: 0.04em;
+  line-height: 1;
+}
+.trial-cal-month-label span {
+  font-size: 1rem; color: rgba(60,68,80,0.5);
+  letter-spacing: 0.14em; margin-left: 8px;
+  font-weight: 600; vertical-align: middle;
+}
+.trial-cal-nav { display: flex; gap: 5px; align-items: center; }
+.trial-cal-nav-btn {
+  background: rgba(255,255,255,0.7);
+  border: 1px solid rgba(140,148,158,0.35);
+  border-radius: 10px; padding: 7px 14px;
+  font-size: 0.72rem; color: #3a3f46;
+  cursor: pointer; font-weight: 700;
+  transition: all 0.15s; letter-spacing: 0.04em;
+  box-shadow: 0 1px 4px rgba(80,88,100,0.12), inset 0 1px 0 rgba(255,255,255,0.8);
+}
+.trial-cal-nav-btn:hover { background: rgba(255,255,255,0.9); border-color: rgba(100,108,118,0.5); }
+.trial-cal-today-btn {
+  background: linear-gradient(90deg, #8a94a8 0%, #b0bcc8 50%, #c8d0dc 100%);
+  color: white;
+  border: none; border-radius: 10px; padding: 7px 16px;
+  font-size: 0.72rem; cursor: pointer; font-weight: 800;
+  box-shadow: 0 2px 8px rgba(130,145,168,0.25), inset 0 1px 0 rgba(255,255,255,0.3);
+  letter-spacing: 0.06em;
+}
+.trial-cal-today-btn:hover { background: linear-gradient(135deg, #9aa4b8 0%, #c0ccd8 50%, #d4dce6 100%); }
+.trial-cal-add-btn {
+  display: flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,0.6);
+  border: 1.5px solid rgba(140,148,158,0.3);
+  border-radius: 22px; padding: 8px 18px;
+  font-size: 0.72rem; color: #3a3f46;
+  font-weight: 800; cursor: pointer;
+  transition: all 0.15s; letter-spacing: 0.06em;
+  box-shadow: 0 1px 6px rgba(80,88,100,0.1), inset 0 1px 0 rgba(255,255,255,0.7);
+}
+.trial-cal-add-btn:hover { background: rgba(255,255,255,0.85); border-color: rgba(100,108,118,0.45); }
 
-/* 재판일정 모달 */
-.trial-modal-backdrop { position: fixed; inset: 0; background: rgba(61,26,36,0.18); z-index: 600; display: flex; align-items: center; justify-content: center; animation: fadeUp .18s ease; }
-.trial-modal { background: var(--white); border-radius: 18px; width: 420px; max-width: 95vw; border: 1px solid var(--border); box-shadow: 0 10px 40px rgba(212,96,122,0.22); overflow: hidden; }
-.trial-modal-header { background: var(--metal-bar); padding: 12px 18px; display: flex; align-items: center; justify-content: space-between; }
-.trial-modal-title { font-family: 'Cormorant Garamond', serif; font-size: 0.92rem; font-weight: 700; color: #6a2038; letter-spacing: 0.14em; }
-.trial-modal-close { background: none; border: none; color: #6a2038; font-size: 0.85rem; cursor: pointer; opacity: 0.6; }
-.trial-modal-close:hover { opacity: 1; }
-.trial-modal-body { padding: 18px; }
-.trial-field-row { display: flex; flex-direction: column; gap: 5px; margin-bottom: 14px; }
-.trial-field-label { font-size: 0.62rem; font-weight: 800; color: var(--rg3); letter-spacing: 0.14em; text-transform: uppercase; }
-.trial-field-input { border: 1px solid var(--border); border-radius: 10px; padding: 9px 12px; font-size: 0.8rem; font-family: 'Pretendard', sans-serif; color: var(--text); background: #fff8fb; outline: none; width: 100%; }
-.trial-field-input:focus { border-color: var(--rg3); }
-.trial-field-select { border: 1px solid var(--border); border-radius: 10px; padding: 9px 12px; font-size: 0.8rem; font-family: 'Pretendard', sans-serif; color: var(--text); background: #fff8fb; outline: none; width: 100%; cursor: pointer; }
-.trial-color-row { display: flex; gap: 8px; flex-wrap: wrap; }
-.trial-color-btn { width: 26px; height: 26px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; transition: transform 0.15s; }
-.trial-color-btn:hover { transform: scale(1.15); }
-.trial-color-btn.selected { border-color: var(--text); }
-.trial-modal-footer { display: flex; justify-content: flex-end; gap: 8px; margin-top: 18px; }
-.trial-save-btn { padding: 8px 22px; border: none; border-radius: 20px; background: var(--metal-bar); color: #6a2038; font-weight: 800; font-size: 0.73rem; cursor: pointer; box-shadow: 0 2px 8px rgba(212,96,122,0.18); }
-.trial-cancel-btn { padding: 8px 16px; border: 1px solid var(--border); border-radius: 20px; background: transparent; color: var(--text2); font-weight: 600; font-size: 0.73rem; cursor: pointer; }
-.trial-cancel-btn:hover { background: var(--hover-metal); }
-
-/* 재판일정 목록 사이드패널 */
-.trial-layout { display: flex; gap: 20px; align-items: flex-start; }
+.trial-layout { display: flex; gap: 18px; align-items: flex-start; }
 .trial-cal-main { flex: 1; min-width: 0; }
-.trial-side-panel { width: 220px; flex-shrink: 0; }
-.trial-side-widget { background: var(--white); border-radius: 14px; border: 1px solid var(--border); box-shadow: 0 2px 10px rgba(212,96,122,0.07); overflow: hidden; margin-bottom: 14px; }
-.trial-side-header { background: var(--metal-bar); padding: 8px 14px; }
-.trial-side-title { font-family: 'Cormorant Garamond', serif; font-size: 0.74rem; font-weight: 700; letter-spacing: 0.2em; color: #6a2038; text-transform: uppercase; }
-.trial-side-body { padding: 12px 14px; }
-.trial-upcoming-item { padding: 7px 0; border-bottom: 1px dashed rgba(212,96,122,0.12); }
-.trial-upcoming-item:last-child { border-bottom: none; }
-.trial-upcoming-date { font-size: 0.6rem; font-weight: 800; color: var(--rg3); letter-spacing: 0.08em; margin-bottom: 2px; }
-.trial-upcoming-title { font-size: 0.76rem; font-weight: 700; color: var(--text); font-family: 'Pretendard', sans-serif; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.trial-upcoming-court { font-size: 0.62rem; color: var(--text2); margin-top: 1px; }
-.trial-empty-side { font-size: 0.7rem; color: var(--rg3); text-align: center; padding: 12px 0; letter-spacing: 0.08em; }
+.trial-side-panel { width: 210px; flex-shrink: 0; }
 
-/* 상세보기 모달의 이벤트 항목 */
-.trial-detail-row { display: flex; align-items: flex-start; gap: 8px; padding: 5px 0; border-bottom: 1px dashed rgba(212,96,122,0.1); }
+.trial-cal-card {
+  background: rgba(255,255,255,0.72);
+  border-radius: 20px;
+  border: 1px solid rgba(180,188,198,0.5);
+  box-shadow: 0 4px 24px rgba(80,88,100,0.14), inset 0 1px 0 rgba(255,255,255,0.9);
+  overflow: hidden;
+  margin-bottom: 0;
+}
+.trial-cal-grid {
+  width: 100%; border-collapse: collapse; table-layout: fixed;
+}
+.trial-cal-grid thead tr {
+  background: linear-gradient(180deg, rgba(240,242,244,0.9) 0%, rgba(228,232,236,0.8) 100%);
+}
+.trial-cal-grid th {
+  padding: 11px 4px 9px;
+  font-size: 0.63rem; font-weight: 900;
+  letter-spacing: 0.14em; text-align: center;
+  text-transform: uppercase; color: rgba(80,88,100,0.6);
+  border-bottom: 2px solid rgba(160,168,178,0.2);
+}
+.trial-cal-grid th:first-child { color: rgba(180,60,80,0.7); }
+.trial-cal-grid th:last-child { color: rgba(60,80,180,0.6); }
+.trial-cal-cell {
+  vertical-align: top;
+  border: 1px solid rgba(160,168,178,0.12);
+  min-height: 86px; padding: 7px 6px 6px;
+  cursor: pointer;
+  transition: background 0.15s;
+  position: relative;
+  background: rgba(255,255,255,0.5);
+}
+.trial-cal-cell:hover { background: rgba(220,225,232,0.55); }
+.trial-cal-cell.other-month { background: rgba(210,215,220,0.25); }
+.trial-cal-cell.other-month .trial-cal-day-num { opacity: 0.3; }
+.trial-cal-cell.today-cell { background: rgba(200,208,218,0.35); }
+.trial-cal-day-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.95rem; font-weight: 700;
+  color: rgba(50,58,70,0.8); margin-bottom: 4px;
+  width: 26px; height: 26px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%; flex-shrink: 0;
+  transition: all 0.15s;
+}
+.trial-cal-day-num.is-today {
+  background: linear-gradient(90deg, #8a94a8, #b0bac8);
+  color: white;
+  font-weight: 800;
+  box-shadow: 0 2px 8px rgba(130,145,168,0.3);
+}
+.trial-cal-day-num.is-sun { color: rgba(180,50,70,0.8); }
+.trial-cal-day-num.is-sat { color: rgba(50,70,180,0.7); }
+
+.trial-event-chip {
+  display: block; font-size: 0.61rem; font-weight: 700;
+  padding: 2px 7px 2px 5px;
+  border-radius: 5px; margin-bottom: 2px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  cursor: pointer; transition: opacity 0.15s, transform 0.1s;
+  line-height: 1.6; letter-spacing: 0.01em;
+}
+.trial-event-chip:hover { opacity: 0.75; transform: translateX(1px); }
+.chip-red    { background: rgba(210,60,80,0.1);  color: #a03050; border-left: 3px solid rgba(210,60,80,0.5); }
+.chip-blue   { background: rgba(60,100,200,0.1); color: #2850a0; border-left: 3px solid rgba(60,100,200,0.5); }
+.chip-green  { background: rgba(40,160,80,0.1);  color: #1a6840; border-left: 3px solid rgba(40,160,80,0.5); }
+.chip-yellow { background: rgba(180,140,20,0.1); color: #7a5808; border-left: 3px solid rgba(180,140,20,0.5); }
+.chip-pink   { background: rgba(140,148,158,0.15); color: #3a4050; border-left: 3px solid rgba(100,110,125,0.6); }
+.trial-more-chip {
+  font-size: 0.57rem; color: rgba(80,88,100,0.55);
+  font-weight: 700; padding: 1px 4px;
+  letter-spacing: 0.05em;
+}
+
+/* 사이드패널 (업무) */
+.trial-side-widget {
+  background: rgba(255,255,255,0.65);
+  border-radius: 16px; border: 1px solid rgba(180,188,198,0.4);
+  box-shadow: 0 3px 14px rgba(80,88,100,0.1), inset 0 1px 0 rgba(255,255,255,0.8);
+  overflow: hidden; margin-bottom: 12px;
+}
+.trial-side-header {
+  background: var(--silver-bar2); padding: 9px 14px;
+  border-bottom: 1px solid rgba(160,168,178,0.2);
+}
+.trial-side-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.73rem; font-weight: 700;
+  letter-spacing: 0.2em; color: #2a2e34; text-transform: uppercase;
+}
+.trial-side-body { padding: 11px 14px; }
+.trial-upcoming-item {
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(160,168,178,0.15);
+  cursor: pointer; transition: padding 0.15s;
+}
+.trial-upcoming-item:last-child { border-bottom: none; }
+.trial-upcoming-item:hover { padding-left: 4px; }
+.trial-upcoming-date {
+  font-size: 0.6rem; font-weight: 800; color: rgba(80,88,100,0.6);
+  letter-spacing: 0.08em; margin-bottom: 2px;
+}
+.trial-upcoming-title {
+  font-size: 0.75rem; font-weight: 700; color: #2a2e34;
+  font-family: 'Pretendard', sans-serif;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.trial-upcoming-court {
+  font-size: 0.61rem; color: rgba(80,88,100,0.5); margin-top: 1px;
+}
+.trial-empty-side {
+  font-size: 0.69rem; color: rgba(100,108,120,0.5);
+  text-align: center; padding: 14px 0; letter-spacing: 0.08em;
+}
+
+.fixed-side-item {
+  display: flex; align-items: center; gap: 7px;
+  padding: 6px 0; border-bottom: 1px solid rgba(160,168,178,0.12);
+}
+.fixed-side-item:last-of-type { border-bottom: none; }
+.fixed-side-date {
+  font-size: 0.66rem; font-weight: 900; color: #4a5468;
+  background: var(--silver-bar2);
+  border-radius: 5px; padding: 2px 7px; flex-shrink: 0;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.9), 0 1px 3px rgba(130,145,168,0.15);
+}
+.fixed-side-title {
+  flex: 1; font-size: 0.74rem; font-weight: 700;
+  color: #3a3f46; font-family: 'Pretendard', sans-serif;
+  min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.fixed-side-del {
+  background: none; border: none; color: rgba(100,108,120,0.4);
+  font-size: 0.6rem; cursor: pointer; opacity: 0.5;
+  transition: opacity 0.15s; flex-shrink: 0; padding: 1px 3px;
+}
+.fixed-side-del:hover { opacity: 1; color: #c03050; }
+.fixed-side-add-row { display: flex; gap: 5px; margin-top: 10px; }
+.fixed-side-date-inp {
+  width: 44px; border: 1.5px dashed rgba(140,148,158,0.4); border-radius: 7px;
+  background: rgba(255,255,255,0.6); padding: 5px 6px;
+  font-size: 0.69rem; color: #3a3f46; outline: none;
+  font-family: 'Pretendard', sans-serif; font-weight: 600; flex-shrink: 0;
+}
+.fixed-side-text-inp {
+  flex: 1; min-width: 0; border: 1.5px dashed rgba(140,148,158,0.4); border-radius: 7px;
+  background: rgba(255,255,255,0.6); padding: 5px 6px;
+  font-size: 0.69rem; color: #3a3f46; outline: none;
+  font-family: 'Pretendard', sans-serif; font-weight: 600;
+}
+.fixed-side-date-inp::placeholder, .fixed-side-text-inp::placeholder { color: rgba(100,108,120,0.35); }
+.fixed-side-add-btn {
+  flex-shrink: 0; padding: 5px 9px; border: none; border-radius: 7px;
+  background: linear-gradient(90deg, #8a94a8, #b8c0cc);
+  color: white;
+  font-weight: 900; font-size: 0.82rem; cursor: pointer;
+  transition: opacity 0.15s;
+  box-shadow: 0 1px 4px rgba(130,145,168,0.2), inset 0 1px 0 rgba(255,255,255,0.25);
+}
+.fixed-side-add-btn:hover { opacity: 0.8; }
+
+/* 업무 모달 */
+.trial-modal-backdrop { position: fixed; inset: 0; background: rgba(100,110,130,0.2); z-index: 600; display: flex; align-items: center; justify-content: center; animation: fadeUp .18s ease; backdrop-filter: blur(4px); }
+.trial-modal { background: linear-gradient(160deg, #f8f9fb 0%, #f0f3f6 50%, #eaecf0 100%); border-radius: 20px; width: 440px; max-width: 95vw; border: 1px solid rgba(200,208,220,0.5); box-shadow: 0 16px 60px rgba(130,145,168,0.18), inset 0 1px 0 rgba(255,255,255,0.95); overflow: hidden; }
+.trial-modal-header { background: var(--silver-bar2); padding: 13px 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(160,168,178,0.25); }
+.trial-modal-title { font-family: 'Cormorant Garamond', serif; font-size: 0.95rem; font-weight: 700; color: #2a2e34; letter-spacing: 0.14em; }
+.trial-modal-close { background: none; border: none; color: rgba(60,68,80,0.5); font-size: 0.85rem; cursor: pointer; padding: 2px 6px; border-radius: 50%; transition: all 0.15s; }
+.trial-modal-close:hover { opacity: 1; background: rgba(100,108,120,0.12); color: #2a2e34; }
+.trial-modal-body { padding: 20px; }
+.trial-field-row { display: flex; flex-direction: column; gap: 5px; margin-bottom: 14px; }
+.trial-field-label { font-size: 0.61rem; font-weight: 800; color: rgba(80,88,100,0.65); letter-spacing: 0.16em; text-transform: uppercase; }
+.trial-field-input { border: 1.5px solid rgba(160,168,178,0.35); border-radius: 10px; padding: 9px 13px; font-size: 0.8rem; font-family: 'Pretendard', sans-serif; color: #2a2e34; background: rgba(255,255,255,0.7); outline: none; width: 100%; transition: border-color 0.15s; }
+.trial-field-input:focus { border-color: rgba(100,108,120,0.5); box-shadow: 0 0 0 3px rgba(140,148,158,0.12); }
+.trial-field-select { border: 1.5px solid rgba(160,168,178,0.35); border-radius: 10px; padding: 9px 13px; font-size: 0.8rem; font-family: 'Pretendard', sans-serif; color: #2a2e34; background: rgba(255,255,255,0.7); outline: none; width: 100%; cursor: pointer; }
+.trial-color-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.trial-color-btn { width: 28px; height: 28px; border-radius: 50%; border: 3px solid transparent; cursor: pointer; transition: transform 0.15s, box-shadow 0.15s; }
+.trial-color-btn:hover { transform: scale(1.18); }
+.trial-color-btn.selected { border-color: #3a3f46; box-shadow: 0 0 0 2px white, 0 0 0 4px #3a3f46; }
+.trial-modal-footer { display: flex; justify-content: flex-end; gap: 8px; margin-top: 20px; }
+.trial-save-btn { padding: 9px 24px; border: none; border-radius: 22px; background: linear-gradient(90deg, #8a94a8, #b8c0cc); color: white; font-weight: 800; font-size: 0.73rem; cursor: pointer; box-shadow: 0 3px 12px rgba(130,145,168,0.25), inset 0 1px 0 rgba(255,255,255,0.3); transition: opacity 0.15s, transform 0.1s; }
+.trial-save-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+.trial-cancel-btn { padding: 9px 18px; border: 1.5px solid rgba(160,168,178,0.35); border-radius: 22px; background: rgba(255,255,255,0.5); color: rgba(60,68,80,0.6); font-weight: 600; font-size: 0.73rem; cursor: pointer; transition: background 0.15s; }
+.trial-cancel-btn:hover { background: rgba(255,255,255,0.8); }
+
+.trial-detail-row { display: flex; align-items: flex-start; gap: 10px; padding: 6px 0; border-bottom: 1px solid rgba(160,168,178,0.15); }
 .trial-detail-row:last-child { border-bottom: none; }
-.trial-detail-key { font-size: 0.62rem; font-weight: 800; color: var(--rg3); min-width: 52px; letter-spacing: 0.08em; padding-top: 1px; text-transform: uppercase; }
-.trial-detail-val { font-size: 0.78rem; color: var(--text); font-family: 'Pretendard', sans-serif; font-weight: 600; flex: 1; line-height: 1.5; }
-.trial-detail-actions { display: flex; gap: 6px; margin-top: 14px; justify-content: flex-end; }
-.trial-edit-btn { padding: 5px 14px; border: 1px solid var(--border); border-radius: 20px; background: none; color: var(--rg2); font-size: 0.68rem; font-weight: 700; cursor: pointer; transition: background 0.15s; }
-.trial-edit-btn:hover { background: var(--hover-metal); }
-.trial-del-btn { padding: 5px 14px; border: 1px solid rgba(212,96,122,0.3); border-radius: 20px; background: none; color: var(--rg2); font-size: 0.68rem; font-weight: 700; cursor: pointer; }
-.trial-del-btn:hover { background: rgba(212,96,122,0.1); }
+.trial-detail-key { font-size: 0.61rem; font-weight: 800; color: rgba(80,88,100,0.55); min-width: 54px; letter-spacing: 0.1em; padding-top: 2px; text-transform: uppercase; }
+.trial-detail-val { font-size: 0.8rem; color: #2a2e34; font-family: 'Pretendard', sans-serif; font-weight: 600; flex: 1; line-height: 1.6; }
+.trial-detail-actions { display: flex; gap: 7px; margin-top: 16px; justify-content: flex-end; }
+.trial-edit-btn { padding: 6px 16px; border: 1.5px solid rgba(160,168,178,0.35); border-radius: 20px; background: rgba(255,255,255,0.6); color: #3a3f46; font-size: 0.69rem; font-weight: 700; cursor: pointer; transition: background 0.15s; }
+.trial-edit-btn:hover { background: rgba(255,255,255,0.9); }
+.trial-del-btn { padding: 6px 16px; border: 1.5px solid rgba(180,60,80,0.25); border-radius: 20px; background: none; color: #c03050; font-size: 0.69rem; font-weight: 700; cursor: pointer; transition: background 0.15s; }
+.trial-del-btn:hover { background: rgba(180,60,80,0.07); }
+
+/* 2주 일정표 */
+.biweek-wrap {
+  margin-top: 22px;
+  background: rgba(255,255,255,0.65);
+  border-radius: 18px;
+  border: 1px solid rgba(180,188,198,0.4);
+  box-shadow: 0 4px 20px rgba(80,88,100,0.1), inset 0 1px 0 rgba(255,255,255,0.9);
+  overflow: hidden;
+  animation: fadeUp 0.4s ease 0.1s both;
+}
+.biweek-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem; font-weight: 700; font-style: italic;
+  color: rgba(50,58,70,0.6); letter-spacing: 0.04em;
+  padding: 16px 24px 13px;
+  border-bottom: 1.5px solid rgba(160,168,178,0.15);
+  display: flex; align-items: baseline; gap: 10px;
+  background: var(--silver-bar2);
+}
+.biweek-title::after {
+  content: '';
+  flex: 1; height: 1px;
+  background: linear-gradient(90deg, rgba(100,108,120,0.2), transparent);
+}
+.biweek-row {
+  display: flex; align-items: stretch;
+  border-bottom: 1px solid rgba(160,168,178,0.1);
+  transition: background 0.12s;
+  min-height: 48px;
+  position: relative;
+}
+.biweek-row:last-of-type { border-bottom: none; }
+.biweek-row:hover { background: rgba(200,208,218,0.2); }
+.biweek-row.bw-today { background: rgba(180,188,200,0.18); }
+.biweek-row.bw-today:hover { background: rgba(180,188,200,0.28); }
+.biweek-row.bw-weekend { opacity: 0.5; }
+.biweek-week-divider {
+  height: 3px;
+  background: linear-gradient(90deg, transparent 0%, rgba(140,150,168,0.25) 8%, rgba(140,150,168,0.55) 20%, rgba(140,150,168,0.55) 80%, rgba(140,150,168,0.25) 92%, transparent 100%);
+  margin: 0;
+}
+.biweek-date-col {
+  width: 112px; min-width: 112px;
+  display: flex; align-items: center;
+  padding: 0;
+  border-right: 1px solid rgba(160,168,178,0.15);
+  position: relative; overflow: hidden;
+}
+.biweek-date-col::before {
+  content: '';
+  position: absolute; left: 0; top: 0; bottom: 0;
+  width: 4px;
+  background: linear-gradient(180deg, #aab0b8, #6e7580);
+  opacity: 0.6;
+}
+.biweek-row.bw-today .biweek-date-col::before {
+  opacity: 1;
+  background: linear-gradient(180deg, #c8cdd4, #4a5058);
+}
+.biweek-row.bw-sun .biweek-date-col::before { background: rgba(180,60,80,0.7); opacity: 0.6; }
+.biweek-date-inner {
+  display: flex; align-items: baseline; gap: 6px;
+  padding: 0 10px 0 16px; width: 100%;
+}
+.biweek-date-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.45rem; font-weight: 700;
+  color: rgba(50,58,70,0.75); line-height: 1;
+  letter-spacing: -0.01em; flex-shrink: 0;
+}
+.biweek-date-num.bw-sun  { color: rgba(180,50,70,0.8); }
+.biweek-date-num.bw-today-num { color: #2a2e34; }
+.biweek-date-dow-tag {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 0.8rem; font-weight: 900;
+  letter-spacing: 0.04em;
+  color: rgba(80,88,100,0.5);
+  background: rgba(160,168,178,0.15);
+  border-radius: 5px; padding: 3px 7px;
+  flex-shrink: 0; line-height: 1.4;
+  align-self: center;
+}
+.biweek-date-dow-tag.bw-sun { background: rgba(180,60,80,0.08); color: rgba(180,50,70,0.7); }
+.biweek-date-dow-tag.bw-today-tag {
+  background: linear-gradient(90deg, #8a94a8, #b8c0cc);
+  color: white;
+  box-shadow: 0 1px 6px rgba(130,145,168,0.2);
+}
+.biweek-ev-col {
+  flex: 1; min-width: 0;
+  display: flex; flex-direction: column;
+  justify-content: center; gap: 3px;
+  padding: 9px 20px 9px 16px;
+}
+.biweek-ev-row {
+  display: flex; align-items: baseline; gap: 8px;
+  padding: 1px 5px; border-radius: 5px;
+  cursor: pointer; transition: background 0.1s;
+}
+.biweek-ev-row:hover { background: rgba(160,168,178,0.15); }
+.biweek-ev-time {
+  font-size: 0.72rem; font-weight: 800;
+  color: rgba(80,88,100,0.55); flex-shrink: 0;
+  letter-spacing: 0.03em; min-width: 34px;
+}
+.biweek-ev-text {
+  font-size: 0.85rem; font-weight: 600;
+  color: rgba(40,48,60,0.85); font-family: 'Pretendard', sans-serif;
+  line-height: 1.45; flex: 1; min-width: 0;
+}
+.biweek-ev-case {
+  font-size: 0.68rem; font-weight: 700;
+  color: rgba(80,88,100,0.4); flex-shrink: 0;
+  letter-spacing: 0.01em;
+}
+.biweek-ev-empty {
+  font-size: 0.75rem; color: rgba(140,148,158,0.35);
+  font-weight: 600; padding: 1px 5px;
+}
+
+/* 불변기일 */
+.fixed-dates-section {
+  background: rgba(0,0,0,0.15);
+  border-top: 3px solid rgba(255,255,255,0.06);
+  padding: 16px 24px 20px;
+}
+.fixed-dates-label {
+  display: flex; align-items: center; gap: 7px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.05rem; font-weight: 700;
+  color: rgba(255,255,255,0.55); letter-spacing: 0.1em;
+  margin-bottom: 12px;
+}
+.fixed-dates-grid { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 0; }
+.fixed-date-item {
+  display: flex; align-items: center; gap: 9px;
+  padding: 7px 13px; border-radius: 10px;
+  background: rgba(255,255,255,0.06); border: 1.5px solid rgba(255,255,255,0.1);
+  transition: all 0.15s;
+}
+.fixed-date-item:hover { border-color: rgba(255,255,255,0.2); background: rgba(255,255,255,0.1); }
+.fixed-date-badge {
+  font-size: 0.72rem; font-weight: 900; color: white;
+  background: rgba(255,255,255,0.15);
+  border-radius: 7px; padding: 3px 10px; flex-shrink: 0;
+}
+.fixed-date-title {
+  font-size: 0.82rem; font-weight: 700;
+  color: rgba(255,255,255,0.8); font-family: 'Pretendard', sans-serif;
+}
+.fixed-date-del {
+  background: none; border: none; color: rgba(255,255,255,0.3);
+  font-size: 0.65rem; cursor: pointer; opacity: 0.5;
+  transition: opacity 0.15s; flex-shrink: 0; padding: 2px 3px;
+}
+.fixed-date-del:hover { opacity: 1; color: rgba(255,150,150,0.8); }
+.fixed-dates-add-row { display: flex; gap: 7px; margin-top: 12px; flex-wrap: wrap; }
+.fixed-date-date-input {
+  border: 1.5px dashed rgba(255,255,255,0.2); border-radius: 9px;
+  background: rgba(255,255,255,0.06); padding: 7px 12px;
+  font-size: 0.78rem; color: rgba(255,255,255,0.8); outline: none;
+  font-family: 'Pretendard', sans-serif; font-weight: 600;
+  width: 100px;
+}
+.fixed-date-text-input {
+  flex: 1; border: 1.5px dashed rgba(255,255,255,0.2); border-radius: 9px;
+  background: rgba(255,255,255,0.06); padding: 7px 12px;
+  font-size: 0.78rem; color: rgba(255,255,255,0.8); outline: none;
+  font-family: 'Pretendard', sans-serif; font-weight: 600; min-width: 100px;
+}
+.fixed-date-date-input::placeholder, .fixed-date-text-input::placeholder { color: rgba(255,255,255,0.2); }
+.fixed-date-add-btn {
+  padding: 7px 16px; border: none; border-radius: 9px;
+  background: rgba(255,255,255,0.18); color: white;
+  font-weight: 800; font-size: 0.74rem; cursor: pointer;
+  white-space: nowrap; transition: opacity 0.15s;
+}
+.fixed-date-add-btn:hover { opacity: 0.85; }
+
+/* AI 패널 */
+.trial-ai-panel {
+  background: rgba(255,255,255,0.7);
+  border-radius: 16px;
+  border: 1px solid rgba(180,188,200,0.4);
+  box-shadow: 0 4px 20px rgba(130,145,168,0.12), inset 0 1px 0 rgba(255,255,255,0.9);
+  overflow: hidden;
+  margin-bottom: 18px;
+  animation: fadeUp 0.3s ease both;
+}
+.trial-ai-panel-header {
+  background: var(--silver-bar2);
+  padding: 10px 16px;
+  display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 1px solid rgba(170,180,195,0.2);
+}
+.trial-ai-panel-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.82rem; font-weight: 700;
+  color: #3a4050; letter-spacing: 0.2em; text-transform: uppercase;
+  display: flex; align-items: center; gap: 7px;
+}
+.trial-ai-panel-title-sparkle { font-size: 0.95rem; animation: sparkle 2s ease-in-out infinite; }
+@keyframes sparkle { 0%,100%{opacity:1;transform:scale(1) rotate(0deg);} 50%{opacity:0.7;transform:scale(1.2) rotate(15deg);} }
+.trial-ai-panel-close {
+  background: none; border: none; color: rgba(80,90,110,0.45);
+  font-size: 0.8rem; cursor: pointer; padding: 2px 6px;
+  border-radius: 50%; transition: all 0.15s;
+}
+.trial-ai-panel-close:hover { background: rgba(130,145,168,0.12); color: #3a4050; }
+.trial-ai-panel-body { padding: 14px 16px 16px; }
+.tai-apikey-row { margin-bottom: 10px; }
+.tai-apikey-inp {
+  width: 100%; border: 1.5px dashed rgba(160,170,185,0.4); border-radius: 8px;
+  background: rgba(255,255,255,0.6); padding: 7px 12px;
+  font-size: 0.73rem; color: #4a5268; outline: none;
+  font-family: 'Pretendard', sans-serif; font-weight: 600;
+  transition: border-color 0.15s;
+}
+.tai-apikey-inp:focus { border-color: rgba(130,145,168,0.5); color: #2a3048; }
+.tai-apikey-inp::placeholder { color: rgba(120,130,150,0.4); }
+.trial-ai-textarea {
+  width: 100%; min-height: 80px; max-height: 160px;
+  border: 1.5px solid rgba(170,180,198,0.35); border-radius: 10px;
+  background: rgba(255,255,255,0.65); padding: 10px 12px;
+  resize: vertical; outline: none; font-size: 0.82rem;
+  font-family: 'Pretendard', sans-serif; color: #3a4050;
+  line-height: 1.7; display: block; margin-bottom: 10px;
+}
+.trial-ai-textarea::placeholder { color: rgba(120,130,150,0.4); }
+.trial-ai-dropzone {
+  width: 100%; min-height: 52px;
+  border: 2px dashed rgba(160,170,188,0.35); border-radius: 10px;
+  background: rgba(255,255,255,0.4);
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  cursor: pointer; transition: all 0.2s; position: relative;
+  overflow: hidden; margin-bottom: 10px;
+}
+.trial-ai-dropzone:hover, .trial-ai-dropzone.dragover {
+  background: rgba(255,255,255,0.7); border-color: rgba(130,145,168,0.5);
+}
+.trial-ai-dropzone-text { font-size: 0.71rem; color: rgba(100,112,135,0.55); font-weight: 700; letter-spacing: 0.04em; }
+.trial-ai-dropzone input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.trial-ai-img-preview {
+  width: 100%; max-height: 140px; object-fit: contain;
+  border-radius: 8px; display: none; margin-top: 8px;
+}
+.trial-ai-run-btn {
+  display: flex; align-items: center; justify-content: center; gap: 7px;
+  width: 100%; margin-top: 10px; padding: 9px;
+  border: 1px solid rgba(160,170,188,0.3); border-radius: 12px;
+  background: linear-gradient(90deg, #8a94a8, #b8c0cc);
+  color: white; font-weight: 800; font-size: 0.76rem;
+  cursor: pointer; letter-spacing: 0.08em;
+  transition: opacity 0.15s, transform 0.1s;
+  font-family: 'Pretendard', sans-serif;
+  box-shadow: 0 2px 8px rgba(130,145,168,0.2), inset 0 1px 0 rgba(255,255,255,0.25);
+}
+.trial-ai-run-btn:hover:not(:disabled) { opacity: 0.88; transform: translateY(-1px); }
+.trial-ai-run-btn:disabled { opacity: 0.4; cursor: default; transform: none; }
+.trial-ai-run-btn .btn-spinner {
+  width: 13px; height: 13px; border: 2px solid rgba(255,255,255,0.35);
+  border-top-color: white; border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.trial-ai-results { margin-top: 12px; }
+.trial-ai-result-label {
+  font-size: 0.6rem; font-weight: 800; color: rgba(100,112,135,0.6);
+  letter-spacing: 0.18em; text-transform: uppercase;
+  margin-bottom: 8px; display: flex; align-items: center; gap: 5px;
+}
+.trial-ai-result-item {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 9px 12px; border-radius: 10px;
+  background: rgba(255,255,255,0.6); border: 1px solid rgba(170,180,198,0.25);
+  margin-bottom: 6px; transition: background 0.15s;
+}
+.trial-ai-result-item:hover { background: rgba(255,255,255,0.85); }
+.trial-ai-result-info { flex: 1; min-width: 0; }
+.trial-ai-result-date {
+  font-size: 0.62rem; font-weight: 800; color: rgba(100,115,145,0.75);
+  letter-spacing: 0.08em; margin-bottom: 2px;
+}
+.trial-ai-result-title {
+  font-size: 0.8rem; font-weight: 700; color: #2a3048;
+  font-family: 'Pretendard', sans-serif;
+}
+.trial-ai-result-sub {
+  font-size: 0.66rem; color: rgba(80,95,120,0.5); margin-top: 2px;
+}
+.trial-ai-result-add {
+  flex-shrink: 0; padding: 5px 12px;
+  border: 1px solid rgba(160,170,188,0.35); border-radius: 20px;
+  background: rgba(255,255,255,0.5); color: #4a5268;
+  font-size: 0.68rem; font-weight: 700; cursor: pointer;
+  transition: all 0.15s; white-space: nowrap;
+  font-family: 'Pretendard', sans-serif;
+}
+.trial-ai-result-add:hover:not(:disabled) { background: rgba(255,255,255,0.85); color: #2a3048; }
+.trial-ai-result-add.added { background: rgba(60,160,100,0.1); color: #2a7850; border-color: rgba(60,160,100,0.3); cursor: default; }
+.trial-ai-result-addall {
+  display: block; width: 100%; margin-top: 8px; padding: 8px;
+  border: 1px solid rgba(160,170,188,0.3); border-radius: 10px;
+  background: rgba(255,255,255,0.5); color: #4a5268;
+  font-weight: 800; font-size: 0.73rem; cursor: pointer;
+  font-family: 'Pretendard', sans-serif; transition: opacity 0.15s;
+}
+.trial-ai-result-addall:hover { opacity: 0.85; background: rgba(255,255,255,0.8); }
+.trial-ai-error { font-size: 0.72rem; color: rgba(180,60,80,0.7); padding: 10px 0; text-align: center; }
+.trial-ai-open-btn {
+  display: flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,0.6);
+  border: 1px solid rgba(160,170,188,0.35);
+  border-radius: 20px; padding: 8px 18px;
+  font-size: 0.73rem; color: #4a5268; font-weight: 800;
+  cursor: pointer; transition: all 0.15s; letter-spacing: 0.06em;
+  font-family: 'Pretendard', sans-serif;
+  box-shadow: 0 1px 6px rgba(130,145,168,0.1), inset 0 1px 0 rgba(255,255,255,0.8);
+}
+.trial-ai-open-btn:hover { background: rgba(255,255,255,0.9); transform: translateY(-1px); }
+.trial-ai-open-btn-icon { font-size: 0.9rem; }
+
+/* 업무 페이지 배경 */
+#main-content.biz-content {
+  background:
+    radial-gradient(ellipse at 20% 10%, rgba(240,244,250,0.8) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 90%, rgba(210,218,230,0.5) 0%, transparent 45%),
+    linear-gradient(160deg, #eaecf0 0%, #f2f4f7 30%, #f8f9fb 55%, #edf0f4 80%, #e4e8ee 100%);
+}
+
+/* ─── SETTINGS ─── */
+.setting-row { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; background: #fffcfd; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--border); transition: background 0.15s, box-shadow 0.15s; }
+.setting-row.drag-over { background: rgba(212,96,122,0.08); border-color: var(--rg3); box-shadow: 0 0 0 2px rgba(212,96,122,0.18); }
+.setting-row.dragging-row { opacity: 0.45; }
+
+/* ─── 파산(biz-content) 안 포스트창·작성버튼 백금 오버라이드 ─── */
+#main-content.biz-content .draggable-post-window {
+  background: rgba(248,249,251,0.95);
+  border-color: rgba(180,188,200,0.4);
+  box-shadow: 0 6px 30px rgba(130,145,168,0.14);
+}
+#main-content.biz-content .draggable-post-window.dragging {
+  box-shadow: 0 16px 50px rgba(130,145,168,0.25);
+}
+#main-content.biz-content .post-window-header { background: var(--silver-bar2); }
+#main-content.biz-content .post-window-title { color: #3a4258; }
+#main-content.biz-content .post-window-close { color: rgba(60,70,90,0.5); }
+#main-content.biz-content .post-window-close:hover { background: rgba(130,145,168,0.14); color: #2a3048; }
+#main-content.biz-content .note-empty { color: rgba(100,112,135,0.55); }
+#main-content.biz-content .post-window-body { color: #3a4258; }
+#main-content.biz-content .note-list-item { border-color: rgba(180,188,200,0.3); }
+#main-content.biz-content .note-list-item:hover { background: rgba(220,226,234,0.4); border-color: rgba(160,170,188,0.4); }
+#main-content.biz-content .note-list-title { color: #2a3048; }
+#main-content.biz-content .note-list-date { color: rgba(80,95,120,0.5); }
+.main-header.biz-mode .header-write-btn {
+  background: var(--silver-bar2);
+  color: #3a4258;
+  box-shadow: 0 2px 10px rgba(130,145,168,0.18);
+}
+  background: var(--silver-bar2);
+  color: #3a4258;
+  box-shadow: 0 2px 10px rgba(130,145,168,0.18);
+}
 
 @media (max-width: 768px) {
   .trial-layout { flex-direction: column; }
   .trial-side-panel { width: 100%; }
   .trial-cal-page { padding: 70px 14px 120px; }
-}
-
-/* 모바일 */
-@media (max-width: 768px) {
   .site-wrap { flex-direction: column; }
   .main-content-area { padding: 70px 14px 200px; }
   .note-page-area { padding: 10px 10px 120px; }
   .main-header { padding: 10px 14px; flex-wrap: wrap; gap: 8px; }
   .main-title { font-size: 1.4rem; }
   .header-write-btn { font-size: 0.68rem; padding: 7px 14px; }
-
   .sidebar {
     width: 100%; height: auto;
     position: fixed; top: 0; z-index: 200;
@@ -797,6 +1405,8 @@ html,body{
   }
   nav::-webkit-scrollbar { display: none; }
   .nav-group-label { display: none; }
+  .nav-biz-section { display: flex; align-items: center; padding: 4px 8px; border-bottom: none; border-right: 1px solid var(--border); }
+  .nav-biz-btn { padding: 7px 12px; font-size: 0.65rem; border-radius: 8px; }
   .nav-item {
     padding: 10px 12px; font-size: 0.72rem;
     white-space: nowrap;
@@ -807,9 +1417,7 @@ html,body{
     border-left-color: transparent;
     background: none;
   }
-
   .widget-grid { grid-template-columns: 1fr; gap: 12px; }
-
   .bgm-widget {
     position: fixed; bottom: 0; left: 0; right: 0;
     width: 100%; border-radius: 16px 16px 0 0; z-index: 199;
@@ -822,7 +1430,6 @@ html,body{
   .record-disc { width: 48px; height: 48px; }
   .bgm-info { text-align: left; flex: 1; margin-bottom: 0; }
   .bgm-controls { flex-shrink: 0; }
-
   .draggable-post-window {
     position: relative !important;
     width: 100% !important;
@@ -836,15 +1443,26 @@ html,body{
 <body>
 <div class="site-wrap">
   <aside class="sidebar">
-    <div class="sidebar-logo">
+    <div class="sidebar-logo" onclick="loadPage('profile')" style="cursor:pointer;">
       <div class="logo-text">DOXX4E</div>
       <div class="logo-sub">Personal Space</div>
     </div>
+
+    <!-- 업무 버튼들 (분리된 섹션) -->
+    <div class="nav-biz-section">
+      <button class="nav-biz-btn" id="nav-biz-btn-lawsuit" onclick="loadPage('trial_sched')">
+        <span class="nav-biz-label">소송업무</span>
+      </button>
+      <button class="nav-biz-btn" id="nav-biz-btn-bankruptcy" onclick="loadPage('bankruptcy_sched')" style="margin-top:6px;">
+        <span class="nav-biz-label">파산업무</span>
+      </button>
+    </div>
+
     <nav id="sidebar-nav"></nav>
   </aside>
 
   <main class="main">
-    <div class="main-header">
+    <div class="main-header" id="main-header">
       <div class="main-header-left">
         <div class="main-title">DOXX4E</div>
         <div class="main-date" id="main-date"></div>
@@ -885,23 +1503,35 @@ html,body{
 
 <script>
 // ─── 데이터 관리 ───
-let userMenus = JSON.parse(localStorage.getItem('userMenus')) || [
-  {id: 'trial_sched', name: '재판일정', group: '업무'},
-  {id: 'profile', name: '프로필', group: 'CHA.'},
-  {id: 'relations', name: '관계란', group: 'CHA.'},
-  {id: 'myroom', name: '마이룸', group: 'CHA.'},
-  {id: 'log', name: '로그', group: 'LOG'},
-  {id: 'gifts', name: '선물', group: 'LOG'},
-  {id: 'talk', name: '떠들떠들', group: 'TALK'},
-  {id: 'diary', name: '일기', group: 'TALK'},
-  {id: 'cal', name: 'Cal.', group: 'TALK'},
-  {id: 'note', name: '노트', group: 'ETC'},
-  {id: 'guest', name: 'Guest', group: 'ETC'}
+const DEFAULT_MENUS = [
+  {id: 'profile_board', name: '프로필', group: 'CHA.'},
+  {id: 'log', name: '로그', group: 'CHA.'},
+  {id: 'makenote', name: '제작노트', group: 'MAKE'},
+  {id: 'diary', name: '일기', group: 'ETC'}
 ];
+
+function loadUserMenus() {
+  const saved = localStorage.getItem('userMenus');
+  if (!saved) return DEFAULT_MENUS;
+  try {
+    const parsed = JSON.parse(saved);
+    return parsed.filter(m => m.id !== 'trial_sched' && m.id !== 'bankruptcy_sched' && m.id !== 'profile');
+  } catch(e) {
+    return DEFAULT_MENUS;
+  }
+}
+
+let userMenus = loadUserMenus();
+// 메뉴 구조 변경 시 강제 리셋
+const _menuVersion = 'v3';
+if (localStorage.getItem('menuVersion') !== _menuVersion) {
+  localStorage.removeItem('userMenus');
+  localStorage.setItem('menuVersion', _menuVersion);
+  userMenus = DEFAULT_MENUS;
+}
 let memoContent = localStorage.getItem('memoContent') || '';
 let currentPage = 'profile';
 
-// ─── NOTE/BOARD 데이터 (pageId별 독립 저장) ───
 function getPosts(pageId) {
   return JSON.parse(localStorage.getItem('posts_' + pageId)) || [];
 }
@@ -949,21 +1579,61 @@ function loadPage(pageId) {
   const content = document.getElementById('main-content');
   content.innerHTML = '';
 
+  // 업무 버튼 active 처리
+  const bizBtnLawsuit = document.getElementById('nav-biz-btn-lawsuit');
+  const bizBtnBankruptcy = document.getElementById('nav-biz-btn-bankruptcy');
+  bizBtnLawsuit.classList.toggle('active', pageId === 'trial_sched');
+  bizBtnBankruptcy.classList.toggle('active', pageId === 'bankruptcy_sched');
+
+  // 로고 active 처리
+  const logo = document.querySelector('.sidebar-logo');
+  if (pageId === 'profile') {
+    logo.classList.add('logo-active');
+  } else {
+    logo.classList.remove('logo-active');
+  }
+
+  // 업무 페이지 진입 시 BGM만 숨기기
+  const bgm = document.querySelector('.bgm-widget');
+  const isBiz = pageId === 'trial_sched' || pageId === 'bankruptcy_sched';
+  if (bgm) bgm.style.display = isBiz ? 'none' : '';
+
   document.querySelectorAll('.nav-item').forEach(item => {
     item.classList.toggle('active', item.getAttribute('data-id') === pageId);
   });
 
   const writeBtn = document.getElementById('header-write-btn');
-  if (pageId !== 'profile' && pageId !== 'settings' && pageId !== 'trial_sched') {
-    writeBtn.classList.remove('hidden');
+  const header = document.getElementById('main-header');
+
+  if (pageId === 'trial_sched' || pageId === 'bankruptcy_sched') {
+    header.classList.add('biz-mode');
+    content.classList.add('biz-content');
+    if (pageId === 'trial_sched') {
+      writeBtn.classList.add('hidden');
+    } else {
+      writeBtn.classList.remove('hidden');
+    }
   } else {
-    writeBtn.classList.add('hidden');
+    header.classList.remove('biz-mode');
+    content.classList.remove('biz-content');
+    if (pageId !== 'profile' && pageId !== 'settings') {
+      writeBtn.classList.remove('hidden');
+    } else {
+      writeBtn.classList.add('hidden');
+    }
   }
 
-  if (pageId === 'profile') renderHomeWidgets(content);
-  else if (pageId === 'settings') renderSettings(content);
-  else if (pageId === 'trial_sched') renderTrialCalPage(content);
-  else { renderBoardPage(pageId, content); }
+  if (pageId === 'profile') {
+    renderHomeWidgets(content);
+  } else if (pageId === 'settings') {
+    renderSettings(content);
+  } else if (pageId === 'trial_sched') {
+    renderTrialCalPage(content);
+  } else if (pageId === 'bankruptcy_sched') {
+    renderBankruptcyPage(content);
+  } else {
+    renderBoardPage(pageId, content);
+  }
 }
 
 function renderHomeWidgets(container) {
@@ -1085,9 +1755,6 @@ function renderBoardPage(pageId, container) {
   openPostListWindow();
 }
 
-function renderNotePage(container) { renderBoardPage('note', container); }
-
-// ─── Posts 목록 창 열기 ───
 function openPostListWindow(offsetX = 0, offsetY = 0) {
   const area = document.querySelector('.note-page-area');
   if (!area) return;
@@ -1124,7 +1791,6 @@ function openPostListWindow(offsetX = 0, offsetY = 0) {
   renderNoteListInWindow(id, pid);
 }
 
-// ─── 작성 창 열기 ───
 function openWriteWindow() {
   const area = document.querySelector('.note-page-area');
   if (!area) return;
@@ -1172,7 +1838,6 @@ function openWriteWindow() {
   setTimeout(() => { const ta = document.getElementById(`write-input-${id}`); if(ta) ta.focus(); }, 100);
 }
 
-// ─── 상세 보기 창 열기 ───
 function openDetailWindow(pid, noteIdx, fromWin) {
   const area = document.querySelector('.note-page-area');
   if (!area) return;
@@ -1240,7 +1905,6 @@ function openDetailWindow(pid, noteIdx, fromWin) {
   area.appendChild(win);
 }
 
-// ─── 창 닫기 ───
 function closeWindow(winId) {
   const el = document.getElementById(winId);
   if (el) {
@@ -1259,7 +1923,6 @@ function checkHint() {
   if (hint) hint.style.display = wins.length === 0 ? '' : 'none';
 }
 
-// ─── 게시물 목록 렌더링 ───
 function renderNoteListInWindow(winId, pid) {
   const list = document.getElementById(`note-list-${winId}`);
   if (!list) return;
@@ -1294,7 +1957,6 @@ function refreshAllPostLists() {
   });
 }
 
-// ─── 파일 첨부 ───
 function handleAttach(e, winId) {
   const win = document.getElementById(`writewin-${winId}`);
   if (!win) return;
@@ -1327,7 +1989,6 @@ function buildAttachHTML(attachments) {
   ).join('')}</div>`;
 }
 
-// ─── 글 등록 ───
 function submitPost(winId, pid, inputId) {
   const ta = document.getElementById(`write-input-${inputId}`);
   const win = document.getElementById(winId);
@@ -1346,7 +2007,6 @@ function submitPost(winId, pid, inputId) {
   refreshAllPostLists();
 }
 
-// ─── 수정 ───
 function startEditInDetail(pid, idx) {
   const notes = getPosts(pid);
   const note = notes[idx];
@@ -1395,7 +2055,6 @@ function saveEditInDetail(pid, idx) {
   if (editArea) editArea.innerHTML = '';
 }
 
-// ─── 삭제 ───
 function deletePost(pid, idx) {
   if (!confirm('삭제하시겠습니까?')) return;
   const notes = getPosts(pid);
@@ -1406,7 +2065,6 @@ function deletePost(pid, idx) {
 }
 function deleteNote(idx) { deletePost('note', idx); }
 
-// ─── 댓글 ───
 function buildCommentsHTML(pid, noteIdx, comments) {
   return comments.length > 0
     ? comments.map((c, ci) => `
@@ -1440,9 +2098,7 @@ function deleteCommentFromWin(pid, noteIdx, commentIdx) {
   if (commentsEl) commentsEl.innerHTML = buildCommentsHTML(pid, noteIdx, notes[noteIdx].comments);
 }
 
-// ─────────────────────────────────────────────────────
-// DRAG & RESIZE
-// ─────────────────────────────────────────────────────
+// ─── DRAG & RESIZE ───
 let dragState = null;
 let resizeState = null;
 
@@ -1526,16 +2182,20 @@ document.addEventListener('mousedown', (e) => {
 });
 
 // ═══════════════════════════════════════════════
-// ─── 재판일정 전용 캘린더 ───
+// ─── 업무 (재판일정) 캘린더 ───
 // ═══════════════════════════════════════════════
-function getTrialEvents() { return JSON.parse(localStorage.getItem('trialEvents')) || []; }
-function saveTrialEvents(arr) { localStorage.setItem('trialEvents', JSON.stringify(arr)); }
+let _trialStorageKey = 'trialEvents';
+let _fixedDatesKey = 'fixedDates';
+function getTrialEvents() { return JSON.parse(localStorage.getItem(_trialStorageKey)) || []; }
+function saveTrialEvents(arr) { localStorage.setItem(_trialStorageKey, JSON.stringify(arr)); }
 
 let trialCalOffset = 0;
 const CHIP_COLORS = ['chip-red','chip-blue','chip-green','chip-yellow','chip-pink'];
-const COLOR_SWATCHES = ['#d4607a','#6090d0','#50b070','#c0a040','#e8829a'];
+const COLOR_SWATCHES = ['#ff6478','#6496ff','#50c878','#f0c840','#ff96b4'];
 
 function renderTrialCalPage(container) {
+  _trialStorageKey = 'trialEvents';
+  _fixedDatesKey = 'fixedDates';
   trialCalOffset = 0;
   container.innerHTML = '';
   const page = document.createElement('div');
@@ -1545,23 +2205,30 @@ function renderTrialCalPage(container) {
     <div class="trial-cal-wrap">
       <div class="trial-cal-top">
         <div class="trial-cal-month-label" id="trial-month-label"></div>
-        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
           <div class="trial-cal-nav">
             <button class="trial-cal-nav-btn" onclick="shiftTrialCal(-1)">◀ 이전</button>
             <button class="trial-cal-today-btn" onclick="goTrialToday()">오늘</button>
             <button class="trial-cal-nav-btn" onclick="shiftTrialCal(1)">다음 ▶</button>
           </div>
-          <button class="trial-cal-add-btn" onclick="openTrialEventModal(null)">✦ 일정 추가</button>
+          <button class="trial-ai-open-btn" onclick="toggleTrialAiPanel()">
+            <span class="trial-ai-open-btn-icon">✦</span> AI 일정 추출
+          </button>
+          <button class="trial-cal-add-btn" onclick="openTrialEventModal(null)">+ 직접 추가</button>
         </div>
       </div>
+      <div id="trial-ai-panel" style="display:none;"></div>
       <div class="trial-layout">
         <div class="trial-cal-main">
+          <div class="trial-cal-card">
           <table class="trial-cal-grid" id="trial-cal-grid">
             <thead><tr>
               <th>SUN</th><th>MON</th><th>TUE</th><th>WED</th><th>THU</th><th>FRI</th><th>SAT</th>
             </tr></thead>
             <tbody id="trial-cal-body"></tbody>
           </table>
+          </div>
+          <div id="trial-biweek-wrap"></div>
         </div>
         <div class="trial-side-panel" id="trial-side-panel"></div>
       </div>
@@ -1570,42 +2237,223 @@ function renderTrialCalPage(container) {
   container.appendChild(page);
   buildTrialCal();
   renderTrialSidePanel();
+  renderBiweekTable();
 }
 
-function shiftTrialCal(delta) {
-  trialCalOffset += delta;
-  buildTrialCal();
-  renderTrialSidePanel();
+function renderBankruptcyPage(container) {
+  renderBoardPage('bankruptcy_sched', container);
 }
 
-function goTrialToday() {
-  trialCalOffset = 0;
-  buildTrialCal();
-  renderTrialSidePanel();
+
+let _anthropicApiKey = localStorage.getItem('anthropic_api_key') || '';
+
+function toggleTrialAiPanel() {
+  const panel = document.getElementById('trial-ai-panel');
+  if (!panel) return;
+  if (panel.style.display === 'none') {
+    panel.style.display = 'block';
+    renderTrialAiPanel(panel);
+    panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  } else {
+    panel.style.display = 'none';
+    panel.innerHTML = '';
+    _trialAiImg64 = null;
+    _trialAiImgType = null;
+  }
 }
+
+function renderTrialAiPanel(container) {
+  container.innerHTML = `
+    <div class="trial-ai-panel">
+      <div class="trial-ai-panel-header">
+        <div class="trial-ai-panel-title">
+          <span class="trial-ai-panel-title-sparkle">✦</span>
+          AI 일정 추출
+        </div>
+        <button class="trial-ai-panel-close" onclick="toggleTrialAiPanel()">✕</button>
+      </div>
+      <div class="trial-ai-panel-body">
+        <div class="tai-apikey-row">
+          <input type="password" class="tai-apikey-inp" id="tai-apikey-inp"
+            placeholder="Anthropic API Key (sk-ant-...)"
+            value="${_anthropicApiKey}"
+            oninput="_anthropicApiKey=this.value; localStorage.setItem('anthropic_api_key',this.value)">
+        </div>
+        <textarea class="trial-ai-textarea" id="trial-ai-text"
+          placeholder="예) 3월 15일 오전 10시 서울중앙지법 제304호 홍길동 손해배상&#10;다음주 목요일 3시 준비기일 김OO 이혼소송"></textarea>
+        <div class="trial-ai-dropzone" id="trial-ai-dropzone"
+          ondragover="event.preventDefault();this.classList.add('dragover')"
+          ondragleave="this.classList.remove('dragover')"
+          ondrop="handleTrialAiDrop(event)">
+          <span style="font-size:1.2rem;opacity:0.4;">🎀</span>
+          <span class="trial-ai-dropzone-text">이미지 드롭 또는 클릭</span>
+          <input type="file" accept="image/*" onchange="handleTrialAiImageSelect(event)">
+        </div>
+        <img id="trial-ai-img-preview" class="trial-ai-img-preview" src="" alt="">
+        <button class="trial-ai-run-btn" id="trial-ai-run-btn" onclick="runTrialAiExtract()">
+          <span id="trial-ai-btn-label">✦ 일정 추출하기</span>
+        </button>
+        <div id="trial-ai-results"></div>
+      </div>
+    </div>
+  `;
+}
+
+function handleTrialAiImageSelect(e) {
+  const file = e.target.files[0]; if (!file) return;
+  _trialAiImgType = file.type;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    _trialAiImg64 = ev.target.result.split(',')[1];
+    const img = document.getElementById('trial-ai-img-preview');
+    if (img) { img.src = ev.target.result; img.style.display = 'block'; }
+    const dz = document.getElementById('trial-ai-dropzone');
+    if (dz) { dz.style.borderColor = 'rgba(255,255,255,0.35)'; dz.style.borderStyle = 'solid'; }
+  };
+  reader.readAsDataURL(file);
+}
+
+function handleTrialAiDrop(e) {
+  e.preventDefault();
+  document.getElementById('trial-ai-dropzone')?.classList.remove('dragover');
+  const file = e.dataTransfer.files[0];
+  if (!file || !file.type.startsWith('image/')) return;
+  _trialAiImgType = file.type;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    _trialAiImg64 = ev.target.result.split(',')[1];
+    const img = document.getElementById('trial-ai-img-preview');
+    if (img) { img.src = ev.target.result; img.style.display = 'block'; }
+  };
+  reader.readAsDataURL(file);
+}
+
+async function runTrialAiExtract() {
+  const text = (document.getElementById('trial-ai-text')?.value || '').trim();
+  const hasImg = !!_trialAiImg64;
+
+  if (!text && !hasImg) {
+    document.getElementById('trial-ai-results').innerHTML = `<div class="trial-ai-error">텍스트를 입력하거나 이미지를 첨부해주세요</div>`;
+    return;
+  }
+  if (!_anthropicApiKey) {
+    document.getElementById('trial-ai-results').innerHTML = `<div class="trial-ai-error">⚠ API Key를 입력해주세요</div>`;
+    return;
+  }
+
+  const btn = document.getElementById('trial-ai-run-btn');
+  const btnLabel = document.getElementById('trial-ai-btn-label');
+  btn.disabled = true;
+  btnLabel.innerHTML = `<span class="btn-spinner"></span> 분석 중...`;
+  document.getElementById('trial-ai-results').innerHTML = '';
+
+  const today = new Date();
+  const todayStr = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
+
+  const userContent = [];
+  if (hasImg) userContent.push({ type: 'image', source: { type: 'base64', media_type: _trialAiImgType, data: _trialAiImg64 } });
+  userContent.push({ type: 'text', text:
+    `오늘 날짜: ${todayStr}\n법률사무소 AI 비서입니다. 아래(또는 이미지)에서 재판·법률 관련 일정을 모두 추출해 JSON 배열만 반환하세요. 마크다운·설명 없이 JSON만.\n형식: [{"date":"YYYY-MM-DD","time":"HH:MM","title":"사건명","court":"법원","caseNum":"사건번호","memo":"메모"}, ...]\ndate 필수. 상대적 표현은 오늘 기준 계산.\n\n${text || '(이미지를 참조하세요)'}`
+  });
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-api-key': _anthropicApiKey, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+      body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 2000, messages: [{ role: 'user', content: userContent }] })
+    });
+
+    if (!res.ok) { const errBody = await res.text(); throw new Error(`API ${res.status}: ${errBody}`); }
+
+    const data = await res.json();
+    if (data.error) throw new Error(data.error.message || JSON.stringify(data.error));
+    const raw = (data.content || []).map(c => c.text || '').join('').trim();
+    const cleaned = raw.replace(/^```(?:json)?\s*/,'').replace(/\s*```$/,'').trim();
+    const schedules = JSON.parse(cleaned);
+    if (!Array.isArray(schedules)) throw new Error('응답이 배열이 아닙니다');
+    renderTrialAiResults(schedules);
+  } catch(err) {
+    document.getElementById('trial-ai-results').innerHTML = `<div class="trial-ai-error">⚠ ${escHtml(String(err.message || err))}</div>`;
+  }
+
+  btn.disabled = false;
+  btnLabel.innerHTML = '✦ 다시 추출하기';
+}
+
+let _trialAiExtracted = [];
+
+function renderTrialAiResults(schedules) {
+  _trialAiExtracted = schedules;
+  const container = document.getElementById('trial-ai-results');
+  if (!schedules || !schedules.length) {
+    container.innerHTML = `<div class="trial-ai-error">일정을 찾지 못했어요.</div>`;
+    return;
+  }
+  const days = ['일','월','화','수','목','금','토'];
+  container.innerHTML = `
+    <div class="trial-ai-results">
+      <div class="trial-ai-result-label">✦ 추출된 일정 ${schedules.length}건</div>
+      ${schedules.map((s, i) => {
+        const dow = s.date ? days[new Date(s.date).getDay()] : '';
+        const dateLabel = s.date ? `${s.date} (${dow})${s.time ? ' ' + s.time : ''}` : '날짜 미상';
+        return `
+        <div class="trial-ai-result-item" id="tai-result-${i}">
+          <div class="trial-ai-result-info">
+            <div class="trial-ai-result-date">${escHtml(dateLabel)}</div>
+            <div class="trial-ai-result-title">${escHtml(s.title || '(제목 없음)')}</div>
+            <div class="trial-ai-result-sub">${[s.court, s.caseNum, s.memo].filter(Boolean).map(escHtml).join(' · ') || ''}</div>
+          </div>
+          <button class="trial-ai-result-add" id="tai-add-${i}" onclick="addTrialAiSched(${i})">+ 추가</button>
+        </div>`;
+      }).join('')}
+      <button class="trial-ai-result-addall" onclick="addAllTrialAiSched()">전체 캘린더에 추가 ✦</button>
+    </div>
+  `;
+}
+
+function addTrialAiSched(i) {
+  const s = _trialAiExtracted[i]; if (!s || !s.date) return;
+  const events = getTrialEvents();
+  events.push({ id: 'trial_' + Date.now() + '_' + i, title: s.title || '(제목 없음)', date: s.date, time: s.time || '', court: s.court || '', caseNum: s.caseNum || '', memo: s.memo || '', color: 'chip-pink' });
+  saveTrialEvents(events);
+  buildTrialCal(); renderTrialSidePanel(); renderBiweekTable();
+  const btn = document.getElementById(`tai-add-${i}`);
+  if (btn) { btn.textContent = '✓ 추가됨'; btn.classList.add('added'); btn.disabled = true; }
+}
+
+function addAllTrialAiSched() {
+  const events = getTrialEvents();
+  _trialAiExtracted.forEach((s, i) => {
+    if (!s.date) return;
+    events.push({ id: 'trial_' + Date.now() + '_' + i, title: s.title || '(제목 없음)', date: s.date, time: s.time || '', court: s.court || '', caseNum: s.caseNum || '', memo: s.memo || '', color: 'chip-pink' });
+  });
+  saveTrialEvents(events);
+  buildTrialCal(); renderTrialSidePanel(); renderBiweekTable();
+  document.querySelectorAll('.trial-ai-result-add').forEach(btn => { btn.textContent = '✓ 추가됨'; btn.classList.add('added'); btn.disabled = true; });
+  const allBtn = document.querySelector('.trial-ai-result-addall');
+  if (allBtn) { allBtn.textContent = '✓ 전체 추가됨'; allBtn.disabled = true; }
+}
+
+function shiftTrialCal(delta) { trialCalOffset += delta; buildTrialCal(); renderTrialSidePanel(); renderBiweekTable(); }
+function goTrialToday() { trialCalOffset = 0; buildTrialCal(); renderTrialSidePanel(); renderBiweekTable(); }
 
 function buildTrialCal() {
   const base = new Date();
   base.setDate(1);
   base.setMonth(base.getMonth() + trialCalOffset);
   const y = base.getFullYear(), m = base.getMonth();
-
   const label = document.getElementById('trial-month-label');
   if (!label) return;
-  label.textContent = `${y}년 ${m + 1}월`;
-
+  label.innerHTML = `${m + 1}월 <span>${y}</span>`;
   const now = new Date();
   const todayKey = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
-
   const first = new Date(y, m, 1).getDay();
   const last = new Date(y, m + 1, 0).getDate();
   const prevLast = new Date(y, m, 0).getDate();
   const events = getTrialEvents();
-
   const body = document.getElementById('trial-cal-body');
   if (!body) return;
   body.innerHTML = '';
-
   let dayCount = 1, nextCount = 1;
   for (let r = 0; r < 6; r++) {
     const tr = document.createElement('tr');
@@ -1613,7 +2461,6 @@ function buildTrialCal() {
       const td = document.createElement('td');
       td.className = 'trial-cal-cell';
       let dateKey = '';
-
       if (r === 0 && c < first) {
         const pDay = prevLast - (first - 1 - c);
         const pm = m === 0 ? 12 : m;
@@ -1649,7 +2496,6 @@ function renderTrialCell(td, dayNum, dateKey, events, todayKey, col) {
   if (col === 6) numDiv.classList.add('is-sat');
   numDiv.textContent = dayNum;
   td.appendChild(numDiv);
-
   const dayEvents = events.filter(e => e.date === dateKey);
   const maxShow = 3;
   dayEvents.slice(0, maxShow).forEach(ev => {
@@ -1666,7 +2512,6 @@ function renderTrialCell(td, dayNum, dateKey, events, todayKey, col) {
     more.textContent = `+${dayEvents.length - maxShow}개 더`;
     td.appendChild(more);
   }
-
   td.addEventListener('click', (e) => {
     if (e.target.classList.contains('trial-event-chip')) return;
     openTrialEventModal(null, dateKey);
@@ -1686,10 +2531,20 @@ function renderTrialSidePanel() {
   const upcomingHTML = upcoming.length === 0
     ? `<div class="trial-empty-side">예정된 일정이 없어요</div>`
     : upcoming.map(ev => `
-        <div class="trial-upcoming-item" onclick="openTrialEventDetail('${ev.id}')" style="cursor:pointer;">
+        <div class="trial-upcoming-item" onclick="openTrialEventDetail('${ev.id}')">
           <div class="trial-upcoming-date">${formatTrialDate(ev.date)}</div>
           <div class="trial-upcoming-title">${escHtml(ev.title)}</div>
           ${ev.court ? `<div class="trial-upcoming-court">⚖ ${escHtml(ev.court)}</div>` : ''}
+        </div>`).join('');
+
+  const fixedDates = getFixedDates();
+  const fixedHTML = fixedDates.length === 0
+    ? `<div class="trial-empty-side">등록된 불변기일이 없어요</div>`
+    : fixedDates.map((f, i) => `
+        <div class="fixed-side-item">
+          <div class="fixed-side-date">${escHtml(f.date)}</div>
+          <div class="fixed-side-title">${escHtml(f.title)}</div>
+          <button class="fixed-side-del" onclick="deleteFixedDate(${i})">✕</button>
         </div>`).join('');
 
   panel.innerHTML = `
@@ -1697,7 +2552,118 @@ function renderTrialSidePanel() {
       <div class="trial-side-header"><div class="trial-side-title">✦ Upcoming</div></div>
       <div class="trial-side-body">${upcomingHTML}</div>
     </div>
+    <div class="trial-side-widget">
+      <div class="trial-side-header"><div class="trial-side-title">⚖ 불변기일</div></div>
+      <div class="trial-side-body">
+        ${fixedHTML}
+        <div class="fixed-side-add-row">
+          <input type="text" class="fixed-side-date-inp" id="fixed-date-date-inp" placeholder="3.5" maxlength="20">
+          <input type="text" class="fixed-side-text-inp" id="fixed-date-text-inp" placeholder="우방 (항소마감일)" maxlength="60"
+            onkeydown="if(event.key==='Enter') addFixedDate()">
+          <button class="fixed-side-add-btn" onclick="addFixedDate()">+</button>
+        </div>
+      </div>
+    </div>
   `;
+}
+
+function getFixedDates() { return JSON.parse(localStorage.getItem(_fixedDatesKey) || '[]'); }
+function saveFixedDates(arr) { localStorage.setItem(_fixedDatesKey, JSON.stringify(arr)); }
+
+function renderBiweekTable() {
+  const wrap = document.getElementById('trial-biweek-wrap');
+  if (!wrap) return;
+  const today = new Date(); today.setHours(0,0,0,0);
+  const todayKey = fmtKey(today);
+  const DOWS = ['일','월','화','수','목','금','토'];
+  const dow = today.getDay();
+  const thisMonday = new Date(today);
+  thisMonday.setDate(today.getDate() - (dow === 0 ? 6 : dow - 1));
+
+  // 이번 주 금요일 = thisMonday + 4일
+  const thisFriday = new Date(thisMonday);
+  thisFriday.setDate(thisMonday.getDate() + 4);
+
+  const allDays = [];
+  for (let w = 0; w < 3; w++) {
+    const weekStart = new Date(thisMonday.getTime() + w * 7 * 864e5);
+    for (let i = 0; i < 5; i++) {
+      const d = new Date(weekStart); d.setDate(weekStart.getDate() + i);
+      // 이번 주는 금요일(+4)부터만 포함
+      if (w === 0 && d < thisFriday) continue;
+      allDays.push({ d, week: w });
+    }
+  }
+  const events = getTrialEvents();
+  const evMap = {};
+  events.forEach(ev => {
+    if (!evMap[ev.date]) evMap[ev.date] = [];
+    evMap[ev.date].push(ev);
+  });
+  let rowsHTML = '';
+  let prevWeek = -1;
+  allDays.forEach((item) => {
+    const { d, week } = item;
+    const key = fmtKey(d);
+    const dayDow = d.getDay();
+    const isToday = key === todayKey;
+    const isSun = dayDow === 0;
+    const dayEvs = (evMap[key] || []).sort((a,b) => (a.time||'').localeCompare(b.time||''));
+    if (prevWeek !== -1 && week !== prevWeek) rowsHTML += ``;
+    prevWeek = week;
+    const rowClass = ['biweek-row', isToday ? 'bw-today' : '', isSun ? 'bw-sun' : ''].filter(Boolean).join(' ');
+    const numClass = ['biweek-date-num', isToday ? 'bw-today-num' : '', isSun ? 'bw-sun' : ''].filter(Boolean).join(' ');
+    const tagClass = ['biweek-date-dow-tag', isToday ? 'bw-today-tag' : '', isSun ? 'bw-sun' : ''].filter(Boolean).join(' ');
+    const evHTML = dayEvs.length === 0
+      ? `<span class="biweek-ev-empty">─</span>`
+      : dayEvs.map(ev => `
+          <div class="biweek-ev-row" onclick="openTrialEventDetail('${ev.id}')">
+            ${ev.time ? `<span class="biweek-ev-time">${escHtml(ev.time)}</span>` : ''}
+            <span class="biweek-ev-text">${escHtml(ev.title)}</span>
+            ${ev.caseNum ? `<span class="biweek-ev-case">${escHtml(ev.caseNum)}</span>` : ''}
+          </div>`).join('');
+    rowsHTML += `
+      <div class="${rowClass}">
+        <div class="biweek-date-col">
+          <div class="biweek-date-inner">
+            <span class="${numClass}">${d.getMonth()+1}/${d.getDate()}</span>
+            <span class="${tagClass}">${DOWS[dayDow]}</span>
+          </div>
+        </div>
+        <div class="biweek-ev-col">${evHTML}</div>
+      </div>`;
+    if (dayDow === 5 && week < 2) rowsHTML += `<div class="biweek-week-divider"></div>`;
+  });
+  wrap.innerHTML = `
+    <div class="biweek-wrap">
+      <div class="biweek-title">일정표</div>
+      ${rowsHTML}
+    </div>
+  `;
+}
+
+function fmtKey(d) {
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+
+function addFixedDate() {
+  const dateInp = document.getElementById('fixed-date-date-inp');
+  const textInp = document.getElementById('fixed-date-text-inp');
+  const dateVal = dateInp?.value.trim();
+  const textVal = textInp?.value.trim();
+  if (!dateVal || !textVal) return;
+  const arr = getFixedDates();
+  arr.push({ date: dateVal, title: textVal });
+  saveFixedDates(arr);
+  dateInp.value = ''; textInp.value = '';
+  renderTrialSidePanel();
+}
+
+function deleteFixedDate(i) {
+  const arr = getFixedDates();
+  arr.splice(i, 1);
+  saveFixedDates(arr);
+  renderTrialSidePanel();
 }
 
 function formatTrialDate(dateStr) {
@@ -1713,7 +2679,6 @@ function openTrialEventModal(editId, prefillDate = '') {
   backdrop.className = 'trial-modal-backdrop';
   backdrop.id = 'trial-event-modal';
   backdrop.onclick = e => { if (e.target === backdrop) backdrop.remove(); };
-
   const selectedColor = existing?.color || 'chip-pink';
   const colorBtns = COLOR_SWATCHES.map((hex, i) => `
     <div class="trial-color-btn ${CHIP_COLORS[i] === selectedColor ? 'selected' : ''}"
@@ -1779,14 +2744,12 @@ function saveTrialEvent(editId) {
   const date  = document.getElementById('trial-inp-date')?.value;
   if (!title) { alert('사건명을 입력해주세요.'); return; }
   if (!date)  { alert('날짜를 선택해주세요.'); return; }
-
   const time    = document.getElementById('trial-inp-time')?.value || '';
   const court   = document.getElementById('trial-inp-court')?.value.trim() || '';
   const caseNum = document.getElementById('trial-inp-casenum')?.value.trim() || '';
   const memo    = document.getElementById('trial-inp-memo')?.value.trim() || '';
   const selColor = document.querySelector('#trial-color-row .trial-color-btn.selected');
   const color   = selColor?.dataset.color || 'chip-pink';
-
   const events = getTrialEvents();
   if (editId) {
     const idx = events.findIndex(e => e.id === editId);
@@ -1796,20 +2759,17 @@ function saveTrialEvent(editId) {
   }
   saveTrialEvents(events);
   document.getElementById('trial-event-modal')?.remove();
-  buildTrialCal();
-  renderTrialSidePanel();
+  buildTrialCal(); renderTrialSidePanel(); renderBiweekTable();
 }
 
 function openTrialEventDetail(id) {
   const ev = getTrialEvents().find(e => e.id === id);
   if (!ev) return;
   document.getElementById('trial-detail-modal')?.remove();
-
   const backdrop = document.createElement('div');
   backdrop.className = 'trial-modal-backdrop';
   backdrop.id = 'trial-detail-modal';
   backdrop.onclick = e => { if (e.target === backdrop) backdrop.remove(); };
-
   backdrop.innerHTML = `
     <div class="trial-modal">
       <div class="trial-modal-header">
@@ -1818,7 +2778,7 @@ function openTrialEventDetail(id) {
       </div>
       <div class="trial-modal-body">
         <div style="margin-bottom:14px;">
-          <div style="font-size:1.05rem;font-weight:800;color:var(--text);font-family:'Pretendard',sans-serif;margin-bottom:6px;">${escHtml(ev.title)}</div>
+          <div style="font-size:1.05rem;font-weight:800;color:rgba(255,255,255,0.9);font-family:'Pretendard',sans-serif;margin-bottom:6px;">${escHtml(ev.title)}</div>
           <span class="trial-event-chip ${ev.color || 'chip-pink'}" style="display:inline-block;width:auto;">${ev.color ? ev.color.replace('chip-','') : 'pink'}</span>
         </div>
         <div class="trial-detail-row"><span class="trial-detail-key">날짜</span><span class="trial-detail-val">${formatTrialDate(ev.date)}${ev.time ? ' ' + ev.time : ''}</span></div>
@@ -1840,8 +2800,7 @@ function deleteTrialEvent(id) {
   const events = getTrialEvents().filter(e => e.id !== id);
   saveTrialEvents(events);
   document.getElementById('trial-detail-modal')?.remove();
-  buildTrialCal();
-  renderTrialSidePanel();
+  buildTrialCal(); renderTrialSidePanel(); renderBiweekTable();
 }
 
 // ─── Settings ───
@@ -1883,26 +2842,10 @@ function refreshMenuEditList() {
       <input type="text" class="menu-name-input menu-name-edit" data-index="${index}" value="${menu.name}" placeholder="메뉴 이름">
       <button class="btn-del" onclick="removeMenuRow(${index})">✕</button>
     `;
-
-    row.addEventListener('dragstart', (e) => {
-      _syncMenuInputs();
-      _dragSrcIndex = index;
-      row.classList.add('dragging-row');
-      e.dataTransfer.effectAllowed = 'move';
-    });
-    row.addEventListener('dragend', () => {
-      row.classList.remove('dragging-row');
-      document.querySelectorAll('.setting-row').forEach(r => r.classList.remove('drag-over'));
-    });
-    row.addEventListener('dragover', (e) => {
-      e.preventDefault();
-      e.dataTransfer.dropEffect = 'move';
-      document.querySelectorAll('.setting-row').forEach(r => r.classList.remove('drag-over'));
-      row.classList.add('drag-over');
-    });
-    row.addEventListener('dragleave', () => {
-      row.classList.remove('drag-over');
-    });
+    row.addEventListener('dragstart', (e) => { _syncMenuInputs(); _dragSrcIndex = index; row.classList.add('dragging-row'); e.dataTransfer.effectAllowed = 'move'; });
+    row.addEventListener('dragend', () => { row.classList.remove('dragging-row'); document.querySelectorAll('.setting-row').forEach(r => r.classList.remove('drag-over')); });
+    row.addEventListener('dragover', (e) => { e.preventDefault(); e.dataTransfer.dropEffect = 'move'; document.querySelectorAll('.setting-row').forEach(r => r.classList.remove('drag-over')); row.classList.add('drag-over'); });
+    row.addEventListener('dragleave', () => { row.classList.remove('drag-over'); });
     row.addEventListener('drop', (e) => {
       e.preventDefault();
       const targetIndex = parseInt(row.dataset.index);
@@ -1912,18 +2855,13 @@ function refreshMenuEditList() {
       _dragSrcIndex = null;
       refreshMenuEditList();
     });
-
     list.appendChild(row);
   });
 }
 
 function _syncMenuInputs() {
-  document.querySelectorAll('.menu-name-edit').forEach(input => {
-    if (userMenus[input.dataset.index]) userMenus[input.dataset.index].name = input.value;
-  });
-  document.querySelectorAll('.menu-group-edit').forEach(input => {
-    if (userMenus[input.dataset.index]) userMenus[input.dataset.index].group = input.value;
-  });
+  document.querySelectorAll('.menu-name-edit').forEach(input => { if (userMenus[input.dataset.index]) userMenus[input.dataset.index].name = input.value; });
+  document.querySelectorAll('.menu-group-edit').forEach(input => { if (userMenus[input.dataset.index]) userMenus[input.dataset.index].group = input.value; });
 }
 
 function addNewMenuRow() {
@@ -1956,12 +2894,7 @@ function saveWidgetPos(id) {
   const win = document.getElementById(id);
   if (!win) return;
   const wpos = JSON.parse(localStorage.getItem('widgetPos') || '{}');
-  wpos[id] = {
-    left: parseInt(win.style.left) || 0,
-    top: parseInt(win.style.top) || 0,
-    width: win.offsetWidth,
-    height: win.style.height ? win.offsetHeight : null
-  };
+  wpos[id] = { left: parseInt(win.style.left) || 0, top: parseInt(win.style.top) || 0, width: win.offsetWidth, height: win.style.height ? win.offsetHeight : null };
   localStorage.setItem('widgetPos', JSON.stringify(wpos));
 }
 
@@ -1973,12 +2906,7 @@ function startHomeWidgetDrag(e, id) {
   const win = document.getElementById(id);
   if (!win) return;
   bringHomeWidgetToFront(win);
-  hwDragState = {
-    id,
-    startX: e.clientX, startY: e.clientY,
-    origLeft: parseInt(win.style.left) || 0,
-    origTop: parseInt(win.style.top) || 0
-  };
+  hwDragState = { id, startX: e.clientX, startY: e.clientY, origLeft: parseInt(win.style.left) || 0, origTop: parseInt(win.style.top) || 0 };
   win.classList.add('dragging');
   e.preventDefault();
 }
@@ -1988,11 +2916,7 @@ function startHomeWidgetResize(e, id, dir) {
   if (!win) return;
   bringHomeWidgetToFront(win);
   if (!win.style.height) win.style.height = win.offsetHeight + 'px';
-  hwResizeState = {
-    id, dir,
-    startX: e.clientX, startY: e.clientY,
-    origW: win.offsetWidth, origH: win.offsetHeight
-  };
+  hwResizeState = { id, dir, startX: e.clientX, startY: e.clientY, origW: win.offsetWidth, origH: win.offsetHeight };
   e.preventDefault();
   e.stopPropagation();
 }
@@ -2009,10 +2933,7 @@ document.addEventListener('mousemove', (e) => {
     const area = document.getElementById('home-widget-area');
     let newLeft = hwDragState.origLeft + (e.clientX - hwDragState.startX);
     let newTop  = hwDragState.origTop  + (e.clientY - hwDragState.startY);
-    if (area) {
-      newLeft = Math.max(0, Math.min(newLeft, area.offsetWidth - win.offsetWidth));
-      newTop  = Math.max(0, newTop);
-    }
+    if (area) { newLeft = Math.max(0, Math.min(newLeft, area.offsetWidth - win.offsetWidth)); newTop = Math.max(0, newTop); }
     win.style.left = newLeft + 'px';
     win.style.top  = newTop  + 'px';
   }
@@ -2028,15 +2949,8 @@ document.addEventListener('mousemove', (e) => {
 });
 
 document.addEventListener('mouseup', (e) => {
-  if (hwDragState) {
-    const win = document.getElementById(hwDragState.id);
-    if (win) { win.classList.remove('dragging'); saveWidgetPos(hwDragState.id); }
-    hwDragState = null;
-  }
-  if (hwResizeState) {
-    saveWidgetPos(hwResizeState.id);
-    hwResizeState = null;
-  }
+  if (hwDragState) { const win = document.getElementById(hwDragState.id); if (win) { win.classList.remove('dragging'); saveWidgetPos(hwDragState.id); } hwDragState = null; }
+  if (hwResizeState) { saveWidgetPos(hwResizeState.id); hwResizeState = null; }
 });
 
 document.addEventListener('mousedown', (e) => {
@@ -2044,9 +2958,8 @@ document.addEventListener('mousedown', (e) => {
   if (win) bringHomeWidgetToFront(win);
 });
 
-function getStudioTags() {
-  return JSON.parse(localStorage.getItem('studioTags')) || ['✦ NEW PROJECT START', '◈ PINK VIBE ONLY'];
-}
+// ─── Studio Tags ───
+function getStudioTags() { return JSON.parse(localStorage.getItem('studioTags')) || ['✦ NEW PROJECT START', '◈ PINK VIBE ONLY']; }
 function saveStudioTags(tags) { localStorage.setItem('studioTags', JSON.stringify(tags)); }
 function renderStudioTags() {
   const list = document.getElementById('studio-tag-list');
@@ -2062,30 +2975,18 @@ function renderStudioTags() {
 function addStudioTag() {
   const input = document.getElementById('tag-add-input');
   if (!input || !input.value.trim()) return;
-  const tags = getStudioTags();
-  tags.push(input.value.trim());
-  saveStudioTags(tags);
-  input.value = '';
-  renderStudioTags();
+  const tags = getStudioTags(); tags.push(input.value.trim()); saveStudioTags(tags); input.value = ''; renderStudioTags();
 }
-function deleteStudioTag(i) {
-  const tags = getStudioTags();
-  tags.splice(i, 1);
-  saveStudioTags(tags);
-  renderStudioTags();
-}
+function deleteStudioTag(i) { const tags = getStudioTags(); tags.splice(i, 1); saveStudioTags(tags); renderStudioTags(); }
 
-// ─── 체크리스트 ───
+// ─── Checklist ───
 function getChecklist() { return JSON.parse(localStorage.getItem('checklist')) || []; }
 function saveChecklist(list) { localStorage.setItem('checklist', JSON.stringify(list)); }
 function renderChecklist() {
   const wrap = document.getElementById('checklist-list');
   if (!wrap) return;
   const items = getChecklist();
-  if (items.length === 0) {
-    wrap.innerHTML = `<div class="checklist-empty">✦ 할 일을 추가해보세요</div>`;
-    return;
-  }
+  if (items.length === 0) { wrap.innerHTML = `<div class="checklist-empty">✦ 할 일을 추가해보세요</div>`; return; }
   wrap.innerHTML = items.map((item, i) => `
     <div class="checklist-item">
       <div class="checklist-check ${item.done ? 'checked' : ''}" onclick="toggleCheckItem(${i})"></div>
@@ -2096,39 +2997,19 @@ function renderChecklist() {
 function addCheckItem() {
   const input = document.getElementById('checklist-input');
   if (!input || !input.value.trim()) return;
-  const items = getChecklist();
-  items.push({ text: input.value.trim(), done: false });
-  saveChecklist(items);
-  input.value = '';
-  renderChecklist();
+  const items = getChecklist(); items.push({ text: input.value.trim(), done: false }); saveChecklist(items); input.value = ''; renderChecklist();
 }
-function toggleCheckItem(i) {
-  const items = getChecklist();
-  items[i].done = !items[i].done;
-  saveChecklist(items);
-  renderChecklist();
-}
-function deleteCheckItem(i) {
-  const items = getChecklist();
-  items.splice(i, 1);
-  saveChecklist(items);
-  renderChecklist();
-}
+function toggleCheckItem(i) { const items = getChecklist(); items[i].done = !items[i].done; saveChecklist(items); renderChecklist(); }
+function deleteCheckItem(i) { const items = getChecklist(); items.splice(i, 1); saveChecklist(items); renderChecklist(); }
 
 // ─── 달력 ───
 function getCalEvents() { return JSON.parse(localStorage.getItem('calEvents')) || {}; }
 function saveCalEvents(ev) { localStorage.setItem('calEvents', JSON.stringify(ev)); }
-function getDdays() {
-  return JSON.parse(localStorage.getItem('ddays')) || [{ label: 'Since Start', date: '2024-07-27' }];
-}
+function getDdays() { return JSON.parse(localStorage.getItem('ddays')) || [{ label: 'Since Start', date: '2024-07-27' }]; }
 function saveDdays(arr) { localStorage.setItem('ddays', JSON.stringify(arr)); }
 
 let calOffset = 0;
-
-function shiftCal(delta) {
-  calOffset += delta;
-  buildCal();
-}
+function shiftCal(delta) { calOffset += delta; buildCal(); }
 
 function renderDdayWidget() {
   const wrap = document.getElementById('dday-list');
@@ -2149,22 +3030,13 @@ function renderDdayWidget() {
   }).join('');
 }
 
-function deleteDday(i) {
-  const arr = getDdays();
-  arr.splice(i, 1);
-  saveDdays(arr);
-  renderDdayWidget();
-  buildCal();
-}
+function deleteDday(i) { const arr = getDdays(); arr.splice(i, 1); saveDdays(arr); renderDdayWidget(); buildCal(); }
 
 function buildCal() {
-  const base = new Date();
-  base.setDate(1);
-  base.setMonth(base.getMonth() + calOffset);
+  const base = new Date(); base.setDate(1); base.setMonth(base.getMonth() + calOffset);
   const y = base.getFullYear(), m = base.getMonth();
   const now = new Date();
   const todayKey = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
-
   const mEl = document.getElementById('cal-month'); if (!mEl) return;
   mEl.textContent = `${y}. ${String(m+1).padStart(2,'0')}`;
   const first = new Date(y,m,1).getDay(), last = new Date(y,m+1,0).getDate();
@@ -2192,9 +3064,9 @@ function buildCal() {
     body.appendChild(tr); if (d > last) break;
   }
 }
+
 function loadImageWidget(e) {
-  const file = e.target.files[0];
-  if (!file) return;
+  const file = e.target.files[0]; if (!file) return;
   const reader = new FileReader();
   reader.onload = ev => {
     const img = document.getElementById('imgwidget-img');
@@ -2223,11 +3095,9 @@ function openCalModal(y, m, d, key) {
   const dow = days[new Date(y,m-1,d).getDay()];
   const ddays = getDdays();
   const existingDday = ddays.find(dd => dd.date === key);
-
   const backdrop = document.createElement('div');
   backdrop.className = 'cal-modal-backdrop';
   backdrop.onclick = (e) => { if(e.target === backdrop) backdrop.remove(); };
-
   backdrop.innerHTML = `
     <div class="cal-modal">
       <div class="cal-modal-header">
@@ -2273,19 +3143,13 @@ function openCalModal(y, m, d, key) {
 function addDdayFromCal(key) {
   const input = document.getElementById(`dday-name-${key}`);
   const label = input?.value.trim() || 'D-Day';
-  const arr = getDdays();
-  arr.push({ label, date: key });
-  saveDdays(arr);
-  renderDdayWidget();
-  buildCal();
+  const arr = getDdays(); arr.push({ label, date: key }); saveDdays(arr);
+  renderDdayWidget(); buildCal();
   document.querySelector('.cal-modal-backdrop')?.remove();
 }
 
 function deleteDdayByKey(key) {
-  const arr = getDdays().filter(dd => dd.date !== key);
-  saveDdays(arr);
-  renderDdayWidget();
-  buildCal();
+  const arr = getDdays().filter(dd => dd.date !== key); saveDdays(arr); renderDdayWidget(); buildCal();
 }
 
 function openAiSchedModal() {
@@ -2301,7 +3165,7 @@ function openAiSchedModal() {
       </div>
       <div class="cal-modal-body">
         <p style="font-size:0.68rem;color:var(--rg3);margin-bottom:10px;">줄글이나 캡쳐 이미지를 넣으면 일정을 자동으로 정리해드려요.</p>
-        <textarea id="ai-sched-text" class="ai-sched-textarea" placeholder="예) 3월 15일 오후 2시 치과 예약&#10;다음주 수요일 팀 미팅 3시&#10;..."></textarea>
+        <textarea id="ai-sched-text" class="ai-sched-textarea" placeholder="예) 3월 15일 오후 2시 치과 예약&#10;다음주 수요일 팀 미팅 3시"></textarea>
         <label class="ai-sched-img-label">
           🎀 이미지 첨부
           <input type="file" accept="image/*" style="display:none" onchange="previewAiImage(event)">
@@ -2319,8 +3183,7 @@ let _aiImgBase64 = null;
 let _aiImgType = null;
 
 function previewAiImage(e) {
-  const file = e.target.files[0];
-  if (!file) return;
+  const file = e.target.files[0]; if (!file) return;
   _aiImgType = file.type;
   const reader = new FileReader();
   reader.onload = ev => {
@@ -2335,46 +3198,34 @@ async function runAiSched() {
   const text = document.getElementById('ai-sched-text')?.value.trim();
   const resultEl = document.getElementById('ai-sched-result');
   if (!text && !_aiImgBase64) { resultEl.innerHTML = `<p style="font-size:0.72rem;color:var(--rg3);">텍스트나 이미지를 입력해주세요.</p>`; return; }
-
   resultEl.innerHTML = `<div class="ai-sched-loading">✦ 분석 중...</div>`;
   document.querySelector('.ai-sched-run-btn').disabled = true;
-
   const today = new Date();
   const todayStr = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
-
   const userContent = [];
   if (_aiImgBase64) userContent.push({ type: 'image', source: { type: 'base64', media_type: _aiImgType, data: _aiImgBase64 } });
-  userContent.push({ type: 'text', text: `오늘 날짜는 ${todayStr}입니다. 아래 내용에서 일정을 추출해서 반드시 JSON 배열만 반환하세요. 다른 텍스트 없이 JSON만.\n형식: [{"date":"YYYY-MM-DD","event":"일정 내용"}, ...]\n날짜가 불확실하면 최대한 추정하세요.\n\n${text || ''}` });
-
+  userContent.push({ type: 'text', text: `오늘 날짜는 ${todayStr}입니다. 아래 내용에서 일정을 추출해서 반드시 JSON 배열만 반환하세요. 다른 텍스트 없이 JSON만.\n형식: [{"date":"YYYY-MM-DD","event":"일정 내용"}, ...]\n\n${text || ''}` });
   try {
     const res = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
-        messages: [{ role: 'user', content: userContent }]
-      })
+      headers: { 'Content-Type': 'application/json', 'x-api-key': _anthropicApiKey, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+      body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1000, messages: [{ role: 'user', content: userContent }] })
     });
     const data = await res.json();
     const raw = data.content?.map(c => c.text || '').join('').replace(/```json|```/g,'').trim();
     const schedules = JSON.parse(raw);
-
     if (!schedules.length) { resultEl.innerHTML = `<p style="font-size:0.72rem;color:var(--rg3);">일정을 찾지 못했어요.</p>`; return; }
-
     resultEl.innerHTML = `
-      <div class="ai-sched-results">
-        <div class="cal-modal-section-label" style="margin-top:12px;">추출된 일정</div>
-        ${schedules.map((s,i) => `
-          <div class="ai-sched-item" id="ai-item-${i}">
-            <div class="ai-sched-item-info">
-              <span class="ai-sched-date">${s.date}</span>
-              <span class="ai-sched-event">${escHtml(s.event)}</span>
-            </div>
-            <button class="ai-sched-add-btn" onclick="addAiSched('${s.date}','${s.event.replace(/'/g,"\\'")}',${i})">+ 추가</button>
-          </div>`).join('')}
-        <button class="ai-sched-addall-btn" onclick="addAllAiSched(${JSON.stringify(schedules).replace(/"/g,'&quot;')})">전체 추가 ✦</button>
-      </div>`;
+      <div class="cal-modal-section-label" style="margin-top:12px;">추출된 일정</div>
+      ${schedules.map((s,i) => `
+        <div class="ai-sched-item" id="ai-item-${i}">
+          <div class="ai-sched-item-info">
+            <span class="ai-sched-date">${s.date}</span>
+            <span class="ai-sched-event">${escHtml(s.event)}</span>
+          </div>
+          <button class="ai-sched-add-btn" onclick="addAiSched('${s.date}','${s.event.replace(/'/g,"\\'")}',${i})">+ 추가</button>
+        </div>`).join('')}
+      <button class="ai-sched-addall-btn" onclick="addAllAiSched(${JSON.stringify(schedules).replace(/"/g,'&quot;')})">전체 추가 ✦</button>`;
   } catch(err) {
     resultEl.innerHTML = `<p style="font-size:0.72rem;color:var(--rg3);">오류가 발생했어요. 다시 시도해주세요.</p>`;
   }
@@ -2385,21 +3236,16 @@ function addAiSched(date, event, idx) {
   const events = getCalEvents();
   if (!events[date]) events[date] = [];
   events[date].push(event);
-  saveCalEvents(events);
-  buildCal();
+  saveCalEvents(events); buildCal();
   const btn = document.querySelector(`#ai-item-${idx} .ai-sched-add-btn`);
   if (btn) { btn.textContent = '✓'; btn.disabled = true; btn.style.background = 'rgba(212,96,122,0.15)'; }
 }
 
 function addAllAiSched(schedules) {
   const events = getCalEvents();
-  schedules.forEach(s => {
-    if (!events[s.date]) events[s.date] = [];
-    events[s.date].push(s.event);
-  });
-  saveCalEvents(events);
-  buildCal();
-  document.querySelectorAll('.ai-sched-add-btn').forEach(btn => { btn.textContent = '✓'; btn.disabled = true; btn.style.background = 'rgba(212,96,122,0.15)'; });
+  schedules.forEach(s => { if (!events[s.date]) events[s.date] = []; events[s.date].push(s.event); });
+  saveCalEvents(events); buildCal();
+  document.querySelectorAll('.ai-sched-add-btn').forEach(btn => { btn.textContent = '✓'; btn.disabled = true; });
   document.querySelector('.ai-sched-addall-btn').textContent = '✓ 전체 추가됨';
 }
 
@@ -2409,19 +3255,15 @@ function addCalEvent(key) {
   const events = getCalEvents();
   if (!events[key]) events[key] = [];
   events[key].push(input.value.trim());
-  saveCalEvents(events);
-  input.value = '';
-  refreshCalEventList(key);
-  buildCal();
+  saveCalEvents(events); input.value = '';
+  refreshCalEventList(key); buildCal();
 }
 
 function deleteCalEvent(key, i) {
   const events = getCalEvents();
   if (!events[key]) return;
   events[key].splice(i, 1);
-  saveCalEvents(events);
-  refreshCalEventList(key);
-  buildCal();
+  saveCalEvents(events); refreshCalEventList(key); buildCal();
 }
 
 function refreshCalEventList(key) {
@@ -2439,11 +3281,7 @@ function refreshCalEventList(key) {
 }
 
 function escHtml(str) {
-  return String(str)
-    .replace(/&/g,'&amp;')
-    .replace(/</g,'&lt;')
-    .replace(/>/g,'&gt;')
-    .replace(/"/g,'&quot;');
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
 // ─── BGM ───
@@ -2472,8 +3310,7 @@ function setPlaying(on) {
   playing = on;
   document.getElementById('btn-play').textContent = on ? '⏸' : '▷';
   const disc = document.getElementById('record-disc');
-  if(on){ disc.classList.add('spinning'); }
-  else { disc.classList.remove('spinning'); }
+  if(on){ disc.classList.add('spinning'); } else { disc.classList.remove('spinning'); }
 }
 function playNext(){ if(tracks.length) playTrack((cur+1) % tracks.length); }
 function playPrev(){ if(tracks.length) playTrack((cur-1+tracks.length) % tracks.length); }
@@ -2486,7 +3323,6 @@ document.getElementById('btn-play').onclick = () => {
 document.getElementById('btn-next').onclick = playNext;
 document.getElementById('btn-prev').onclick = playPrev;
 
-// ─── BGM 드래그 ───
 (function() {
   const bgm = document.querySelector('.bgm-widget');
   const header = bgm.querySelector('.bgm-header');
@@ -2495,10 +3331,8 @@ document.getElementById('btn-prev').onclick = playPrev;
     if (e.target.tagName === 'BUTTON') return;
     const rect = bgm.getBoundingClientRect();
     bDrag = { startX: e.clientX, startY: e.clientY, origLeft: rect.left, origTop: rect.top };
-    bgm.style.right = 'auto';
-    bgm.style.bottom = 'auto';
-    bgm.style.left = rect.left + 'px';
-    bgm.style.top = rect.top + 'px';
+    bgm.style.right = 'auto'; bgm.style.bottom = 'auto';
+    bgm.style.left = rect.left + 'px'; bgm.style.top = rect.top + 'px';
     e.preventDefault();
   });
   document.addEventListener('mousemove', (e) => {
@@ -2507,8 +3341,7 @@ document.getElementById('btn-prev').onclick = playPrev;
     let newTop  = bDrag.origTop  + (e.clientY - bDrag.startY);
     newLeft = Math.max(0, Math.min(newLeft, window.innerWidth  - bgm.offsetWidth));
     newTop  = Math.max(0, Math.min(newTop,  window.innerHeight - bgm.offsetHeight));
-    bgm.style.left = newLeft + 'px';
-    bgm.style.top  = newTop  + 'px';
+    bgm.style.left = newLeft + 'px'; bgm.style.top = newTop + 'px';
   });
   document.addEventListener('mouseup', () => { bDrag = null; });
 })();
@@ -2517,7 +3350,7 @@ const now=new Date(), days=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 document.getElementById('main-date').textContent = `${now.getFullYear()} · ${String(now.getMonth()+1).padStart(2,'0')} · ${String(now.getDate()).padStart(2,'0')} ${days[now.getDay()]}`;
 
 renderSidebar();
-loadPage('profile');
+loadPage('profile'); // ← 프로필(홈)이 첫 화면
 </script>
 </body>
 </html>
