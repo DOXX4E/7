@@ -1645,17 +1645,22 @@ function renderHomeWidgets(container) {
   const wpos = JSON.parse(localStorage.getItem('widgetPos') || '{}');
 
   const widgets = [
-    {
-      id: 'w-studio', title: 'Studio',
-      defaultLeft: 20, defaultTop: 20, defaultW: 300,
-      body: `<div class="brand-name">DOXX4E</div>
-             <div id="studio-tag-list"></div>
-             <div class="tag-add-row">
-               <input class="tag-add-input" id="tag-add-input" placeholder="+ 항목 추가..." maxlength="40"
-                 onkeydown="if(event.key==='Enter') addStudioTag()">
-               <button class="tag-add-btn" onclick="addStudioTag()">추가</button>
-             </div>`
-    },
+  {
+  id: 'w-studio', 
+  title: 'Studio',
+  defaultLeft: 20, 
+  defaultTop: 20, 
+  defaultW: 300,
+  body: `<div class="brand-name">
+           <img src="https://i.imgur.com/zKgcZ2a.png" alt="logo" style="max-width: 100%; height: auto; display: block;">
+         </div>
+         <div id="studio-tag-list"></div>
+         <div class="tag-add-row">
+           <input class="tag-add-input" id="tag-add-input" placeholder="+ 항목 추가..." maxlength="40"
+             onkeydown="if(event.key==='Enter') addStudioTag()">
+           <button class="tag-add-btn" onclick="addStudioTag()">추가</button>
+         </div>`
+},
     {
       id: 'w-memo', title: 'Memo',
       defaultLeft: 340, defaultTop: 20, defaultW: 300,
