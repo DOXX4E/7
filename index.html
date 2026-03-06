@@ -145,7 +145,6 @@ html,body{
 .main-title{font-family:'Cormorant Garamond', serif;font-size:1.8rem;font-weight:700;color:var(--rg2);letter-spacing:0.06em;line-height:1;margin-bottom:3px;}
 .main-date{font-size:0.58rem;color:var(--text2);letter-spacing:0.22em;text-transform:uppercase;font-weight:700;}
 
-/* ─── 헤더 작성하기 버튼 ─── */
 .header-write-btn {
   display: flex; align-items: center; gap: 7px;
   padding: 9px 20px;
@@ -164,8 +163,6 @@ html,body{
 .header-write-btn:hover { opacity: 0.88; transform: translateY(-1px); }
 .header-write-btn:active { transform: translateY(0); }
 .header-write-btn-icon { font-size: 0.9rem; }
-
-/* ─── 노트 페이지가 아닐 때 버튼 숨김 ─── */
 .header-write-btn.hidden { display: none; }
 
 /* ─── MAIN CONTENT AREA ─── */
@@ -212,6 +209,11 @@ html,body{
   flex: 1;
   overflow-y: auto;
   min-height: 0;
+}
+
+/* ★ 이미지 위젯 스크롤바 제거 */
+#w-image .widget-body {
+  overflow: hidden;
 }
 
 /* 홈 위젯 리사이즈 핸들 */
@@ -412,7 +414,6 @@ html,body{
   display: flex;
   flex-direction: column;
 }
-/* Posts 창: height 미지정 시 목록 크기에 맞게 자동 */
 .draggable-post-window:not(.resized) .post-window-body {
   max-height: 480px;
 }
@@ -663,8 +664,6 @@ html,body{
 .attach-file-link { color: var(--rg2); text-decoration: none; display: flex; align-items: center; gap: 4px; }
 .attach-file-link:hover { text-decoration: underline; }
 .detail-attach { margin-top: 12px; border-top: 1px solid var(--border); padding-top: 10px; }
-
-/* 이미지 첨부 시 태그 세로 방향 */
 .attach-tag:has(.attach-thumb-lg) { flex-direction: column; align-items: flex-start; max-width: 100%; width: 100%; }
 .resize-handle {
   position: absolute; bottom: 0; right: 0;
@@ -678,6 +677,94 @@ html,body{
 .resize-handle-e {
   position: absolute; top: 0; right: 0; bottom: 16px;
   width: 6px; cursor: e-resize; z-index: 4;
+}
+
+/* ─── 재판일정 캘린더 페이지 ─── */
+.trial-cal-page { padding: 28px 30px 80px; overflow-y: auto; flex: 1; }
+.trial-cal-wrap { max-width: 860px; margin: 0 auto; }
+.trial-cal-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
+.trial-cal-month-label { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 700; color: var(--rg2); letter-spacing: 0.06em; }
+.trial-cal-nav { display: flex; gap: 6px; align-items: center; }
+.trial-cal-nav-btn { background: none; border: 1px solid var(--border); border-radius: 8px; padding: 5px 13px; font-size: 0.72rem; color: var(--rg2); cursor: pointer; font-weight: 700; transition: background 0.15s; }
+.trial-cal-nav-btn:hover { background: var(--hover-metal); }
+.trial-cal-today-btn { background: var(--metal-bar); border: none; border-radius: 8px; padding: 5px 14px; font-size: 0.72rem; color: #6a2038; cursor: pointer; font-weight: 800; }
+.trial-cal-add-btn { display: flex; align-items: center; gap: 6px; background: var(--metal-bar); border: none; border-radius: 20px; padding: 8px 18px; font-size: 0.73rem; color: #6a2038; font-weight: 800; cursor: pointer; box-shadow: 0 2px 8px rgba(212,96,122,0.18); transition: opacity 0.2s; letter-spacing: 0.06em; }
+.trial-cal-add-btn:hover { opacity: 0.85; }
+
+/* 월간 그리드 */
+.trial-cal-grid { width: 100%; border-collapse: collapse; table-layout: fixed; }
+.trial-cal-grid th { padding: 8px 4px; font-size: 0.62rem; font-weight: 800; color: var(--rg3); text-align: center; letter-spacing: 0.1em; border-bottom: 2px solid var(--border); }
+.trial-cal-grid th:first-child { color: #e05070; }
+.trial-cal-grid th:last-child { color: #7090d0; }
+.trial-cal-cell { vertical-align: top; border: 1px solid var(--border); min-height: 100px; padding: 6px; cursor: pointer; transition: background 0.13s; }
+.trial-cal-cell:hover { background: rgba(212,96,122,0.04); }
+.trial-cal-cell.other-month { background: rgba(252,232,239,0.3); }
+.trial-cal-cell.today-cell { background: rgba(212,96,122,0.06); }
+.trial-cal-day-num { font-size: 0.82rem; font-weight: 700; color: var(--text2); margin-bottom: 4px; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
+.trial-cal-day-num.is-today { background: var(--rg); color: white; font-weight: 800; }
+.trial-cal-day-num.is-sun { color: #e05070; }
+.trial-cal-day-num.is-sat { color: #7090d0; }
+.trial-event-chip { display: block; font-size: 0.64rem; font-weight: 700; padding: 2px 7px; border-radius: 20px; margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; cursor: pointer; transition: opacity 0.15s; line-height: 1.5; }
+.trial-event-chip:hover { opacity: 0.75; }
+.chip-red    { background: rgba(212,80,100,0.15); color: #b5405e; border-left: 3px solid #d4607a; }
+.chip-blue   { background: rgba(80,120,200,0.13); color: #3050a0; border-left: 3px solid #6090d0; }
+.chip-green  { background: rgba(60,160,100,0.13); color: #1e7050; border-left: 3px solid #50b070; }
+.chip-yellow { background: rgba(200,160,30,0.13); color: #806010; border-left: 3px solid #c0a040; }
+.chip-pink   { background: rgba(212,96,122,0.13); color: #b5405e; border-left: 3px solid #e8829a; }
+.trial-more-chip { font-size: 0.58rem; color: var(--rg3); font-weight: 700; padding: 1px 5px; }
+
+/* 재판일정 모달 */
+.trial-modal-backdrop { position: fixed; inset: 0; background: rgba(61,26,36,0.18); z-index: 600; display: flex; align-items: center; justify-content: center; animation: fadeUp .18s ease; }
+.trial-modal { background: var(--white); border-radius: 18px; width: 420px; max-width: 95vw; border: 1px solid var(--border); box-shadow: 0 10px 40px rgba(212,96,122,0.22); overflow: hidden; }
+.trial-modal-header { background: var(--metal-bar); padding: 12px 18px; display: flex; align-items: center; justify-content: space-between; }
+.trial-modal-title { font-family: 'Cormorant Garamond', serif; font-size: 0.92rem; font-weight: 700; color: #6a2038; letter-spacing: 0.14em; }
+.trial-modal-close { background: none; border: none; color: #6a2038; font-size: 0.85rem; cursor: pointer; opacity: 0.6; }
+.trial-modal-close:hover { opacity: 1; }
+.trial-modal-body { padding: 18px; }
+.trial-field-row { display: flex; flex-direction: column; gap: 5px; margin-bottom: 14px; }
+.trial-field-label { font-size: 0.62rem; font-weight: 800; color: var(--rg3); letter-spacing: 0.14em; text-transform: uppercase; }
+.trial-field-input { border: 1px solid var(--border); border-radius: 10px; padding: 9px 12px; font-size: 0.8rem; font-family: 'Pretendard', sans-serif; color: var(--text); background: #fff8fb; outline: none; width: 100%; }
+.trial-field-input:focus { border-color: var(--rg3); }
+.trial-field-select { border: 1px solid var(--border); border-radius: 10px; padding: 9px 12px; font-size: 0.8rem; font-family: 'Pretendard', sans-serif; color: var(--text); background: #fff8fb; outline: none; width: 100%; cursor: pointer; }
+.trial-color-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.trial-color-btn { width: 26px; height: 26px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; transition: transform 0.15s; }
+.trial-color-btn:hover { transform: scale(1.15); }
+.trial-color-btn.selected { border-color: var(--text); }
+.trial-modal-footer { display: flex; justify-content: flex-end; gap: 8px; margin-top: 18px; }
+.trial-save-btn { padding: 8px 22px; border: none; border-radius: 20px; background: var(--metal-bar); color: #6a2038; font-weight: 800; font-size: 0.73rem; cursor: pointer; box-shadow: 0 2px 8px rgba(212,96,122,0.18); }
+.trial-cancel-btn { padding: 8px 16px; border: 1px solid var(--border); border-radius: 20px; background: transparent; color: var(--text2); font-weight: 600; font-size: 0.73rem; cursor: pointer; }
+.trial-cancel-btn:hover { background: var(--hover-metal); }
+
+/* 재판일정 목록 사이드패널 */
+.trial-layout { display: flex; gap: 20px; align-items: flex-start; }
+.trial-cal-main { flex: 1; min-width: 0; }
+.trial-side-panel { width: 220px; flex-shrink: 0; }
+.trial-side-widget { background: var(--white); border-radius: 14px; border: 1px solid var(--border); box-shadow: 0 2px 10px rgba(212,96,122,0.07); overflow: hidden; margin-bottom: 14px; }
+.trial-side-header { background: var(--metal-bar); padding: 8px 14px; }
+.trial-side-title { font-family: 'Cormorant Garamond', serif; font-size: 0.74rem; font-weight: 700; letter-spacing: 0.2em; color: #6a2038; text-transform: uppercase; }
+.trial-side-body { padding: 12px 14px; }
+.trial-upcoming-item { padding: 7px 0; border-bottom: 1px dashed rgba(212,96,122,0.12); }
+.trial-upcoming-item:last-child { border-bottom: none; }
+.trial-upcoming-date { font-size: 0.6rem; font-weight: 800; color: var(--rg3); letter-spacing: 0.08em; margin-bottom: 2px; }
+.trial-upcoming-title { font-size: 0.76rem; font-weight: 700; color: var(--text); font-family: 'Pretendard', sans-serif; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.trial-upcoming-court { font-size: 0.62rem; color: var(--text2); margin-top: 1px; }
+.trial-empty-side { font-size: 0.7rem; color: var(--rg3); text-align: center; padding: 12px 0; letter-spacing: 0.08em; }
+
+/* 상세보기 모달의 이벤트 항목 */
+.trial-detail-row { display: flex; align-items: flex-start; gap: 8px; padding: 5px 0; border-bottom: 1px dashed rgba(212,96,122,0.1); }
+.trial-detail-row:last-child { border-bottom: none; }
+.trial-detail-key { font-size: 0.62rem; font-weight: 800; color: var(--rg3); min-width: 52px; letter-spacing: 0.08em; padding-top: 1px; text-transform: uppercase; }
+.trial-detail-val { font-size: 0.78rem; color: var(--text); font-family: 'Pretendard', sans-serif; font-weight: 600; flex: 1; line-height: 1.5; }
+.trial-detail-actions { display: flex; gap: 6px; margin-top: 14px; justify-content: flex-end; }
+.trial-edit-btn { padding: 5px 14px; border: 1px solid var(--border); border-radius: 20px; background: none; color: var(--rg2); font-size: 0.68rem; font-weight: 700; cursor: pointer; transition: background 0.15s; }
+.trial-edit-btn:hover { background: var(--hover-metal); }
+.trial-del-btn { padding: 5px 14px; border: 1px solid rgba(212,96,122,0.3); border-radius: 20px; background: none; color: var(--rg2); font-size: 0.68rem; font-weight: 700; cursor: pointer; }
+.trial-del-btn:hover { background: rgba(212,96,122,0.1); }
+
+@media (max-width: 768px) {
+  .trial-layout { flex-direction: column; }
+  .trial-side-panel { width: 100%; }
+  .trial-cal-page { padding: 70px 14px 120px; }
 }
 
 /* 모바일 */
@@ -866,9 +953,8 @@ function loadPage(pageId) {
     item.classList.toggle('active', item.getAttribute('data-id') === pageId);
   });
 
-  // 헤더 버튼: 프로필·설정 제외한 모든 페이지에서 표시
   const writeBtn = document.getElementById('header-write-btn');
-  if (pageId !== 'profile' && pageId !== 'settings') {
+  if (pageId !== 'profile' && pageId !== 'settings' && pageId !== 'trial_sched') {
     writeBtn.classList.remove('hidden');
   } else {
     writeBtn.classList.add('hidden');
@@ -876,6 +962,7 @@ function loadPage(pageId) {
 
   if (pageId === 'profile') renderHomeWidgets(content);
   else if (pageId === 'settings') renderSettings(content);
+  else if (pageId === 'trial_sched') renderTrialCalPage(content);
   else { renderBoardPage(pageId, content); }
 }
 
@@ -1438,9 +1525,327 @@ document.addEventListener('mousedown', (e) => {
   if (win) bringToFront(win);
 });
 
+// ═══════════════════════════════════════════════
+// ─── 재판일정 전용 캘린더 ───
+// ═══════════════════════════════════════════════
+function getTrialEvents() { return JSON.parse(localStorage.getItem('trialEvents')) || []; }
+function saveTrialEvents(arr) { localStorage.setItem('trialEvents', JSON.stringify(arr)); }
+
+let trialCalOffset = 0;
+const CHIP_COLORS = ['chip-red','chip-blue','chip-green','chip-yellow','chip-pink'];
+const COLOR_SWATCHES = ['#d4607a','#6090d0','#50b070','#c0a040','#e8829a'];
+
+function renderTrialCalPage(container) {
+  trialCalOffset = 0;
+  container.innerHTML = '';
+  const page = document.createElement('div');
+  page.className = 'trial-cal-page';
+  page.id = 'trial-cal-page';
+  page.innerHTML = `
+    <div class="trial-cal-wrap">
+      <div class="trial-cal-top">
+        <div class="trial-cal-month-label" id="trial-month-label"></div>
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+          <div class="trial-cal-nav">
+            <button class="trial-cal-nav-btn" onclick="shiftTrialCal(-1)">◀ 이전</button>
+            <button class="trial-cal-today-btn" onclick="goTrialToday()">오늘</button>
+            <button class="trial-cal-nav-btn" onclick="shiftTrialCal(1)">다음 ▶</button>
+          </div>
+          <button class="trial-cal-add-btn" onclick="openTrialEventModal(null)">✦ 일정 추가</button>
+        </div>
+      </div>
+      <div class="trial-layout">
+        <div class="trial-cal-main">
+          <table class="trial-cal-grid" id="trial-cal-grid">
+            <thead><tr>
+              <th>SUN</th><th>MON</th><th>TUE</th><th>WED</th><th>THU</th><th>FRI</th><th>SAT</th>
+            </tr></thead>
+            <tbody id="trial-cal-body"></tbody>
+          </table>
+        </div>
+        <div class="trial-side-panel" id="trial-side-panel"></div>
+      </div>
+    </div>
+  `;
+  container.appendChild(page);
+  buildTrialCal();
+  renderTrialSidePanel();
+}
+
+function shiftTrialCal(delta) {
+  trialCalOffset += delta;
+  buildTrialCal();
+  renderTrialSidePanel();
+}
+
+function goTrialToday() {
+  trialCalOffset = 0;
+  buildTrialCal();
+  renderTrialSidePanel();
+}
+
+function buildTrialCal() {
+  const base = new Date();
+  base.setDate(1);
+  base.setMonth(base.getMonth() + trialCalOffset);
+  const y = base.getFullYear(), m = base.getMonth();
+
+  const label = document.getElementById('trial-month-label');
+  if (!label) return;
+  label.textContent = `${y}년 ${m + 1}월`;
+
+  const now = new Date();
+  const todayKey = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
+
+  const first = new Date(y, m, 1).getDay();
+  const last = new Date(y, m + 1, 0).getDate();
+  const prevLast = new Date(y, m, 0).getDate();
+  const events = getTrialEvents();
+
+  const body = document.getElementById('trial-cal-body');
+  if (!body) return;
+  body.innerHTML = '';
+
+  let dayCount = 1, nextCount = 1;
+  for (let r = 0; r < 6; r++) {
+    const tr = document.createElement('tr');
+    for (let c = 0; c < 7; c++) {
+      const td = document.createElement('td');
+      td.className = 'trial-cal-cell';
+      let dateKey = '';
+
+      if (r === 0 && c < first) {
+        const pDay = prevLast - (first - 1 - c);
+        const pm = m === 0 ? 12 : m;
+        const py = m === 0 ? y - 1 : y;
+        dateKey = `${py}-${String(pm).padStart(2,'0')}-${String(pDay).padStart(2,'0')}`;
+        td.classList.add('other-month');
+        renderTrialCell(td, pDay, dateKey, events, todayKey, c);
+      } else if (dayCount > last) {
+        const nm = m === 11 ? 1 : m + 2;
+        const ny = m === 11 ? y + 1 : y;
+        dateKey = `${ny}-${String(nm).padStart(2,'0')}-${String(nextCount).padStart(2,'0')}`;
+        td.classList.add('other-month');
+        renderTrialCell(td, nextCount, dateKey, events, todayKey, c);
+        nextCount++;
+      } else {
+        dateKey = `${y}-${String(m+1).padStart(2,'0')}-${String(dayCount).padStart(2,'0')}`;
+        if (dateKey === todayKey) td.classList.add('today-cell');
+        renderTrialCell(td, dayCount, dateKey, events, todayKey, c);
+        dayCount++;
+      }
+      tr.appendChild(td);
+    }
+    body.appendChild(tr);
+    if (dayCount > last && r >= 3) break;
+  }
+}
+
+function renderTrialCell(td, dayNum, dateKey, events, todayKey, col) {
+  const numDiv = document.createElement('div');
+  numDiv.className = 'trial-cal-day-num';
+  if (dateKey === todayKey) numDiv.classList.add('is-today');
+  if (col === 0) numDiv.classList.add('is-sun');
+  if (col === 6) numDiv.classList.add('is-sat');
+  numDiv.textContent = dayNum;
+  td.appendChild(numDiv);
+
+  const dayEvents = events.filter(e => e.date === dateKey);
+  const maxShow = 3;
+  dayEvents.slice(0, maxShow).forEach(ev => {
+    const chip = document.createElement('span');
+    chip.className = `trial-event-chip ${ev.color || 'chip-pink'}`;
+    chip.textContent = ev.title;
+    chip.title = ev.title + (ev.court ? ` · ${ev.court}` : '');
+    chip.onclick = (e) => { e.stopPropagation(); openTrialEventDetail(ev.id); };
+    td.appendChild(chip);
+  });
+  if (dayEvents.length > maxShow) {
+    const more = document.createElement('span');
+    more.className = 'trial-more-chip';
+    more.textContent = `+${dayEvents.length - maxShow}개 더`;
+    td.appendChild(more);
+  }
+
+  td.addEventListener('click', (e) => {
+    if (e.target.classList.contains('trial-event-chip')) return;
+    openTrialEventModal(null, dateKey);
+  });
+}
+
+function renderTrialSidePanel() {
+  const panel = document.getElementById('trial-side-panel');
+  if (!panel) return;
+  const events = getTrialEvents();
+  const now = new Date(); now.setHours(0,0,0,0);
+  const upcoming = events
+    .filter(e => { const d = new Date(e.date); d.setHours(0,0,0,0); return d >= now; })
+    .sort((a, b) => a.date.localeCompare(b.date))
+    .slice(0, 8);
+
+  const upcomingHTML = upcoming.length === 0
+    ? `<div class="trial-empty-side">예정된 일정이 없어요</div>`
+    : upcoming.map(ev => `
+        <div class="trial-upcoming-item" onclick="openTrialEventDetail('${ev.id}')" style="cursor:pointer;">
+          <div class="trial-upcoming-date">${formatTrialDate(ev.date)}</div>
+          <div class="trial-upcoming-title">${escHtml(ev.title)}</div>
+          ${ev.court ? `<div class="trial-upcoming-court">⚖ ${escHtml(ev.court)}</div>` : ''}
+        </div>`).join('');
+
+  panel.innerHTML = `
+    <div class="trial-side-widget">
+      <div class="trial-side-header"><div class="trial-side-title">✦ Upcoming</div></div>
+      <div class="trial-side-body">${upcomingHTML}</div>
+    </div>
+  `;
+}
+
+function formatTrialDate(dateStr) {
+  const [y, m, d] = dateStr.split('-');
+  const days = ['일','월','화','수','목','금','토'];
+  const dow = days[new Date(dateStr).getDay()];
+  return `${y}.${m}.${d} (${dow})`;
+}
+
+function openTrialEventModal(editId, prefillDate = '') {
+  const existing = editId ? getTrialEvents().find(e => e.id === editId) : null;
+  const backdrop = document.createElement('div');
+  backdrop.className = 'trial-modal-backdrop';
+  backdrop.id = 'trial-event-modal';
+  backdrop.onclick = e => { if (e.target === backdrop) backdrop.remove(); };
+
+  const selectedColor = existing?.color || 'chip-pink';
+  const colorBtns = COLOR_SWATCHES.map((hex, i) => `
+    <div class="trial-color-btn ${CHIP_COLORS[i] === selectedColor ? 'selected' : ''}"
+      style="background:${hex};"
+      data-color="${CHIP_COLORS[i]}"
+      onclick="selectTrialColor(this)"></div>`).join('');
+
+  backdrop.innerHTML = `
+    <div class="trial-modal">
+      <div class="trial-modal-header">
+        <span class="trial-modal-title">✦ ${existing ? '일정 수정' : '재판 일정 추가'}</span>
+        <button class="trial-modal-close" onclick="document.getElementById('trial-event-modal').remove()">✕</button>
+      </div>
+      <div class="trial-modal-body">
+        <div class="trial-field-row">
+          <label class="trial-field-label">사건명 / 제목</label>
+          <input class="trial-field-input" id="trial-inp-title" placeholder="예) 홍길동 손해배상 청구" value="${escHtml(existing?.title || '')}">
+        </div>
+        <div style="display:flex;gap:12px;">
+          <div class="trial-field-row" style="flex:1;">
+            <label class="trial-field-label">날짜</label>
+            <input type="date" class="trial-field-input" id="trial-inp-date" value="${existing?.date || prefillDate}">
+          </div>
+          <div class="trial-field-row" style="flex:1;">
+            <label class="trial-field-label">시간</label>
+            <input type="time" class="trial-field-input" id="trial-inp-time" value="${existing?.time || ''}">
+          </div>
+        </div>
+        <div class="trial-field-row">
+          <label class="trial-field-label">법원 / 장소</label>
+          <input class="trial-field-input" id="trial-inp-court" placeholder="예) 서울중앙지방법원 제304호" value="${escHtml(existing?.court || '')}">
+        </div>
+        <div class="trial-field-row">
+          <label class="trial-field-label">사건번호</label>
+          <input class="trial-field-input" id="trial-inp-casenum" placeholder="예) 2024가합12345" value="${escHtml(existing?.caseNum || '')}">
+        </div>
+        <div class="trial-field-row">
+          <label class="trial-field-label">메모</label>
+          <input class="trial-field-input" id="trial-inp-memo" placeholder="준비서면, 증인 등 메모" value="${escHtml(existing?.memo || '')}">
+        </div>
+        <div class="trial-field-row">
+          <label class="trial-field-label">색상</label>
+          <div class="trial-color-row" id="trial-color-row">${colorBtns}</div>
+        </div>
+        <div class="trial-modal-footer">
+          <button class="trial-cancel-btn" onclick="document.getElementById('trial-event-modal').remove()">취소</button>
+          <button class="trial-save-btn" onclick="saveTrialEvent('${editId || ''}')">저장 ✦</button>
+        </div>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(backdrop);
+  setTimeout(() => document.getElementById('trial-inp-title')?.focus(), 50);
+}
+
+function selectTrialColor(el) {
+  document.querySelectorAll('#trial-color-row .trial-color-btn').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function saveTrialEvent(editId) {
+  const title = document.getElementById('trial-inp-title')?.value.trim();
+  const date  = document.getElementById('trial-inp-date')?.value;
+  if (!title) { alert('사건명을 입력해주세요.'); return; }
+  if (!date)  { alert('날짜를 선택해주세요.'); return; }
+
+  const time    = document.getElementById('trial-inp-time')?.value || '';
+  const court   = document.getElementById('trial-inp-court')?.value.trim() || '';
+  const caseNum = document.getElementById('trial-inp-casenum')?.value.trim() || '';
+  const memo    = document.getElementById('trial-inp-memo')?.value.trim() || '';
+  const selColor = document.querySelector('#trial-color-row .trial-color-btn.selected');
+  const color   = selColor?.dataset.color || 'chip-pink';
+
+  const events = getTrialEvents();
+  if (editId) {
+    const idx = events.findIndex(e => e.id === editId);
+    if (idx !== -1) events[idx] = { ...events[idx], title, date, time, court, caseNum, memo, color };
+  } else {
+    events.push({ id: 'trial_' + Date.now(), title, date, time, court, caseNum, memo, color });
+  }
+  saveTrialEvents(events);
+  document.getElementById('trial-event-modal')?.remove();
+  buildTrialCal();
+  renderTrialSidePanel();
+}
+
+function openTrialEventDetail(id) {
+  const ev = getTrialEvents().find(e => e.id === id);
+  if (!ev) return;
+  document.getElementById('trial-detail-modal')?.remove();
+
+  const backdrop = document.createElement('div');
+  backdrop.className = 'trial-modal-backdrop';
+  backdrop.id = 'trial-detail-modal';
+  backdrop.onclick = e => { if (e.target === backdrop) backdrop.remove(); };
+
+  backdrop.innerHTML = `
+    <div class="trial-modal">
+      <div class="trial-modal-header">
+        <span class="trial-modal-title">✦ 재판 일정</span>
+        <button class="trial-modal-close" onclick="document.getElementById('trial-detail-modal').remove()">✕</button>
+      </div>
+      <div class="trial-modal-body">
+        <div style="margin-bottom:14px;">
+          <div style="font-size:1.05rem;font-weight:800;color:var(--text);font-family:'Pretendard',sans-serif;margin-bottom:6px;">${escHtml(ev.title)}</div>
+          <span class="trial-event-chip ${ev.color || 'chip-pink'}" style="display:inline-block;width:auto;">${ev.color ? ev.color.replace('chip-','') : 'pink'}</span>
+        </div>
+        <div class="trial-detail-row"><span class="trial-detail-key">날짜</span><span class="trial-detail-val">${formatTrialDate(ev.date)}${ev.time ? ' ' + ev.time : ''}</span></div>
+        ${ev.court   ? `<div class="trial-detail-row"><span class="trial-detail-key">법원</span><span class="trial-detail-val">${escHtml(ev.court)}</span></div>` : ''}
+        ${ev.caseNum ? `<div class="trial-detail-row"><span class="trial-detail-key">사건번호</span><span class="trial-detail-val">${escHtml(ev.caseNum)}</span></div>` : ''}
+        ${ev.memo    ? `<div class="trial-detail-row"><span class="trial-detail-key">메모</span><span class="trial-detail-val">${escHtml(ev.memo)}</span></div>` : ''}
+        <div class="trial-detail-actions">
+          <button class="trial-edit-btn" onclick="document.getElementById('trial-detail-modal').remove();openTrialEventModal('${id}')">✎ 수정</button>
+          <button class="trial-del-btn" onclick="deleteTrialEvent('${id}')">✕ 삭제</button>
+        </div>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(backdrop);
+}
+
+function deleteTrialEvent(id) {
+  if (!confirm('이 일정을 삭제하시겠습니까?')) return;
+  const events = getTrialEvents().filter(e => e.id !== id);
+  saveTrialEvents(events);
+  document.getElementById('trial-detail-modal')?.remove();
+  buildTrialCal();
+  renderTrialSidePanel();
+}
+
 // ─── Settings ───
 function renderSettings(container) {
-  // ★ 수정: 기존 내용 초기화 후 렌더링
   container.innerHTML = '';
   const wrap = document.createElement('div');
   wrap.style.cssText = 'padding:24px 30px;';
@@ -1461,7 +1866,6 @@ function renderSettings(container) {
   refreshMenuEditList();
 }
 
-// ★ 메뉴 목록만 갱신 + 드래그앤드롭 순서변경
 let _dragSrcIndex = null;
 
 function refreshMenuEditList() {
@@ -1480,7 +1884,6 @@ function refreshMenuEditList() {
       <button class="btn-del" onclick="removeMenuRow(${index})">✕</button>
     `;
 
-    // 드래그 이벤트
     row.addEventListener('dragstart', (e) => {
       _syncMenuInputs();
       _dragSrcIndex = index;
@@ -1514,7 +1917,6 @@ function refreshMenuEditList() {
   });
 }
 
-// 현재 입력값을 userMenus에 반영
 function _syncMenuInputs() {
   document.querySelectorAll('.menu-name-edit').forEach(input => {
     if (userMenus[input.dataset.index]) userMenus[input.dataset.index].name = input.value;
@@ -1524,14 +1926,12 @@ function _syncMenuInputs() {
   });
 }
 
-// ★ 현재 입력값 반영 후 추가
 function addNewMenuRow() {
   _syncMenuInputs();
   userMenus.push({ id: 'custom_' + Date.now(), name: '새 게시판', group: 'ETC' });
   refreshMenuEditList();
 }
 
-// ★ 현재 입력값 반영 후 삭제
 function removeMenuRow(index) {
   _syncMenuInputs();
   userMenus.splice(index, 1);
