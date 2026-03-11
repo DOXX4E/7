@@ -24,10 +24,50 @@ html,body{height:100%;font-family:'Pretendard',sans-serif;background:#fce8ef;bac
 
 /* ─── SIDEBAR ─── */
 .sidebar{width:180px;flex-shrink:0;background:var(--white);border-right:1px solid var(--border);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow-y:auto;}
-.sidebar-logo{padding:9px 16px;min-height:90px;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:background 0.2s;cursor:pointer;}
-.sidebar-logo:hover{background:var(--hover-metal);}
-.sidebar-logo.logo-active{background:var(--hover-metal);}
-.sidebar-logo.logo-active .logo-text{color:var(--rg);}
+.sidebar-logo{
+  padding:9px 16px;min-height:90px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  cursor:pointer;position:relative;overflow:hidden;
+  background:var(--hover-metal);
+  border-bottom:1px solid var(--border);
+  transition:box-shadow 0.25s, filter 0.25s;
+}
+.sidebar-logo::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(255,255,255,0.18) 0%,transparent 60%);
+  pointer-events:none;
+}
+.sidebar-logo:hover{ filter:brightness(1.04); box-shadow:0 3px 14px rgba(212,96,122,0.18); }
+
+/* ✦ 메인 활성 상태 */
+.sidebar-logo.logo-active{
+  background:var(--metal-bar);
+  box-shadow:0 4px 20px rgba(212,96,122,0.32), inset 0 1px 0 rgba(255,255,255,0.5);
+}
+.sidebar-logo.logo-active::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;width:3.5px;
+  background:linear-gradient(180deg,#e8829a,#d4607a);
+  border-radius:0 3px 3px 0;
+}
+.sidebar-logo.logo-active img{
+  filter:drop-shadow(0 2px 8px rgba(212,96,122,0.45));
+  transform:scale(1.04);
+  transition:transform 0.25s, filter 0.25s;
+}
+.sidebar-logo.logo-active .logo-active-badge{display:flex;}
+.logo-active-badge{
+  display:none;
+  align-items:center;gap:4px;
+  margin-top:5px;
+  padding:2px 9px;
+  border-radius:10px;
+  background:linear-gradient(90deg,rgba(212,96,122,0.18),rgba(232,130,154,0.1));
+  border:1px solid rgba(212,96,122,0.25);
+  font-size:0.5rem;font-weight:800;letter-spacing:0.18em;
+  color:var(--rg);font-family:'Pretendard',sans-serif;
+  text-transform:uppercase;
+}
+.logo-active-badge::before{content:'✦';font-size:0.45rem;}
 .logo-text{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:700;color:var(--rg2);letter-spacing:0.08em;line-height:1;}
 .logo-sub{font-size:0.58rem;letter-spacing:0.28em;color:var(--text2);margin-top:3px;text-transform:uppercase;font-family:'Pretendard',sans-serif;font-weight:700;}
 .nav-group-label{font-size:0.57rem;letter-spacing:0.26em;color:var(--rg3);text-transform:uppercase;padding:12px 16px 3px;font-weight:800;font-family:'Pretendard',sans-serif;}
@@ -714,6 +754,7 @@ html,body{height:100%;font-family:'Pretendard',sans-serif;background:#fce8ef;bac
   .sidebar-logo img{width:44px!important;height:44px!important;}
   .logo-text{font-size:1.2rem;}
   .logo-sub{display:none;}
+  .logo-active-badge{margin-top:2px;font-size:0.42rem;padding:1px 6px;}
   nav{display:flex;flex-direction:row;overflow-x:auto;flex:1;padding:0 4px;scrollbar-width:none;}
   nav::-webkit-scrollbar{display:none;}
   .nav-group-label{display:none;}
@@ -849,6 +890,121 @@ html,body{height:100%;font-family:'Pretendard',sans-serif;background:#fce8ef;bac
 }
 @keyframes lockFadeIn{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
 @keyframes lockShake{0%,100%{transform:translateX(0);}20%,60%{transform:translateX(-8px);}40%,80%{transform:translateX(8px);}}
+
+/* ═══════════════════════════════ 공통 feature page */
+.feature-page{padding:28px 32px 60px;max-width:860px;display:flex;flex-direction:column;gap:22px;}
+.feature-section{background:var(--white);border-radius:14px;border:1px solid var(--border);overflow:hidden;box-shadow:0 2px 12px rgba(212,96,122,0.06);}
+.feature-section-header{padding:13px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:linear-gradient(90deg,rgba(252,232,239,0.6),transparent);}
+.feature-section-title{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:700;color:var(--rg2);letter-spacing:0.12em;}
+.feature-section-body{padding:18px 20px;}
+.feature-page-title{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:700;color:var(--rg2);letter-spacing:0.15em;}
+.fp-btn{padding:7px 18px;border:none;border-radius:20px;background:linear-gradient(135deg,#e8829a,#d4607a);color:#fff;font-weight:700;font-size:0.7rem;cursor:pointer;letter-spacing:0.06em;transition:all 0.18s;white-space:nowrap;}
+.fp-btn:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(212,96,122,0.3);}
+.fp-btn-ghost{padding:6px 14px;border:1.5px solid rgba(212,96,122,0.3);border-radius:20px;background:none;color:var(--rg2);font-weight:700;font-size:0.68rem;cursor:pointer;transition:all 0.18s;}
+.fp-btn-ghost:hover{background:rgba(252,232,239,0.5);}
+.fp-input{flex:1;border:1px dashed var(--rg3);border-radius:8px;background:transparent;padding:7px 12px;font-size:0.78rem;color:var(--text);outline:none;font-family:'Pretendard',sans-serif;}
+
+/* ① 습관 트래커 */
+.habit-row{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.habit-name{font-size:0.72rem;color:var(--text2);min-width:76px;font-weight:600;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.habit-cells{display:flex;gap:3px;flex-wrap:wrap;flex:1;}
+.habit-cell{width:13px;height:13px;border-radius:3px;background:rgba(212,96,122,0.08);cursor:pointer;border:none;padding:0;flex-shrink:0;transition:background 0.12s;}
+.habit-cell.d1{background:rgba(212,96,122,0.25);}
+.habit-cell.d2{background:rgba(212,96,122,0.5);}
+.habit-cell.d3{background:rgba(212,96,122,0.75);}
+.habit-cell.d4{background:#d4607a;}
+.habit-streak{font-size:0.6rem;color:var(--rg3);font-weight:700;min-width:28px;text-align:right;flex-shrink:0;}
+.habit-del-btn{background:none;border:none;color:rgba(212,96,122,0.35);cursor:pointer;font-size:0.8rem;flex-shrink:0;}
+.habit-del-btn:hover{color:var(--rg);}
+
+/* ② 무드 트래킹 */
+.mood-emojis{display:flex;gap:8px;margin:10px 0 14px;}
+.mood-btn{font-size:1.5rem;cursor:pointer;padding:5px 8px;border-radius:10px;border:2px solid transparent;transition:all 0.15s;background:none;line-height:1;}
+.mood-btn:hover,.mood-btn.sel{border-color:var(--rg);background:rgba(252,232,239,0.6);transform:scale(1.1);}
+.mood-history{display:flex;flex-direction:column;gap:5px;max-height:220px;overflow-y:auto;}
+.mood-item{display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:8px;background:rgba(252,232,239,0.25);border:1px solid var(--border);}
+.mood-item-emoji{font-size:1.1rem;flex-shrink:0;}
+.mood-item-date{font-size:0.57rem;color:var(--rg3);font-weight:700;min-width:70px;font-family:'Cormorant Garamond',serif;}
+.mood-item-text{font-size:0.72rem;color:var(--text2);flex:1;}
+.mood-item-del{background:none;border:none;color:rgba(212,96,122,0.3);cursor:pointer;font-size:0.7rem;}
+.mood-chart-wrap{display:flex;align-items:flex-end;gap:3px;height:52px;margin-top:12px;padding:0 2px;}
+.mood-bar-col{display:flex;flex-direction:column;align-items:center;gap:2px;flex:1;}
+.mood-bar{width:100%;border-radius:3px 3px 0 0;background:linear-gradient(180deg,#e8829a,#d4607a);min-height:3px;transition:height 0.3s;}
+.mood-bar-lbl{font-size:0.45rem;color:var(--rg3);}
+
+/* ③ 주간 리뷰 */
+.wr-card{background:rgba(252,232,239,0.15);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:10px;}
+.wr-label{font-size:0.58rem;font-weight:800;color:var(--rg);letter-spacing:0.2em;margin-bottom:7px;}
+.wr-textarea{width:100%;border:none;border-bottom:1px dashed var(--rg3);background:transparent;padding:5px 2px;font-size:0.8rem;color:var(--text);outline:none;font-family:'Pretendard',sans-serif;resize:none;line-height:1.6;box-sizing:border-box;}
+.wr-history-item{padding:9px 14px;border-left:3px solid var(--rg3);margin-bottom:7px;background:rgba(252,232,239,0.12);border-radius:0 8px 8px 0;cursor:pointer;transition:background 0.15s;}
+.wr-history-item:hover,.wr-history-item.active{background:rgba(252,232,239,0.4);border-left-color:var(--rg);}
+.wr-history-date{font-size:0.57rem;color:var(--rg3);font-weight:700;font-family:'Cormorant Garamond',serif;margin-bottom:3px;}
+.wr-history-preview{font-size:0.7rem;color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+
+/* ④ 목표 로드맵 */
+.goal-tree{display:flex;flex-direction:column;gap:6px;}
+.goal-node{border-radius:10px;padding:12px 14px;position:relative;}
+.goal-node.big{background:linear-gradient(135deg,rgba(212,96,122,0.1),rgba(232,130,154,0.05));border:1.5px solid rgba(212,96,122,0.28);}
+.goal-node.month{background:rgba(252,232,239,0.35);border:1px solid var(--border);margin-left:18px;}
+.goal-node.week{background:rgba(255,255,255,0.55);border:1px dashed var(--border);margin-left:36px;}
+.goal-node-lbl{font-size:0.52rem;font-weight:800;color:var(--rg3);letter-spacing:0.18em;margin-bottom:5px;}
+.goal-node-text{font-size:0.8rem;color:var(--text);width:calc(100% - 22px);border:none;background:transparent;outline:none;font-family:'Pretendard',sans-serif;resize:none;line-height:1.5;}
+.goal-node-del{position:absolute;top:10px;right:10px;background:none;border:none;color:rgba(212,96,122,0.3);cursor:pointer;font-size:0.75rem;}
+.goal-node-del:hover{color:var(--rg);}
+.goal-indent-line{width:2px;height:10px;background:rgba(212,96,122,0.15);margin-left:18px;}
+
+/* ⑤ 시간 블록 플래너 */
+.tb-wrap{overflow-x:auto;}
+.tb-grid{display:grid;grid-template-columns:46px 1fr 1fr;gap:0;min-width:320px;}
+.tb-hdr{font-size:0.58rem;font-weight:800;color:var(--rg3);letter-spacing:0.12em;padding:6px 8px;text-align:center;background:rgba(252,232,239,0.35);border-bottom:1px solid var(--border);}
+.tb-time{font-size:0.6rem;color:var(--rg3);padding:0 6px;text-align:right;border-bottom:1px dashed rgba(212,96,122,0.1);font-family:'Cormorant Garamond',serif;font-weight:600;display:flex;align-items:center;justify-content:flex-end;min-height:28px;}
+.tb-cell{border-bottom:1px dashed rgba(212,96,122,0.08);border-left:1px solid rgba(212,96,122,0.06);}
+.tb-inp{width:100%;height:28px;border:none;background:transparent;padding:3px 8px;font-size:0.7rem;color:var(--text);outline:none;font-family:'Pretendard',sans-serif;}
+.tb-inp:focus{background:rgba(252,220,232,0.35);}
+.tb-inp.actual-col{background:rgba(232,250,240,0.2);}
+.tb-date-nav{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+.tb-date-lbl{font-family:'Cormorant Garamond',serif;font-size:0.9rem;font-weight:700;color:var(--rg2);letter-spacing:0.08em;}
+.tb-nav-btn{background:none;border:1px solid var(--border);border-radius:50%;width:24px;height:24px;cursor:pointer;color:var(--rg2);font-size:0.75rem;display:flex;align-items:center;justify-content:center;}
+
+/* ⑥ 성장 지표 */
+.growth-card{background:rgba(252,232,239,0.15);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:10px;}
+.growth-card-name{font-size:0.7rem;font-weight:800;color:var(--rg2);letter-spacing:0.1em;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;}
+.growth-svg{width:100%;height:72px;overflow:visible;display:block;}
+.growth-chips{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px;}
+.growth-chip{padding:2px 9px;background:rgba(212,96,122,0.1);border-radius:10px;font-size:0.6rem;color:var(--rg2);display:flex;align-items:center;gap:4px;}
+.growth-chip button{background:none;border:none;color:rgba(212,96,122,0.4);cursor:pointer;font-size:0.65rem;padding:0;line-height:1;}
+.growth-add-row{display:flex;gap:7px;margin-top:10px;align-items:center;}
+.growth-val-inp{width:72px;border:1px dashed var(--rg3);border-radius:8px;background:transparent;padding:6px 10px;font-size:0.78rem;color:var(--text);outline:none;font-family:'Pretendard',sans-serif;text-align:center;}
+.growth-add-row input[type=text]{flex:1;}
+
+/* ⑧ 포모도로 */
+.pomo-wrap{display:flex;flex-direction:column;align-items:center;gap:16px;padding:6px 0;}
+.pomo-ring-wrap{position:relative;width:156px;height:156px;}
+.pomo-ring-wrap svg{transform:rotate(-90deg);}
+.pomo-ring-bg{fill:none;stroke:rgba(212,96,122,0.1);stroke-width:9;}
+.pomo-ring-prog{fill:none;stroke-width:9;stroke-linecap:round;transition:stroke-dashoffset 0.95s linear;}
+.pomo-overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.pomo-time{font-family:'Cormorant Garamond',serif;font-size:2.1rem;font-weight:700;color:var(--rg2);line-height:1;}
+.pomo-mode-lbl{font-size:0.52rem;color:var(--rg3);letter-spacing:0.18em;margin-top:3px;}
+.pomo-controls{display:flex;gap:10px;align-items:center;}
+.pomo-main-btn{width:46px;height:46px;border-radius:50%;border:none;background:linear-gradient(135deg,#e8829a,#d4607a);color:#fff;font-size:1.1rem;cursor:pointer;box-shadow:0 3px 12px rgba(212,96,122,0.32);transition:all 0.18s;}
+.pomo-main-btn:hover{transform:scale(1.06);}
+.pomo-side-btn{width:34px;height:34px;border-radius:50%;border:1.5px solid var(--border);background:none;color:var(--rg2);font-size:0.85rem;cursor:pointer;transition:all 0.18s;}
+.pomo-side-btn:hover{background:rgba(252,232,239,0.5);}
+.pomo-tabs{display:flex;gap:5px;}
+.pomo-tab{padding:4px 12px;border-radius:12px;border:1.5px solid transparent;font-size:0.63rem;font-weight:700;cursor:pointer;letter-spacing:0.07em;transition:all 0.18s;background:none;color:var(--text2);}
+.pomo-tab.active{border-color:var(--rg);color:var(--rg);background:rgba(252,232,239,0.5);}
+.pomo-dots{display:flex;gap:5px;}
+.pomo-dot{width:9px;height:9px;border-radius:50%;background:rgba(212,96,122,0.13);transition:background 0.2s;}
+.pomo-dot.done{background:#d4607a;}
+.pomo-task-inp{width:100%;max-width:240px;border:none;border-bottom:1px dashed var(--rg3);background:transparent;padding:5px 4px;font-size:0.78rem;color:var(--text);outline:none;font-family:'Pretendard',sans-serif;text-align:center;}
+.pomo-log{width:100%;max-width:320px;max-height:110px;overflow-y:auto;margin-top:2px;}
+.pomo-log-item{font-size:0.62rem;color:var(--text2);padding:3px 0;border-bottom:1px dashed rgba(212,96,122,0.07);display:flex;justify-content:space-between;}
+/* 홈 포모도로 위젯 탭 */
+.wp-tab{padding:3px 9px;border-radius:10px;border:1.5px solid transparent;font-size:0.58rem;font-weight:700;cursor:pointer;letter-spacing:0.06em;background:none;color:var(--text2);transition:all 0.15s;font-family:'Pretendard',sans-serif;}
+.wp-tab.active{border-color:var(--rg);color:var(--rg);background:rgba(252,232,239,0.5);}
+
+@media(max-width:768px){.feature-page{padding:12px 10px 60px;}.tb-grid{grid-template-columns:38px 1fr 1fr;}.pomo-ring-wrap{width:136px;height:136px;}.pomo-time{font-size:1.8rem;}}
 </style>
 </head>
 <body>
@@ -868,7 +1024,8 @@ html,body{height:100%;font-family:'Pretendard',sans-serif;background:#fce8ef;bac
 <div class="site-wrap">
   <aside class="sidebar">
     <div class="sidebar-logo" onclick="loadPage('profile')">
-      <img src="https://i.imgur.com/KZKHAyl.png" alt="DOXX4E" style="width:90px;height:90px;object-fit:contain;display:block;margin:0 auto;">
+      <img src="https://i.imgur.com/KZKHAyl.png" alt="DOXX4E" style="width:90px;height:90px;object-fit:contain;display:block;margin:0 auto;transition:transform 0.25s,filter 0.25s;">
+      <div class="logo-active-badge">HOME</div>
     </div>
     <nav id="sidebar-nav"></nav>
   </aside>
@@ -923,10 +1080,17 @@ html,body{height:100%;font-family:'Pretendard',sans-serif;background:#fce8ef;bac
 <script>
 // ─── 데이터 관리 ───
 const DEFAULT_MENUS = [
-  {id:'profile_board', name:'프로필', group:'CHA.'},
-  {id:'log',           name:'로그',   group:'CHA.'},
+  {id:'profile_board', name:'프로필',   group:'CHA.'},
+  {id:'log',           name:'로그',     group:'CHA.'},
+  {id:'habit',         name:'습관',     group:'GROWTH'},
+  {id:'mood',          name:'무드',     group:'GROWTH'},
+  {id:'weekly',        name:'주간리뷰', group:'GROWTH'},
+  {id:'goals',         name:'목표맵',   group:'GROWTH'},
+  {id:'timeblock',     name:'타임블록', group:'PLAN'},
+  {id:'growth',        name:'성장지표', group:'PLAN'},
+  {id:'pomo',          name:'포모도로', group:'PLAN'},
   {id:'makenote',      name:'제작노트', group:'MAKE'},
-  {id:'diary',         name:'일기',   group:'ETC'}
+  {id:'diary',         name:'일기',     group:'ETC'}
 ];
 
 function loadUserMenus(){
@@ -939,7 +1103,7 @@ function loadUserMenus(){
 }
 
 let userMenus = loadUserMenus();
-const _menuVersion = 'v4';
+const _menuVersion = 'v5';
 if(localStorage.getItem('menuVersion') !== _menuVersion){
   localStorage.removeItem('userMenus');
   localStorage.setItem('menuVersion', _menuVersion);
@@ -987,6 +1151,12 @@ function loadPage(pageId){
   const content = document.getElementById('main-content');
   content.innerHTML = '';
 
+  // 홈을 벗어날 때 wp 타이머 멈춤 방지 — interval은 유지, 다시 홈 오면 wpUpdateUI()로 복원
+  // 단 페이지 전환 시 title 복원
+  if(pageId !== 'profile' && !_wp.running) {
+    document.title = 'DOXX4E';
+  }
+
   const logo = document.querySelector('.sidebar-logo');
   logo.classList.toggle('logo-active', pageId === 'profile');
 
@@ -995,15 +1165,24 @@ function loadPage(pageId){
   });
 
   const writeBtn = document.getElementById('header-write-btn');
-  if(pageId !== 'profile' && pageId !== 'settings' && pageId !== 'log'){
+  const noWritePages = ['profile','settings','log','habit','mood','weekly','goals','timeblock','growth','pomo'];
+  if(!noWritePages.includes(pageId)){
     writeBtn.classList.remove('hidden');
   } else {
     writeBtn.classList.add('hidden');
   }
 
   if(pageId === 'profile')        renderHomeWidgets(content);
+  else if(pageId === 'profile_board') renderBoardPage(pageId, content);
   else if(pageId === 'settings')  renderSettings(content);
   else if(pageId === 'log')       renderReflectionPage(content);
+  else if(pageId === 'habit')     renderHabitPage(content);
+  else if(pageId === 'mood')      renderMoodPage(content);
+  else if(pageId === 'weekly')    renderWeeklyPage(content);
+  else if(pageId === 'goals')     renderGoalsPage(content);
+  else if(pageId === 'timeblock') renderTimeblockPage(content);
+  else if(pageId === 'growth')    renderGrowthPage(content);
+  else if(pageId === 'pomo')      renderPomoPage(content);
   else                            renderBoardPage(pageId, content);
 }
 
@@ -1519,6 +1698,43 @@ function renderHomeWidgets(container){
                 <input type="file" accept="image/*" style="display:none;" onchange="loadImageWidget(event)">
               </label>
             </div>`
+    },
+    {
+      id:'w-pomo', title:'Pomodoro',
+      defaultLeft:560, defaultTop:20, defaultW:230,
+      body:(()=>{
+        const C=54, R=46, circ=+(2*Math.PI*R).toFixed(1);
+        return `<div style="display:flex;flex-direction:column;align-items:center;gap:10px;padding:4px 0;">
+          <div style="display:flex;gap:5px;">
+            <button class="wp-tab active" id="wpt-focus" onclick="wpSetMode('focus')">집중 25</button>
+            <button class="wp-tab" id="wpt-short" onclick="wpSetMode('short')">휴식 5</button>
+            <button class="wp-tab" id="wpt-long" onclick="wpSetMode('long')">긴휴식</button>
+          </div>
+          <div style="position:relative;width:${C*2}px;height:${C*2}px;">
+            <svg width="${C*2}" height="${C*2}" viewBox="0 0 ${C*2} ${C*2}" style="transform:rotate(-90deg);">
+              <defs><linearGradient id="wpg" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#e8829a"/><stop offset="100%" stop-color="#d4607a"/>
+              </linearGradient></defs>
+              <circle cx="${C}" cy="${C}" r="${R}" fill="none" stroke="rgba(212,96,122,0.1)" stroke-width="7"/>
+              <circle id="wp-ring" cx="${C}" cy="${C}" r="${R}" fill="none" stroke="url(#wpg)" stroke-width="7"
+                stroke-linecap="round" stroke-dasharray="${circ}" stroke-dashoffset="0" style="transition:stroke-dashoffset 0.95s linear;"/>
+            </svg>
+            <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+              <div id="wp-time" style="font-family:'Cormorant Garamond',serif;font-size:1.55rem;font-weight:700;color:var(--rg2);line-height:1;">25:00</div>
+              <div id="wp-lbl" style="font-size:0.46rem;color:var(--rg3);letter-spacing:0.18em;margin-top:2px;">FOCUS</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <button onclick="wpReset()" style="width:28px;height:28px;border-radius:50%;border:1.5px solid var(--border);background:none;color:var(--rg2);cursor:pointer;font-size:0.8rem;">↺</button>
+            <button id="wp-play-btn" onclick="wpToggle()" style="width:40px;height:40px;border-radius:50%;border:none;background:linear-gradient(135deg,#e8829a,#d4607a);color:white;font-size:1rem;cursor:pointer;box-shadow:0 3px 10px rgba(212,96,122,0.32);transition:transform 0.15s;">▷</button>
+            <button onclick="wpSkip()" style="width:28px;height:28px;border-radius:50%;border:1.5px solid var(--border);background:none;color:var(--rg2);cursor:pointer;font-size:0.8rem;">⏭</button>
+          </div>
+          <div id="wp-dots" style="display:flex;gap:5px;"></div>
+          <input id="wp-task" placeholder="집중할 작업..." maxlength="30"
+            style="width:100%;border:none;border-bottom:1px dashed var(--rg3);background:transparent;padding:4px 2px;font-size:0.72rem;color:var(--text);outline:none;font-family:'Pretendard',sans-serif;text-align:center;">
+          <div id="wp-session-count" style="font-size:0.6rem;color:var(--rg3);letter-spacing:0.1em;"></div>
+        </div>`;
+      })()
     }
   ];
 
@@ -1549,6 +1765,7 @@ function renderHomeWidgets(container){
   renderChecklist();
   restoreImageWidget();
   renderDdayWidget();
+  wpUpdateUI();
 }
 
 // ─── Board Page ───
@@ -2804,6 +3021,517 @@ function saveHeaderSettings(){
   btn.textContent = '저장됨 ✓';
   setTimeout(()=>btn.textContent = orig, 1500);
 }
+
+// ════════════════════════════════════════════════════════
+// ① 습관 트래커
+// ════════════════════════════════════════════════════════
+function getHabits(){ return JSON.parse(localStorage.getItem('habits')||'[]'); }
+function saveHabits(a){ localStorage.setItem('habits',JSON.stringify(a)); }
+function getHabitLogs(){ return JSON.parse(localStorage.getItem('habitLogs')||'{}'); }
+function saveHabitLogs(o){ localStorage.setItem('habitLogs',JSON.stringify(o)); }
+function renderHabitPage(container){
+  const page=document.createElement('div'); page.className='feature-page';
+  page.innerHTML=`
+    <div><div class="feature-page-title">✦ 습관 트래커</div>
+    <div style="font-size:0.65rem;color:var(--text2);margin-top:4px;letter-spacing:0.08em;">매일 체크할수록 색이 짙어집니다. 연속 기록을 유지하세요.</div></div>
+    <div class="feature-section">
+      <div class="feature-section-header"><span class="feature-section-title">이번 달 기록</span><span id="habit-month-label" style="font-size:0.6rem;color:var(--rg3);"></span></div>
+      <div class="feature-section-body" id="habit-grid-area"></div>
+    </div>
+    <div class="feature-section">
+      <div class="feature-section-header"><span class="feature-section-title">습관 추가</span></div>
+      <div class="feature-section-body">
+        <div id="habit-manage-list"></div>
+        <div style="display:flex;gap:8px;margin-top:10px;">
+          <input class="fp-input" id="habit-new-input" placeholder="새 습관 이름..." maxlength="20" onkeydown="if(event.key==='Enter')addHabit()">
+          <button class="fp-btn" onclick="addHabit()">추가</button>
+        </div>
+      </div>
+    </div>`;
+  container.appendChild(page); renderHabitGrid();
+}
+function renderHabitGrid(){
+  const area=document.getElementById('habit-grid-area'); if(!area) return;
+  const habits=getHabits(), logs=getHabitLogs();
+  const now=new Date(), year=now.getFullYear(), month=now.getMonth(), days=new Date(year,month+1,0).getDate(), today=now.getDate();
+  const lbl=document.getElementById('habit-month-label'); if(lbl) lbl.textContent=`${year}.${String(month+1).padStart(2,'0')}`;
+  if(!habits.length){ area.innerHTML=`<div style="font-size:0.72rem;color:var(--rg3);text-align:center;padding:20px;">습관을 먼저 추가해주세요.</div>`; renderHabitManage(); return; }
+  let html=`<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;overflow-x:auto;"><div style="min-width:76px;flex-shrink:0;"></div><div style="display:flex;gap:3px;">`;
+  for(let d=1;d<=days;d++) html+=`<div style="width:13px;font-size:0.44rem;text-align:center;color:${d===today?'var(--rg)':'rgba(212,96,122,0.3)'};">${d}</div>`;
+  html+=`</div></div>`;
+  habits.forEach(h=>{
+    const key=`${year}-${month}`, dayMap=((logs[h.id]||{})[key])||{};
+    let streak=0; for(let d=today;d>=1;d--){ if(dayMap[d]) streak++; else break; }
+    html+=`<div class="habit-row" style="overflow-x:auto;">
+      <div class="habit-name" title="${escHtml(h.name)}">${escHtml(h.name)}</div>
+      <div class="habit-cells">`;
+    for(let d=1;d<=days;d++){
+      const done=dayMap[d]?'d4':'', fut=d>today?'style="opacity:0.25;cursor:default;"':'';
+      html+=`<button class="habit-cell ${done}" ${fut} onclick="${d<=today?`toggleHabit('${h.id}',${year},${month},${d})`:''}"></button>`;
+    }
+    html+=`</div><div class="habit-streak">${streak>0?'🔥'+streak:''}</div>
+      <button class="habit-del-btn" onclick="deleteHabit('${h.id}')">✕</button></div>`;
+  });
+  area.innerHTML=html; renderHabitManage();
+}
+function renderHabitManage(){
+  const list=document.getElementById('habit-manage-list'); if(!list) return;
+  const habits=getHabits();
+  list.innerHTML=habits.map(h=>`<div style="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px dashed rgba(212,96,122,0.1);">
+    <span style="font-size:0.78rem;color:var(--text);flex:1;">${escHtml(h.name)}</span>
+    <button class="fp-btn-ghost" onclick="deleteHabit('${h.id}')">삭제</button></div>`).join('');
+}
+function toggleHabit(id,year,month,day){
+  const logs=getHabitLogs(), key=`${year}-${month}`;
+  if(!logs[id])logs[id]={}; if(!logs[id][key])logs[id][key]={};
+  logs[id][key][day]=!logs[id][key][day]; saveHabitLogs(logs); renderHabitGrid();
+}
+function addHabit(){
+  const inp=document.getElementById('habit-new-input'); if(!inp) return;
+  const name=inp.value.trim(); if(!name) return;
+  const habits=getHabits(); habits.push({id:'h_'+Date.now(),name}); saveHabits(habits); inp.value=''; renderHabitGrid();
+}
+function deleteHabit(id){ saveHabits(getHabits().filter(h=>h.id!==id)); renderHabitGrid(); }
+
+// ════════════════════════════════════════════════════════
+// ② 무드 트래킹
+// ════════════════════════════════════════════════════════
+const MOODS=[{e:'😄',l:'최고',v:5},{e:'🙂',l:'좋음',v:4},{e:'😐',l:'보통',v:3},{e:'😔',l:'별로',v:2},{e:'😞',l:'최악',v:1}];
+let _moodSel=null;
+function getMoods(){ return JSON.parse(localStorage.getItem('moods')||'[]'); }
+function saveMoods(a){ localStorage.setItem('moods',JSON.stringify(a)); }
+function renderMoodPage(container){
+  const page=document.createElement('div'); page.className='feature-page';
+  page.innerHTML=`
+    <div><div class="feature-page-title">✦ 무드 트래킹</div>
+    <div style="font-size:0.65rem;color:var(--text2);margin-top:4px;">오늘 감정을 기록하면 패턴이 보입니다.</div></div>
+    <div class="feature-section"><div class="feature-section-header"><span class="feature-section-title">오늘의 무드</span></div>
+      <div class="feature-section-body">
+        <div class="mood-emojis">${MOODS.map(m=>`<button class="mood-btn" data-v="${m.v}" onclick="selectMood(${m.v})" title="${m.l}">${m.e}</button>`).join('')}</div>
+        <textarea class="fp-input" id="mood-memo" style="height:54px;resize:none;width:100%;display:block;" placeholder="오늘 하루 한 줄... (선택)"></textarea>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;">
+          <div id="mood-error" style="font-size:0.65rem;color:var(--rg3);"></div>
+          <button class="fp-btn" onclick="saveMoodEntry()">기록하기 ✦</button>
+        </div>
+      </div>
+    </div>
+    <div class="feature-section"><div class="feature-section-header"><span class="feature-section-title">최근 흐름</span></div>
+      <div class="feature-section-body" id="mood-chart-area"></div>
+    </div>
+    <div class="feature-section"><div class="feature-section-header"><span class="feature-section-title">기록 히스토리</span></div>
+      <div class="feature-section-body"><div class="mood-history" id="mood-history-list"></div></div>
+    </div>`;
+  container.appendChild(page); renderMoodHistory(); renderMoodChart();
+}
+function selectMood(v){ _moodSel=v; document.querySelectorAll('.mood-btn').forEach(b=>b.classList.toggle('sel',parseInt(b.dataset.v)===v)); }
+function saveMoodEntry(){
+  const errEl=document.getElementById('mood-error');
+  if(!_moodSel){ errEl.textContent='감정을 선택해주세요.'; return; }
+  errEl.textContent='';
+  const memo=document.getElementById('mood-memo').value.trim();
+  const now=new Date(), ds=`${now.getFullYear()}.${String(now.getMonth()+1).padStart(2,'0')}.${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+  const moods=getMoods(); moods.push({id:'m_'+Date.now(),date:ds,v:_moodSel,memo});
+  saveMoods(moods); _moodSel=null;
+  document.querySelectorAll('.mood-btn').forEach(b=>b.classList.remove('sel'));
+  document.getElementById('mood-memo').value='';
+  renderMoodHistory(); renderMoodChart();
+}
+function renderMoodHistory(){
+  const list=document.getElementById('mood-history-list'); if(!list) return;
+  const moods=getMoods().slice().reverse();
+  if(!moods.length){ list.innerHTML=`<div style="font-size:0.72rem;color:var(--rg3);text-align:center;padding:16px;">아직 기록이 없습니다.</div>`; return; }
+  list.innerHTML=moods.map(m=>{ const md=MOODS.find(x=>x.v===m.v)||MOODS[2];
+    return `<div class="mood-item"><div class="mood-item-emoji">${md.e}</div><div class="mood-item-date">${m.date}</div>
+    <div class="mood-item-text">${escHtml(m.memo||md.l)}</div>
+    <button class="mood-item-del" onclick="deleteMood('${m.id}')">✕</button></div>`;}).join('');
+}
+function deleteMood(id){ saveMoods(getMoods().filter(m=>m.id!==id)); renderMoodHistory(); renderMoodChart(); }
+function renderMoodChart(){
+  const area=document.getElementById('mood-chart-area'); if(!area) return;
+  const moods=getMoods().slice(-30);
+  if(!moods.length){ area.innerHTML=`<div style="font-size:0.7rem;color:var(--rg3);text-align:center;padding:10px;">기록이 쌓이면 그래프가 나타납니다.</div>`; return; }
+  const bars=moods.map(m=>{ const md=MOODS.find(x=>x.v===m.v)||MOODS[2]; const pct=(m.v/5*100)+'%';
+    return `<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;" title="${m.date}: ${md.l}">
+      <div style="flex:1;width:100%;display:flex;align-items:flex-end;"><div class="mood-bar" style="height:${pct};width:100%;"></div></div>
+      <div class="mood-bar-lbl">${md.e}</div></div>`;}).join('');
+  area.innerHTML=`<div style="display:flex;align-items:flex-end;gap:2px;height:78px;">${bars}</div>`;
+}
+
+// ════════════════════════════════════════════════════════
+// ③ 주간 리뷰
+// ════════════════════════════════════════════════════════
+function getWeeklies(){ return JSON.parse(localStorage.getItem('weeklies')||'[]'); }
+function saveWeeklies(a){ localStorage.setItem('weeklies',JSON.stringify(a)); }
+let _wrCurrentId=null;
+function renderWeeklyPage(container){
+  const page=document.createElement('div'); page.className='feature-page';
+  page.style.cssText='padding:28px 32px 60px;max-width:860px;display:flex;gap:20px;align-items:flex-start;';
+  const left=document.createElement('div'); left.style.cssText='flex:1;min-width:0;display:flex;flex-direction:column;gap:16px;';
+  left.innerHTML=`
+    <div><div class="feature-page-title">✦ 주간 리뷰</div>
+    <div style="font-size:0.65rem;color:var(--text2);margin-top:4px;">매주 10분, 한 주를 정산하세요.</div></div>
+    <div class="feature-section"><div class="feature-section-header">
+      <span class="feature-section-title" id="wr-week-label"></span>
+      <button class="fp-btn-ghost" onclick="wrNew()">+ 새 리뷰</button></div>
+      <div class="feature-section-body">
+        <div class="wr-card"><div class="wr-label">✦ WINS · 잘한 것 (최소 3가지)</div>
+          <textarea class="wr-textarea" id="wr-wins" rows="4" placeholder="1. &#10;2. &#10;3. "></textarea></div>
+        <div class="wr-card"><div class="wr-label">▲ IMPROVE · 개선할 것 (1가지)</div>
+          <textarea class="wr-textarea" id="wr-improve" rows="2" placeholder="가장 솔직하게..."></textarea></div>
+        <div class="wr-card"><div class="wr-label">→ NEXT WEEK · 핵심 행동 1가지</div>
+          <textarea class="wr-textarea" id="wr-next" rows="2" placeholder="딱 하나만. 이것만 하면 성공한 주..."></textarea></div>
+        <div class="wr-card"><div class="wr-label">◈ FREE NOTE</div>
+          <textarea class="wr-textarea" id="wr-free" rows="3" placeholder="느낀 것, 배운 것, 감사한 것..."></textarea></div>
+        <div style="display:flex;justify-content:flex-end;margin-top:8px;">
+          <button class="fp-btn" onclick="saveWeekly()">저장 ✦</button></div>
+      </div>
+    </div>`;
+  const right=document.createElement('div'); right.style.cssText='width:190px;flex-shrink:0;';
+  right.innerHTML=`<div class="feature-section"><div class="feature-section-header"><span class="feature-section-title">✦ 기록</span></div>
+    <div style="padding:8px;max-height:460px;overflow-y:auto;" id="wr-history"></div></div>`;
+  page.appendChild(left); page.appendChild(right); container.appendChild(page);
+  wrSetWeekLabel(); renderWrHistory();
+  if(window.innerWidth<=768){ page.style.flexDirection='column'; right.style.width='100%'; }
+}
+function wrGetWeekStr(){
+  const now=new Date(), day=now.getDay(), mon=new Date(now);
+  mon.setDate(now.getDate()-(day===0?6:day-1));
+  const sun=new Date(mon); sun.setDate(mon.getDate()+6);
+  const fmt=d=>`${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')}`;
+  return `${fmt(mon)} ~ ${fmt(sun)}`;
+}
+function wrSetWeekLabel(){ const l=document.getElementById('wr-week-label'); if(l) l.textContent=wrGetWeekStr(); }
+function saveWeekly(){
+  const wins=document.getElementById('wr-wins')?.value.trim()||'';
+  const improve=document.getElementById('wr-improve')?.value.trim()||'';
+  const next=document.getElementById('wr-next')?.value.trim()||'';
+  const free=document.getElementById('wr-free')?.value.trim()||'';
+  if(!wins&&!improve&&!next){ alert('최소 하나는 입력해주세요.'); return; }
+  const weeklies=getWeeklies(), week=wrGetWeekStr();
+  const idx=weeklies.findIndex(w=>w.week===week);
+  const rec={id:_wrCurrentId||'wr_'+Date.now(),week,wins,improve,next,free};
+  if(idx>=0) weeklies[idx]=rec; else weeklies.push(rec);
+  saveWeeklies(weeklies); _wrCurrentId=rec.id; renderWrHistory();
+  const btn=document.querySelector('[onclick="saveWeekly()"]');
+  if(btn){const o=btn.textContent;btn.textContent='저장됨 ✓';setTimeout(()=>btn.textContent=o,1500);}
+}
+function renderWrHistory(){
+  const area=document.getElementById('wr-history'); if(!area) return;
+  const weeklies=getWeeklies().slice().reverse();
+  if(!weeklies.length){ area.innerHTML=`<div style="font-size:0.68rem;color:var(--rg3);text-align:center;padding:16px;font-style:italic;">아직 기록이 없습니다</div>`; return; }
+  area.innerHTML=weeklies.map(w=>`<div class="wr-history-item ${w.id===_wrCurrentId?'active':''}" onclick="loadWeekly('${w.id}')">
+    <div class="wr-history-date">${w.week}</div>
+    <div class="wr-history-preview">${escHtml((w.wins||'').split('\n')[0]||'(빈 기록)')}</div></div>`).join('');
+}
+function loadWeekly(id){
+  const w=getWeeklies().find(x=>x.id===id); if(!w) return; _wrCurrentId=id;
+  ['wins','improve','next','free'].forEach(k=>{ const el=document.getElementById('wr-'+k); if(el) el.value=w[k]||''; });
+  const lbl=document.getElementById('wr-week-label'); if(lbl) lbl.textContent=w.week; renderWrHistory();
+}
+function wrNew(){
+  _wrCurrentId=null;
+  ['wins','improve','next','free'].forEach(k=>{ const el=document.getElementById('wr-'+k); if(el) el.value=''; });
+  wrSetWeekLabel(); renderWrHistory();
+}
+
+// ════════════════════════════════════════════════════════
+// ④ 목표 로드맵
+// ════════════════════════════════════════════════════════
+function getGoals(){ return JSON.parse(localStorage.getItem('goalTree')||'[]'); }
+function saveGoals(a){ localStorage.setItem('goalTree',JSON.stringify(a)); }
+function renderGoalsPage(container){
+  const page=document.createElement('div'); page.className='feature-page';
+  page.innerHTML=`
+    <div><div class="feature-page-title">✦ 목표 로드맵</div>
+    <div style="font-size:0.65rem;color:var(--text2);margin-top:4px;">큰 목표 → 월간 → 주간 행동으로 분해하세요.</div></div>
+    <div class="feature-section"><div class="feature-section-header">
+      <span class="feature-section-title">목표 트리</span>
+      <div style="display:flex;gap:6px;">
+        <button class="fp-btn-ghost" onclick="addGoalNode('big')">+ 큰 목표</button>
+        <button class="fp-btn-ghost" onclick="addGoalNode('month')">+ 월간</button>
+        <button class="fp-btn-ghost" onclick="addGoalNode('week')">+ 주간</button>
+        <button class="fp-btn" onclick="saveGoalTree()">저장</button>
+      </div></div>
+      <div class="feature-section-body"><div class="goal-tree" id="goal-tree-list"></div></div>
+    </div>`;
+  container.appendChild(page); renderGoalTree();
+}
+function renderGoalTree(){
+  const list=document.getElementById('goal-tree-list'); if(!list) return;
+  const goals=getGoals();
+  if(!goals.length){ list.innerHTML=`<div style="font-size:0.72rem;color:var(--rg3);text-align:center;padding:20px;">+ 큰 목표 버튼으로 시작하세요.</div>`; return; }
+  list.innerHTML=goals.map((g,i)=>{
+    const line=g.type!=='big'?`<div class="goal-indent-line" style="margin-left:${g.type==='month'?'18':'36'}px;"></div>`:'';
+    return `${line}<div class="goal-node ${g.type}">
+      <div class="goal-node-lbl">${g.type==='big'?'◈ BIG GOAL':g.type==='month'?'▲ MONTHLY':'→ WEEKLY'}</div>
+      <textarea class="goal-node-text" rows="2" oninput="updateGoalText(${i},this.value)">${escHtml(g.text||'')}</textarea>
+      <button class="goal-node-del" onclick="deleteGoalNode(${i})">✕</button></div>`;}).join('');
+}
+function addGoalNode(type){ const goals=getGoals(); goals.push({id:'g_'+Date.now(),type,text:''}); saveGoals(goals); renderGoalTree(); }
+function updateGoalText(i,v){ const goals=getGoals(); if(goals[i]) goals[i].text=v; saveGoals(goals); }
+function deleteGoalNode(i){ const goals=getGoals(); goals.splice(i,1); saveGoals(goals); renderGoalTree(); }
+function saveGoalTree(){
+  document.querySelectorAll('.goal-node-text').forEach((ta,i)=>{ const g=getGoals(); if(g[i]){ g[i].text=ta.value; saveGoals(g); }});
+  const btn=document.querySelector('[onclick="saveGoalTree()"]');
+  if(btn){const o=btn.textContent;btn.textContent='저장됨 ✓';setTimeout(()=>btn.textContent=o,1500);}
+}
+
+// ════════════════════════════════════════════════════════
+// ⑤ 시간 블록 플래너
+// ════════════════════════════════════════════════════════
+function getTbData(){ return JSON.parse(localStorage.getItem('tbData')||'{}'); }
+function saveTbData(o){ localStorage.setItem('tbData',JSON.stringify(o)); }
+let _tbDate=new Date();
+function renderTimeblockPage(container){
+  const page=document.createElement('div'); page.className='feature-page';
+  page.innerHTML=`
+    <div><div class="feature-page-title">✦ 시간 블록 플래너</div>
+    <div style="font-size:0.65rem;color:var(--text2);margin-top:4px;">계획(Plan)과 실제(Actual)를 비교해 시간 낭비를 찾아내세요.</div></div>
+    <div class="feature-section"><div class="feature-section-header">
+      <div class="tb-date-nav">
+        <button class="tb-nav-btn" onclick="tbNav(-1)">‹</button>
+        <span class="tb-date-lbl" id="tb-date-lbl"></span>
+        <button class="tb-nav-btn" onclick="tbNav(1)">›</button>
+      </div>
+      <button class="fp-btn" onclick="saveTb()">저장</button></div>
+      <div class="feature-section-body"><div class="tb-wrap"><div class="tb-grid" id="tb-grid"></div></div></div>
+    </div>`;
+  container.appendChild(page); renderTbGrid();
+}
+function tbDateStr(d){ return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
+function tbNav(dir){ _tbDate=new Date(_tbDate); _tbDate.setDate(_tbDate.getDate()+dir); renderTbGrid(); }
+function renderTbGrid(){
+  const days=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const ds=tbDateStr(_tbDate);
+  const lbl=document.getElementById('tb-date-lbl'); if(lbl) lbl.textContent=`${ds} ${days[_tbDate.getDay()]}`;
+  const grid=document.getElementById('tb-grid'); if(!grid) return;
+  const data=getTbData()[ds]||{};
+  let html=`<div class="tb-hdr">시간</div><div class="tb-hdr">Plan</div><div class="tb-hdr">Actual</div>`;
+  for(let h=6;h<=23;h++){
+    const hs=`${String(h).padStart(2,'0')}:00`, p=data[`p_${h}`]||'', a=data[`a_${h}`]||'';
+    html+=`<div class="tb-time">${hs}</div>
+      <div class="tb-cell"><input class="tb-inp" value="${escHtml(p)}" placeholder="계획..." oninput="tbInputChange('${ds}','p_${h}',this.value)"></div>
+      <div class="tb-cell"><input class="tb-inp actual-col" value="${escHtml(a)}" placeholder="실제..." oninput="tbInputChange('${ds}','a_${h}',this.value)"></div>`;
+  }
+  grid.innerHTML=html;
+}
+function tbInputChange(ds,k,v){ const all=getTbData(); if(!all[ds])all[ds]={}; all[ds][k]=v; saveTbData(all); }
+function saveTb(){ const btn=document.querySelector('[onclick="saveTb()"]'); if(btn){const o=btn.textContent;btn.textContent='저장됨 ✓';setTimeout(()=>btn.textContent=o,1500);} }
+
+// ════════════════════════════════════════════════════════
+// ⑥ 성장 지표 그래프
+// ════════════════════════════════════════════════════════
+function getGrowthMetrics(){ return JSON.parse(localStorage.getItem('growthMetrics')||'[]'); }
+function saveGrowthMetrics(a){ localStorage.setItem('growthMetrics',JSON.stringify(a)); }
+function renderGrowthPage(container){
+  const page=document.createElement('div'); page.className='feature-page';
+  page.innerHTML=`
+    <div><div class="feature-page-title">✦ 성장 지표</div>
+    <div style="font-size:0.65rem;color:var(--text2);margin-top:4px;">수치를 쌓으면 꺾은선 그래프로 시각화됩니다.</div></div>
+    <div class="feature-section"><div class="feature-section-header"><span class="feature-section-title">지표 추가</span></div>
+      <div class="feature-section-body"><div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+        <input class="fp-input" id="growth-new-name" placeholder="지표 이름 (예: 독서 페이지)" style="flex:1;min-width:120px;">
+        <input class="fp-input" id="growth-new-unit" placeholder="단위 (예: 페이지)" style="width:90px;">
+        <button class="fp-btn" onclick="addGrowthMetric()">추가</button>
+      </div></div>
+    </div>
+    <div id="growth-metrics-area"></div>`;
+  container.appendChild(page); renderGrowthMetrics();
+}
+function renderGrowthMetrics(){
+  const area=document.getElementById('growth-metrics-area'); if(!area) return;
+  const metrics=getGrowthMetrics();
+  if(!metrics.length){ area.innerHTML=`<div style="font-size:0.72rem;color:var(--rg3);text-align:center;padding:20px;">지표를 먼저 추가해주세요.</div>`; return; }
+  area.innerHTML=metrics.map((m,mi)=>{
+    const entries=m.entries||[], chips=entries.map((e,ei)=>`<div class="growth-chip">${e.date} · ${e.val}${escHtml(m.unit||'')}<button onclick="deleteGrowthEntry(${mi},${ei})">✕</button></div>`).join('');
+    const svg=growthSvg(entries,mi);
+    return `<div class="feature-section"><div class="feature-section-header">
+      <span class="feature-section-title">${escHtml(m.name)} <span style="font-size:0.62rem;color:var(--rg3);">${escHtml(m.unit||'')}</span></span>
+      <button class="fp-btn-ghost" onclick="deleteGrowthMetric(${mi})" style="font-size:0.6rem;">삭제</button></div>
+      <div class="feature-section-body">${svg}<div class="growth-chips">${chips||'<span style="font-size:0.65rem;color:var(--rg3);">아직 데이터가 없습니다.</span>'}</div>
+        <div class="growth-add-row"><input class="growth-val-inp" id="growth-val-${mi}" type="number" placeholder="값">
+          <input class="fp-input" id="growth-date-${mi}" type="date" value="${new Date().toISOString().split('T')[0]}" style="width:130px;">
+          <button class="fp-btn" onclick="addGrowthEntry(${mi})">+ 추가</button>
+        </div>
+      </div>
+    </div>`;}).join('');
+}
+function growthSvg(entries,mi){
+  if(entries.length<2) return `<div style="font-size:0.65rem;color:var(--rg3);padding:8px 0;">데이터 2개 이상이면 그래프가 표시됩니다.</div>`;
+  const s=[...entries].sort((a,b)=>a.date>b.date?1:-1), vals=s.map(e=>parseFloat(e.val)||0);
+  const mn=Math.min(...vals), mx=Math.max(...vals), rng=mx-mn||1;
+  const W=300, H=68, pad=8;
+  const pts=s.map((_,i)=>[(pad+(i/(s.length-1))*(W-pad*2)).toFixed(1),(H-pad-((vals[i]-mn)/rng)*(H-pad*2)).toFixed(1)]);
+  const line=pts.map((p,i)=>`${i===0?'M':'L'}${p[0]},${p[1]}`).join(' ');
+  const area=line+` L${pts[pts.length-1][0]},${H} L${pts[0][0]},${H} Z`;
+  const dots=pts.map((p,i)=>`<circle cx="${p[0]}" cy="${p[1]}" r="3" fill="#d4607a" stroke="white" stroke-width="1.5"><title>${s[i].date}: ${s[i].val}</title></circle>`).join('');
+  return `<svg class="growth-svg" viewBox="0 0 ${W} ${H}">
+    <defs><linearGradient id="gg${mi}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#e8829a" stop-opacity="0.45"/><stop offset="100%" stop-color="#e8829a" stop-opacity="0.02"/></linearGradient></defs>
+    <path d="${area}" fill="url(#gg${mi})"/><path d="${line}" fill="none" stroke="#d4607a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>${dots}</svg>`;
+}
+function addGrowthMetric(){
+  const name=document.getElementById('growth-new-name')?.value.trim(), unit=document.getElementById('growth-new-unit')?.value.trim();
+  if(!name) return; const m=getGrowthMetrics(); m.push({id:'gm_'+Date.now(),name,unit,entries:[]});
+  saveGrowthMetrics(m); document.getElementById('growth-new-name').value=''; document.getElementById('growth-new-unit').value=''; renderGrowthMetrics();
+}
+function addGrowthEntry(mi){
+  const val=document.getElementById(`growth-val-${mi}`)?.value.trim(), date=document.getElementById(`growth-date-${mi}`)?.value;
+  if(!val||!date) return; const m=getGrowthMetrics(); if(!m[mi]) return;
+  if(!m[mi].entries) m[mi].entries=[]; m[mi].entries.push({date,val:parseFloat(val)}); saveGrowthMetrics(m); renderGrowthMetrics();
+}
+function deleteGrowthEntry(mi,ei){ const m=getGrowthMetrics(); if(m[mi]){m[mi].entries.splice(ei,1);saveGrowthMetrics(m);renderGrowthMetrics();} }
+function deleteGrowthMetric(mi){ const m=getGrowthMetrics(); m.splice(mi,1); saveGrowthMetrics(m); renderGrowthMetrics(); }
+
+// ════════════════════════════════════════════════════════
+// ⑧ 포모도로 타이머
+// ════════════════════════════════════════════════════════
+const POMO_MODES={focus:{label:'집중',min:25},short:{label:'짧은 휴식',min:5},long:{label:'긴 휴식',min:15}};
+let _pomoState={mode:'focus',running:false,remaining:25*60,sessions:0,interval:null,task:''};
+function renderPomoPage(container){
+  const C=78, R=66, circ=+(2*Math.PI*R).toFixed(1);
+  const page=document.createElement('div'); page.className='feature-page'; page.style.alignItems='center';
+  page.innerHTML=`
+    <div style="text-align:center;"><div class="feature-page-title">✦ 포모도로 타이머</div>
+    <div style="font-size:0.65rem;color:var(--text2);margin-top:4px;">25분 집중 → 5분 휴식. 4세트 후 긴 휴식.</div></div>
+    <div class="feature-section" style="width:100%;max-width:360px;">
+      <div class="feature-section-body" style="padding:20px;">
+        <div class="pomo-wrap">
+          <div class="pomo-tabs">
+            <button class="pomo-tab active" id="pt-focus" onclick="pomoSetMode('focus')">집중 25</button>
+            <button class="pomo-tab" id="pt-short" onclick="pomoSetMode('short')">휴식 5</button>
+            <button class="pomo-tab" id="pt-long" onclick="pomoSetMode('long')">긴휴식 15</button>
+          </div>
+          <div class="pomo-ring-wrap">
+            <svg width="${C*2}" height="${C*2}" viewBox="0 0 ${C*2} ${C*2}">
+              <defs><linearGradient id="pg" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#e8829a"/><stop offset="100%" stop-color="#d4607a"/></linearGradient></defs>
+              <circle class="pomo-ring-bg" cx="${C}" cy="${C}" r="${R}"/>
+              <circle class="pomo-ring-prog" cx="${C}" cy="${C}" r="${R}" stroke="url(#pg)" stroke-dasharray="${circ}" stroke-dashoffset="0" id="pomo-ring"/>
+            </svg>
+            <div class="pomo-overlay">
+              <div class="pomo-time" id="pomo-time">25:00</div>
+              <div class="pomo-mode-lbl" id="pomo-mode-lbl">FOCUS</div>
+            </div>
+          </div>
+          <div class="pomo-dots" id="pomo-dots"></div>
+          <div class="pomo-controls">
+            <button class="pomo-side-btn" onclick="pomoReset()" title="리셋">↺</button>
+            <button class="pomo-main-btn" id="pomo-play-btn" onclick="pomoToggle()">▷</button>
+            <button class="pomo-side-btn" onclick="pomoSkip()" title="건너뛰기">⏭</button>
+          </div>
+          <input class="pomo-task-inp" id="pomo-task-inp" placeholder="지금 집중할 작업..." oninput="_pomoState.task=this.value">
+        </div>
+      </div>
+    </div>
+    <div class="feature-section" style="width:100%;max-width:360px;">
+      <div class="feature-section-header"><span class="feature-section-title">세션 기록</span>
+        <button class="fp-btn-ghost" onclick="clearPomoLog()" style="font-size:0.6rem;">초기화</button></div>
+      <div class="feature-section-body" style="padding:10px 16px;">
+        <div class="pomo-log" id="pomo-log"></div>
+      </div>
+    </div>`;
+  container.appendChild(page); pomoUpdateUI(); renderPomoLog();
+}
+function pomoFmt(s){ return `${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`; }
+function pomoUpdateUI(){
+  const t=document.getElementById('pomo-time'); if(t) t.textContent=pomoFmt(_pomoState.remaining);
+  const lbl=document.getElementById('pomo-mode-lbl'); if(lbl) lbl.textContent=POMO_MODES[_pomoState.mode].label.toUpperCase();
+  const ring=document.getElementById('pomo-ring');
+  if(ring){ const total=POMO_MODES[_pomoState.mode].min*60, C=78, R=66, circ=2*Math.PI*R; ring.style.strokeDashoffset=(circ*(1-_pomoState.remaining/total)).toFixed(1); }
+  const btn=document.getElementById('pomo-play-btn'); if(btn) btn.textContent=_pomoState.running?'⏸':'▷';
+  const dots=document.getElementById('pomo-dots');
+  if(dots) dots.innerHTML=Array.from({length:4},(_,i)=>`<div class="pomo-dot ${i<(_pomoState.sessions%4)?'done':''}"></div>`).join('');
+  ['focus','short','long'].forEach(m=>{ const tab=document.getElementById('pt-'+m); if(tab) tab.classList.toggle('active',_pomoState.mode===m); });
+}
+function pomoToggle(){
+  if(_pomoState.running){ clearInterval(_pomoState.interval); _pomoState.running=false; }
+  else {
+    _pomoState.running=true;
+    _pomoState.interval=setInterval(()=>{
+      _pomoState.remaining--;
+      pomoUpdateUI();
+      if(_pomoState.remaining<=0){
+        clearInterval(_pomoState.interval); _pomoState.running=false;
+        if(_pomoState.mode==='focus'){ _pomoState.sessions++; pomoAddLog(_pomoState.task||'집중 세션','focus'); pomoSetMode(_pomoState.sessions%4===0?'long':'short'); }
+        else { pomoSetMode('focus'); }
+      }
+    },1000);
+  }
+  pomoUpdateUI();
+}
+function pomoSetMode(mode){ clearInterval(_pomoState.interval); _pomoState.running=false; _pomoState.mode=mode; _pomoState.remaining=POMO_MODES[mode].min*60; pomoUpdateUI(); }
+function pomoReset(){ clearInterval(_pomoState.interval); _pomoState.running=false; _pomoState.remaining=POMO_MODES[_pomoState.mode].min*60; pomoUpdateUI(); }
+function pomoSkip(){ clearInterval(_pomoState.interval); _pomoState.running=false; _pomoState.remaining=0; pomoUpdateUI(); }
+function pomoAddLog(task,type){
+  const logs=JSON.parse(localStorage.getItem('pomoLog')||'[]');
+  const now=new Date(), t=`${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+  logs.push({task,type,time:t,date:now.toLocaleDateString('ko')});
+  if(logs.length>40) logs.splice(0,logs.length-40);
+  localStorage.setItem('pomoLog',JSON.stringify(logs)); renderPomoLog();
+}
+function renderPomoLog(){
+  const area=document.getElementById('pomo-log'); if(!area) return;
+  const logs=JSON.parse(localStorage.getItem('pomoLog')||'[]').slice().reverse();
+  if(!logs.length){ area.innerHTML=`<div style="font-size:0.66rem;color:var(--rg3);text-align:center;padding:8px;">완료된 세션이 없습니다.</div>`; return; }
+  area.innerHTML=logs.map(l=>`<div class="pomo-log-item"><span>${l.type==='focus'?'🍅':l.type==='short'?'☕':'🌿'} ${escHtml(l.task)}</span><span style="color:var(--rg3);">${l.date} ${l.time}</span></div>`).join('');
+}
+function clearPomoLog(){ localStorage.removeItem('pomoLog'); renderPomoLog(); }
+
+// ════════════════════════════════════════════════════════
+// ✦ 홈 위젯 포모도로 (wp*)  — 페이지 탭과 독립 상태
+// ════════════════════════════════════════════════════════
+const WP_MODES={focus:{label:'FOCUS',min:25},short:{label:'BREAK',min:5},long:{label:'LONG',min:15}};
+const _wp={mode:'focus',running:false,remaining:25*60,sessions:0,interval:null};
+
+function wpFmt(s){ return `${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`; }
+
+function wpUpdateUI(){
+  const t=document.getElementById('wp-time'); if(t) t.textContent=wpFmt(_wp.remaining);
+  const lbl=document.getElementById('wp-lbl'); if(lbl) lbl.textContent=WP_MODES[_wp.mode].label;
+  const btn=document.getElementById('wp-play-btn'); if(btn) btn.textContent=_wp.running?'⏸':'▷';
+  const ring=document.getElementById('wp-ring');
+  if(ring){
+    const C=54, R=46, circ=2*Math.PI*R, total=WP_MODES[_wp.mode].min*60;
+    ring.style.strokeDashoffset=(circ*(1-_wp.remaining/total)).toFixed(1);
+  }
+  const dots=document.getElementById('wp-dots');
+  if(dots) dots.innerHTML=Array.from({length:4},(_,i)=>`<div style="width:8px;height:8px;border-radius:50%;background:${i<(_wp.sessions%4)?'#d4607a':'rgba(212,96,122,0.13)'};transition:background 0.2s;"></div>`).join('');
+  ['focus','short','long'].forEach(m=>{ const tab=document.getElementById('wpt-'+m); if(tab) tab.classList.toggle('active',_wp.mode===m); });
+  const cnt=document.getElementById('wp-session-count');
+  if(cnt) cnt.textContent=_wp.sessions>0?`완료 ${_wp.sessions}세션`:'';
+  // title bar도 실시간 표시
+  if(_wp.running) document.title=`${wpFmt(_wp.remaining)} · DOXX4E`;
+  else document.title='DOXX4E';
+}
+
+function wpToggle(){
+  if(_wp.running){ clearInterval(_wp.interval); _wp.running=false; }
+  else {
+    _wp.running=true;
+    _wp.interval=setInterval(()=>{
+      _wp.remaining--;
+      wpUpdateUI();
+      if(_wp.remaining<=0){
+        clearInterval(_wp.interval); _wp.running=false;
+        if(_wp.mode==='focus'){
+          _wp.sessions++;
+          const task=document.getElementById('wp-task')?.value||'집중 세션';
+          pomoAddLog(task,'focus');
+          wpSetMode(_wp.sessions%4===0?'long':'short');
+        } else { wpSetMode('focus'); }
+        // 알림 시도
+        try{ if(Notification.permission==='granted') new Notification('DOXX4E',{body:_wp.mode==='focus'?'집중 완료! 휴식하세요 ☕':'다시 집중할 시간 🍅'}); }catch(e){}
+      }
+    },1000);
+  }
+  wpUpdateUI();
+}
+function wpSetMode(mode){
+  clearInterval(_wp.interval); _wp.running=false;
+  _wp.mode=mode; _wp.remaining=WP_MODES[mode].min*60;
+  wpUpdateUI();
+}
+function wpReset(){ clearInterval(_wp.interval); _wp.running=false; _wp.remaining=WP_MODES[_wp.mode].min*60; wpUpdateUI(); }
+function wpSkip(){ clearInterval(_wp.interval); _wp.running=false; _wp.remaining=0; wpUpdateUI(); }
 
 applyHeaderSettings();
 
